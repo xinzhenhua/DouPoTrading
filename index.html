@@ -18,7 +18,7 @@
             padding: 12px;
             font-size: 13px;
             line-height: 1.5;
-            padding-top: 80px;
+            padding-top: 70px;
         }
         /* ===== 顶部导航 ===== */
         .top-bar {
@@ -29,11 +29,11 @@
             z-index: 1000;
             background: #0d1117;
             border-bottom: 1px solid #21262d;
-            padding: 8px 16px 6px;
+            padding: 6px 16px 4px;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 6px 12px;
+            gap: 4px 10px;
         }
         .top-bar .logo {
             font-size: 15px;
@@ -47,14 +47,14 @@
         }
         .search-wrap {
             flex: 1;
-            min-width: 120px;
+            min-width: 100px;
             position: relative;
             display: flex;
             align-items: center;
             background: #161b22;
             border: 1px solid #30363d;
             border-radius: 20px;
-            padding: 0 12px;
+            padding: 0 10px;
             transition: border-color 0.2s;
         }
         .search-wrap:focus-within {
@@ -63,7 +63,7 @@
         .search-wrap .icon {
             color: #8b949e;
             font-size: 14px;
-            margin-right: 6px;
+            margin-right: 4px;
         }
         .search-wrap input {
             background: transparent;
@@ -98,32 +98,34 @@
             border: 1px solid #21262d;
             white-space: nowrap;
         }
-        .tab-nav {
-            display: flex;
-            gap: 2px;
+        /* Tab 导航独立 */
+        .tab-nav-wrapper {
             background: #161b22;
             border-radius: 20px;
-            padding: 2px;
-            flex-shrink: 0;
+            padding: 4px;
+            display: inline-flex;
+            gap: 4px;
+            margin: 6px 0 10px;
+            flex-wrap: wrap;
         }
-        .tab-nav button {
+        .tab-nav-wrapper button {
             background: transparent;
             border: none;
             color: #8b949e;
-            padding: 5px 14px;
+            padding: 8px 18px;
             border-radius: 18px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             font-family: inherit;
             white-space: nowrap;
         }
-        .tab-nav button.active {
+        .tab-nav-wrapper button.active {
             background: #1f2937;
             color: #e6edf3;
         }
-        .tab-nav button:hover:not(.active) {
+        .tab-nav-wrapper button:hover:not(.active) {
             color: #c9d1d9;
         }
 
@@ -134,12 +136,15 @@
             border-radius: 10px;
             padding: 8px 16px;
             margin: 4px 0 12px;
-            display: flex;
+            display: none;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
             gap: 8px 16px;
             font-size: 13px;
+        }
+        .sentiment-bar.visible {
+            display: flex;
         }
         .sentiment-item {
             display: flex;
@@ -251,6 +256,7 @@
             overflow: hidden;
             border: 1px solid #21262d;
             font-size: 12px;
+            table-layout: auto;
         }
         thead tr {
             background: #161b22;
@@ -281,6 +287,43 @@
         }
         tbody td:first-child {
             padding-left: 10px;
+        }
+
+        /* 数据来源列 - 只显示眼睛 */
+        .source-col {
+            width: 40px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .source-text {
+            display: none;
+        }
+        .source-eye {
+            cursor: pointer;
+            font-size: 18px;
+            user-select: none;
+            display: inline-block;
+        }
+        .source-eye:hover {
+            opacity: 0.7;
+        }
+        .source-tooltip {
+            display: none;
+            position: fixed;
+            background: #1f2937;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 8px 14px;
+            max-width: 300px;
+            font-size: 12px;
+            color: #e6edf3;
+            z-index: 3000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            pointer-events: none;
+            word-break: break-word;
+        }
+        .source-tooltip.visible {
+            display: block;
         }
 
         .ind-name {
@@ -396,13 +439,6 @@
         .badge-realtime {
             background: #2d1b3d;
             color: #bc8cff;
-        }
-
-        .source {
-            color: #58a6ff;
-            font-size: 10px;
-            margin-top: 3px;
-            word-break: break-all;
         }
 
         .kline-viz {
@@ -1068,15 +1104,16 @@
             font-weight: 700;
         }
 
+        /* ===== 响应式 ===== */
         @media (max-width: 768px) {
             body {
                 padding: 12px 8px;
-                padding-top: 76px;
+                padding-top: 66px;
                 font-size: 12px;
             }
             .top-bar {
-                padding: 6px 10px 4px;
-                gap: 4px 8px;
+                padding: 4px 10px 2px;
+                gap: 4px 6px;
             }
             .top-bar .logo {
                 font-size: 13px;
@@ -1089,9 +1126,16 @@
                 font-size: 12px;
                 padding: 4px 0;
             }
-            .tab-nav button {
-                font-size: 10px;
-                padding: 4px 10px;
+            .tab-nav-wrapper {
+                margin: 2px 0 8px;
+                padding: 3px;
+                gap: 3px;
+                border-radius: 16px;
+            }
+            .tab-nav-wrapper button {
+                font-size: 14px;
+                padding: 8px 16px;
+                border-radius: 16px;
             }
             .sentiment-bar {
                 font-size: 12px;
@@ -1111,17 +1155,43 @@
             .total-score-display span {
                 font-size: 22px;
             }
+
+            /* 技术面表格强制不滚动，使用固定布局 */
             table {
-                font-size: 10px;
-                display: block;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
+                font-size: 9px;
+                table-layout: fixed;
+                width: 100%;
+                display: table;
+                overflow-x: visible;
+                word-break: break-word;
             }
             thead th,
             tbody td {
-                padding: 6px 4px;
-                font-size: 10px;
+                padding: 4px 3px;
+                font-size: 8px;
             }
+            .ind-name {
+                font-size: 9px;
+            }
+            .ind-sub {
+                font-size: 8px;
+            }
+            .signal-item {
+                font-size: 8px;
+            }
+            .signal-item::before {
+                font-size: 6px;
+            }
+            /* 针对不同表格分配列宽比例 */
+            .section table {
+                min-width: 0;
+            }
+            /* K线图示缩小 */
+            .kline-viz {
+                font-size: 8px;
+                padding: 2px 3px;
+            }
+
             .score-grid {
                 grid-template-columns: 1fr 1fr 1fr;
                 gap: 6px;
@@ -1139,14 +1209,25 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+            .source-tooltip {
+                max-width: 200px;
+                font-size: 11px;
+            }
+            /* 基本面的数据来源列宽度 */
+            .source-col {
+                width: 30px;
+            }
+            .source-eye {
+                font-size: 16px;
+            }
         }
         @media (max-width: 480px) {
             .top-bar .logo {
                 font-size: 11px;
             }
-            .tab-nav button {
-                font-size: 9px;
-                padding: 3px 8px;
+            .tab-nav-wrapper button {
+                font-size: 13px;
+                padding: 6px 12px;
             }
             .score-grid {
                 grid-template-columns: 1fr;
@@ -1161,6 +1242,29 @@
             }
             .sentiment-advice {
                 align-self: center;
+            }
+            table {
+                font-size: 8px;
+            }
+            thead th,
+            tbody td {
+                font-size: 7px;
+                padding: 3px 2px;
+            }
+            .ind-name {
+                font-size: 8px;
+            }
+            .ind-sub {
+                font-size: 7px;
+            }
+            .signal-item {
+                font-size: 7px;
+            }
+            .source-col {
+                width: 24px;
+            }
+            .source-eye {
+                font-size: 14px;
             }
         }
         ::-webkit-scrollbar {
@@ -1190,14 +1294,16 @@
             <button class="clear-btn" id="clearBtn">✕</button>
         </div>
         <span class="search-stats" id="searchStats">0</span>
-        <div class="tab-nav">
-            <button class="active" data-tab="tech">技术</button>
-            <button data-tab="fund">基本面</button>
-            <button data-tab="memo">📋 备忘录</button>
-        </div>
     </div>
 
-    <!-- ===== 综合情绪栏 ===== -->
+    <!-- ===== Tab 导航（独立） ===== -->
+    <div class="tab-nav-wrapper">
+        <button class="active" data-tab="tech">📊 技术面</button>
+        <button data-tab="fund">🌾 基本面</button>
+        <button data-tab="memo">📋 备忘录</button>
+    </div>
+
+    <!-- ===== 综合情绪栏（默认隐藏） ===== -->
     <div class="sentiment-bar" id="sentimentBar">
         <div class="sentiment-item">
             <span class="label">技术面</span>
@@ -1226,7 +1332,7 @@
         <div class="section">
             <div class="section-title tech">📈 一、均线系统（趋势方向判断）</div>
             <table>
-                <thead><tr><th style="width:20%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:26%">注意事项</th></tr></thead>
+                <thead><tr><th style="width:18%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:28%">注意事项</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><div class="ind-name">均线多空排列</div><div class="ind-sub">最重要的趋势指标<br><span class="stars">★★★★★</span></div></td>
@@ -1260,7 +1366,7 @@
         <div class="section">
             <div class="section-title tech">📊 二、MACD指标（动能与方向）</div>
             <table>
-                <thead><tr><th style="width:20%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:26%">注意事项</th></tr></thead>
+                <thead><tr><th style="width:18%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:28%">注意事项</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><div class="ind-name">MACD位置</div><div class="ind-sub">0轴上下判断<br><span class="stars">★★★★☆</span></div></td>
@@ -1294,7 +1400,7 @@
         <div class="section">
             <div class="section-title tech">🕯 三、K线形态（精准入场信号）</div>
             <table>
-                <thead><tr><th style="width:16%">形态名称</th><th style="width:12%">图示</th><th style="width:20%">出现条件</th><th style="width:26%">操作逻辑</th><th style="width:26%">注意事项</th></tr></thead>
+                <thead><tr><th style="width:14%">形态名称</th><th style="width:12%">图示</th><th style="width:22%">出现条件</th><th style="width:26%">操作逻辑</th><th style="width:26%">注意事项</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><div class="ind-name bull-text">🔨 锤子线</div><div class="ind-sub">做多信号<br><span class="stars">★★★★☆</span></div></td>
@@ -1346,7 +1452,7 @@
         <div class="section">
             <div class="section-title tech">🧱 四、支撑位与压力位</div>
             <table>
-                <thead><tr><th style="width:20%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:26%">注意事项</th></tr></thead>
+                <thead><tr><th style="width:18%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:28%">注意事项</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><div class="ind-name">历史高低点</div><div class="ind-sub">最可靠的位置<br><span class="stars">★★★★★</span></div></td>
@@ -1374,7 +1480,7 @@
         <div class="section">
             <div class="section-title tech">📐 五、趋势线分析</div>
             <table>
-                <thead><tr><th style="width:20%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:26%">注意事项</th></tr></thead>
+                <thead><tr><th style="width:18%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:28%">注意事项</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><div class="ind-name">下降趋势线</div><div class="ind-sub">连接下跌中的高点<br><span class="stars">★★★★☆</span></div></td>
@@ -1396,7 +1502,7 @@
         <div class="section">
             <div class="section-title tech">📦 六、成交量与持仓量</div>
             <table>
-                <thead><tr><th style="width:20%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:26%">注意事项</th></tr></thead>
+                <thead><tr><th style="width:18%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:28%">注意事项</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><div class="ind-name">量价配合</div><div class="ind-sub">趋势真假判断<br><span class="stars">★★★★☆</span></div></td>
@@ -1418,7 +1524,7 @@
         <div class="section">
             <div class="section-title tech">⏱ 七、分时图指标（日内判断）</div>
             <table>
-                <thead><tr><th style="width:20%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:26%">注意事项</th></tr></thead>
+                <thead><tr><th style="width:18%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:28%">注意事项</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><div class="ind-name">白线与均价线</div><div class="ind-sub">日内趋势判断<br><span class="stars">★★★★☆</span></div></td>
@@ -1440,7 +1546,7 @@
         <div class="section">
             <div class="section-title tech">📋 八、盘口指标（短期力量对比）</div>
             <table>
-                <thead><tr><th style="width:20%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:26%">注意事项</th></tr></thead>
+                <thead><tr><th style="width:18%">指标</th><th style="width:27%">偏多信号 🔴</th><th style="width:27%">偏空信号 🟢</th><th style="width:28%">注意事项</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><div class="ind-name">外盘/内盘比</div><div class="ind-sub">主动买卖力量<br><span class="stars">★★★☆☆</span></div></td>
@@ -1615,20 +1721,76 @@
             <p style="color:#8b949e;font-size:12px;">供给端 · 需求端 · 天气 · 政策宏观 · 完整数据来源与发布时间</p>
         </div>
 
-        <!-- 一、供给端 -->
+        <!-- 一、供给端（数据来源为眼睛列） -->
         <div class="section">
             <div class="section-title fund">📦 一、供给端指标</div>
             <table>
-                <thead><tr><th style="width:18%">指标</th><th style="width:14%">数据来源</th><th style="width:12%">发布时间</th><th style="width:28%">偏多信号 🔴</th><th style="width:28%">偏空信号 🟢</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th style="width:16%">指标</th>
+                        <th style="width:12%">发布时间</th>
+                        <th style="width:28%">偏多信号 🔴</th>
+                        <th style="width:28%">偏空信号 🟢</th>
+                        <th class="source-col" style="width:40px;">📎</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr><td><div class="ind-name">CBOT美豆隔夜收盘</div><div class="ind-sub">最重要的每日指标<br><span class="stars">★★★★★</span></div></td><td><div class="source">文华随身行 搜：美豆主连</div></td><td><span class="badge badge-daily">每天早上</span></td><td><div class="signal-row"><div class="signal-item bull">美豆涨超5点</div><div class="signal-item bull">放量上涨</div><div class="signal-item bull">连续3日上涨</div></div></td><td><div class="signal-row"><div class="signal-item bear">美豆跌超5点</div><div class="signal-item bear">放量下跌</div><div class="signal-item bear">连续3日下跌</div></div></td></tr>
-                    <tr><td><div class="ind-name">USDA出口检验报告</div><div class="ind-sub">实际装船量<br><span class="stars">★★★★☆</span></div></td><td><div class="source">ams.usda.gov → Weekly Grains Inspected For Export</div></td><td><span class="badge badge-weekly">每周一 下午</span></td><td><div class="signal-row"><div class="signal-item bull">本周 &gt; 上周</div><div class="signal-item bull">本周 &gt; 去年同期</div><div class="signal-item bull">中国收货量大</div></div></td><td><div class="signal-row"><div class="signal-item bear">本周 &lt; 上周</div><div class="signal-item bear">本周 &lt; 去年同期</div><div class="signal-item bear">中国收货量小</div></div></td></tr>
-                    <tr><td><div class="ind-name">USDA出口销售报告</div><div class="ind-sub">新增采购合同<br><span class="stars">★★★★★</span></div></td><td><div class="source">apps.fas.usda.gov → Weekly Export Sales Report</div></td><td><span class="badge badge-weekly">每周四 深夜</span></td><td><div class="signal-row"><div class="signal-item bull">净销售量超预期</div><div class="signal-item bull">中国新增大额采购</div><div class="signal-item bull">比4周均值+30%以上</div></div></td><td><div class="signal-row"><div class="signal-item bear">净销售量低于预期</div><div class="signal-item bear">中国取消订单（负数）</div><div class="signal-item bear">比4周均值-30%以上</div></div></td></tr>
-                    <tr><td><div class="ind-name">USDA WASDE月报</div><div class="ind-sub">全球供需平衡表<br><span class="stars">★★★★★</span></div></td><td><div class="source">usda.gov 搜WASDE report Oilseeds</div></td><td><span class="badge badge-monthly">每月约10日 深夜</span></td><td><div class="signal-row"><div class="signal-item bull">期末库存下调</div><div class="signal-item bull">低于市场预期</div><div class="signal-item bull">中国进口量上调</div><div class="signal-item bull">库存消费比&lt;15%</div></div></td><td><div class="signal-row"><div class="signal-item bear">期末库存上调</div><div class="signal-item bear">高于市场预期</div><div class="signal-item bear">全球产量上调</div><div class="signal-item bear">库存消费比&gt;20%</div></div></td></tr>
-                    <tr><td><div class="ind-name">中国大豆进口量</div><div class="ind-sub">海关总署月报<br><span class="stars">★★★★☆</span></div></td><td><div class="source">customs.gov.cn → 进口主要商品量值表 找大豆</div></td><td><span class="badge badge-monthly">每月中旬（约15-18日）</span></td><td><div class="signal-row"><div class="signal-item bull">同比增长</div><div class="signal-item bull">超出正常范围上限</div><div class="signal-item bull">旺季&gt;1000万吨</div></div></td><td><div class="signal-row"><div class="signal-item bear">同比下降</div><div class="signal-item bear">低于正常范围下限</div><div class="signal-item bear">旺季&lt;800万吨</div></div></td></tr>
-                    <tr><td><div class="ind-name">大豆到港预报</div><div class="ind-sub">未来2-4周<br><span class="stars">★★★★☆</span></div></td><td><div class="source">天下粮仓 或 布瑞克农业</div></td><td><span class="badge badge-weekly">每周更新</span></td><td><div class="signal-row"><div class="signal-item bull">本周到港少</div><div class="signal-item bull">未来2周到港少</div><div class="signal-item bull">到港低于预期</div></div></td><td><div class="signal-row"><div class="signal-item bear">本周到港多</div><div class="signal-item bear">未来2周到港多</div><div class="signal-item bear">到港高于预期</div></div></td></tr>
-                    <tr><td><div class="ind-name">油厂开机率</div><div class="ind-sub">豆粕产量指标<br><span class="stars">★★★☆☆</span></div></td><td><div class="source">汇易咨询 或 我的农产品网</div></td><td><span class="badge badge-weekly">每周五</span></td><td><div class="signal-row"><div class="signal-item bull">低于40%</div><div class="signal-item bull">周环比下降</div><div class="signal-item bull">压榨亏损停机</div></div></td><td><div class="signal-row"><div class="signal-item bear">高于60%</div><div class="signal-item bear">周环比上升</div><div class="signal-item bear">压榨利润丰厚</div></div></td></tr>
-                    <tr><td><div class="ind-name">豆粕商业库存</div><div class="ind-sub">现货供应紧张度<br><span class="stars">★★★☆☆</span></div></td><td><div class="source">汇易咨询 或 我的农产品网</div></td><td><span class="badge badge-weekly">每周</span></td><td><div class="signal-row"><div class="signal-item bull">低于50万吨</div><div class="signal-item bull">周环比大幅下降</div><div class="signal-item bull">正基差（现货&gt;期货）</div></div></td><td><div class="signal-row"><div class="signal-item bear">高于100万吨</div><div class="signal-item bear">周环比持续增加</div><div class="signal-item bear">负基差（现货&lt;期货）</div></div></td></tr>
+                    <tr>
+                        <td><div class="ind-name">CBOT美豆隔夜收盘</div><div class="ind-sub">最重要的每日指标<br><span class="stars">★★★★★</span></div></td>
+                        <td><span class="badge badge-daily">每天早上</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">美豆涨超5点</div><div class="signal-item bull">放量上涨</div><div class="signal-item bull">连续3日上涨</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">美豆跌超5点</div><div class="signal-item bear">放量下跌</div><div class="signal-item bear">连续3日下跌</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="文华随身行 搜：美豆主连">👁️</span><span class="source-text">文华随身行 搜：美豆主连</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">USDA出口检验报告</div><div class="ind-sub">实际装船量<br><span class="stars">★★★★☆</span></div></td>
+                        <td><span class="badge badge-weekly">每周一 下午</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">本周 &gt; 上周</div><div class="signal-item bull">本周 &gt; 去年同期</div><div class="signal-item bull">中国收货量大</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">本周 &lt; 上周</div><div class="signal-item bear">本周 &lt; 去年同期</div><div class="signal-item bear">中国收货量小</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="ams.usda.gov → Weekly Grains Inspected For Export">👁️</span><span class="source-text">ams.usda.gov → Weekly Grains Inspected For Export</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">USDA出口销售报告</div><div class="ind-sub">新增采购合同<br><span class="stars">★★★★★</span></div></td>
+                        <td><span class="badge badge-weekly">每周四 深夜</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">净销售量超预期</div><div class="signal-item bull">中国新增大额采购</div><div class="signal-item bull">比4周均值+30%以上</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">净销售量低于预期</div><div class="signal-item bear">中国取消订单（负数）</div><div class="signal-item bear">比4周均值-30%以上</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="apps.fas.usda.gov → Weekly Export Sales Report">👁️</span><span class="source-text">apps.fas.usda.gov → Weekly Export Sales Report</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">USDA WASDE月报</div><div class="ind-sub">全球供需平衡表<br><span class="stars">★★★★★</span></div></td>
+                        <td><span class="badge badge-monthly">每月约10日 深夜</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">期末库存下调</div><div class="signal-item bull">低于市场预期</div><div class="signal-item bull">中国进口量上调</div><div class="signal-item bull">库存消费比&lt;15%</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">期末库存上调</div><div class="signal-item bear">高于市场预期</div><div class="signal-item bear">全球产量上调</div><div class="signal-item bear">库存消费比&gt;20%</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="usda.gov 搜WASDE report Oilseeds">👁️</span><span class="source-text">usda.gov 搜WASDE report Oilseeds</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">中国大豆进口量</div><div class="ind-sub">海关总署月报<br><span class="stars">★★★★☆</span></div></td>
+                        <td><span class="badge badge-monthly">每月中旬（约15-18日）</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">同比增长</div><div class="signal-item bull">超出正常范围上限</div><div class="signal-item bull">旺季&gt;1000万吨</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">同比下降</div><div class="signal-item bear">低于正常范围下限</div><div class="signal-item bear">旺季&lt;800万吨</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="customs.gov.cn → 进口主要商品量值表 找大豆">👁️</span><span class="source-text">customs.gov.cn → 进口主要商品量值表 找大豆</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">大豆到港预报</div><div class="ind-sub">未来2-4周<br><span class="stars">★★★★☆</span></div></td>
+                        <td><span class="badge badge-weekly">每周更新</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">本周到港少</div><div class="signal-item bull">未来2周到港少</div><div class="signal-item bull">到港低于预期</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">本周到港多</div><div class="signal-item bear">未来2周到港多</div><div class="signal-item bear">到港高于预期</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="天下粮仓 或 布瑞克农业">👁️</span><span class="source-text">天下粮仓 或 布瑞克农业</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">油厂开机率</div><div class="ind-sub">豆粕产量指标<br><span class="stars">★★★☆☆</span></div></td>
+                        <td><span class="badge badge-weekly">每周五</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">低于40%</div><div class="signal-item bull">周环比下降</div><div class="signal-item bull">压榨亏损停机</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">高于60%</div><div class="signal-item bear">周环比上升</div><div class="signal-item bear">压榨利润丰厚</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="汇易咨询 或 我的农产品网">👁️</span><span class="source-text">汇易咨询 或 我的农产品网</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">豆粕商业库存</div><div class="ind-sub">现货供应紧张度<br><span class="stars">★★★☆☆</span></div></td>
+                        <td><span class="badge badge-weekly">每周</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">低于50万吨</div><div class="signal-item bull">周环比大幅下降</div><div class="signal-item bull">正基差（现货&gt;期货）</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">高于100万吨</div><div class="signal-item bear">周环比持续增加</div><div class="signal-item bear">负基差（现货&lt;期货）</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="汇易咨询 或 我的农产品网">👁️</span><span class="source-text">汇易咨询 或 我的农产品网</span></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -1637,13 +1799,51 @@
         <div class="section">
             <div class="section-title fund">🌤 二、天气指标（6-8月最重要）</div>
             <table>
-                <thead><tr><th style="width:18%">指标</th><th style="width:14%">数据来源</th><th style="width:12%">查看频率</th><th style="width:28%">偏多信号 🔴</th><th style="width:28%">偏空信号 🟢</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th style="width:16%">指标</th>
+                        <th style="width:12%">查看频率</th>
+                        <th style="width:28%">偏多信号 🔴</th>
+                        <th style="width:28%">偏空信号 🟢</th>
+                        <th class="source-col" style="width:40px;">📎</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr><td><div class="ind-name">美国干旱监测</div><div class="ind-sub">爱荷华/伊利诺伊<br><span class="stars">★★★★★</span></div></td><td><div class="source">drought.gov 看中西部颜色</div></td><td><span class="badge badge-weekly">每周四更新</span></td><td><div class="signal-row"><div class="signal-item bull">橙色/红色扩大</div><div class="signal-item bull">D2-D4干旱加剧</div><div class="signal-item bull">覆盖主产州&gt;30%</div></div></td><td><div class="signal-row"><div class="signal-item bear">灰色/黄色为主</div><div class="signal-item bear">干旱范围缩小</div><div class="signal-item bear">主产区正常</div></div></td></tr>
-                    <tr><td><div class="ind-name">美国主产区降雨</div><div class="ind-sub">7天预报<br><span class="stars">★★★★☆</span></div></td><td><div class="source">ventusky.com 选降水量图层 看爱荷华/伊利诺伊</div></td><td><span class="badge badge-daily">每天</span></td><td><div class="signal-row"><div class="signal-item bull">未来7天降雨&lt;5mm</div><div class="signal-item bull">持续干燥无雨</div><div class="signal-item bull">高温预报出现</div></div></td><td><div class="signal-row"><div class="signal-item bear">未来7天有充沛降雨</div><div class="signal-item bear">单日&gt;15mm降雨</div><div class="signal-item bear">气温正常</div></div></td></tr>
-                    <tr><td><div class="ind-name">NOAA气温预报</div><div class="ind-sub">8-14天预报<br><span class="stars">★★★☆☆</span></div></td><td><div class="source">cpc.ncep.noaa.gov 8-14 Day Outlook → Temperature</div></td><td><span class="badge badge-daily">每天更新</span></td><td><div class="signal-row"><div class="signal-item bull">中西部橙色（偏高温）</div><div class="signal-item bull">高温+少雨组合</div><div class="signal-item bull">7-8月最有效</div></div></td><td><div class="signal-row"><div class="signal-item bear">气温正常/偏低</div><div class="signal-item bear">有降温降雨预期</div></div></td></tr>
-                    <tr><td><div class="ind-name">厄尔尼诺/拉尼娜</div><div class="ind-sub">大背景气候<br><span class="stars">★★★★☆</span></div></td><td><div class="source">cpc.ncep.noaa.gov → El Niño/La Niña 每月更新</div></td><td><span class="badge badge-monthly">每月更新</span></td><td><div class="signal-row"><div class="signal-item bull">拉尼娜发生</div><div class="signal-item bull">阿根廷干旱预期</div><div class="signal-item bull">12月-2月利多</div></div></td><td><div class="signal-row"><div class="signal-item bear">厄尔尼诺发生</div><div class="signal-item bear">南美降雨充沛</div><div class="signal-item bear">大豆丰收预期</div></div></td></tr>
-                    <tr><td><div class="ind-name">南美产区天气</div><div class="ind-sub">巴西/阿根廷 12月-2月重点<br><span class="stars">★★★★☆</span></div></td><td><div class="source">ventusky.com 看马托格罗索/科尔多瓦</div></td><td><span class="badge badge-daily">12-2月每天</span></td><td><div class="signal-row"><div class="signal-item bull">阿根廷持续干旱</div><div class="signal-item bull">巴西南部降雨不足</div><div class="signal-item bull">减产预期升温</div></div></td><td><div class="signal-row"><div class="signal-item bear">南美降雨充沛</div><div class="signal-item bear">巴西产量预期上调</div><div class="signal-item bear">丰收预期确认</div></div></td></tr>
+                    <tr>
+                        <td><div class="ind-name">美国干旱监测</div><div class="ind-sub">爱荷华/伊利诺伊<br><span class="stars">★★★★★</span></div></td>
+                        <td><span class="badge badge-weekly">每周四更新</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">橙色/红色扩大</div><div class="signal-item bull">D2-D4干旱加剧</div><div class="signal-item bull">覆盖主产州&gt;30%</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">灰色/黄色为主</div><div class="signal-item bear">干旱范围缩小</div><div class="signal-item bear">主产区正常</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="drought.gov 看中西部颜色">👁️</span><span class="source-text">drought.gov 看中西部颜色</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">美国主产区降雨</div><div class="ind-sub">7天预报<br><span class="stars">★★★★☆</span></div></td>
+                        <td><span class="badge badge-daily">每天</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">未来7天降雨&lt;5mm</div><div class="signal-item bull">持续干燥无雨</div><div class="signal-item bull">高温预报出现</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">未来7天有充沛降雨</div><div class="signal-item bear">单日&gt;15mm降雨</div><div class="signal-item bear">气温正常</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="ventusky.com 选降水量图层 看爱荷华/伊利诺伊">👁️</span><span class="source-text">ventusky.com 选降水量图层 看爱荷华/伊利诺伊</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">NOAA气温预报</div><div class="ind-sub">8-14天预报<br><span class="stars">★★★☆☆</span></div></td>
+                        <td><span class="badge badge-daily">每天更新</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">中西部橙色（偏高温）</div><div class="signal-item bull">高温+少雨组合</div><div class="signal-item bull">7-8月最有效</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">气温正常/偏低</div><div class="signal-item bear">有降温降雨预期</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="cpc.ncep.noaa.gov 8-14 Day Outlook → Temperature">👁️</span><span class="source-text">cpc.ncep.noaa.gov 8-14 Day Outlook → Temperature</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">厄尔尼诺/拉尼娜</div><div class="ind-sub">大背景气候<br><span class="stars">★★★★☆</span></div></td>
+                        <td><span class="badge badge-monthly">每月更新</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">拉尼娜发生</div><div class="signal-item bull">阿根廷干旱预期</div><div class="signal-item bull">12月-2月利多</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">厄尔尼诺发生</div><div class="signal-item bear">南美降雨充沛</div><div class="signal-item bear">大豆丰收预期</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="cpc.ncep.noaa.gov → El Niño/La Niña 每月更新">👁️</span><span class="source-text">cpc.ncep.noaa.gov → El Niño/La Niña 每月更新</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">南美产区天气</div><div class="ind-sub">巴西/阿根廷 12月-2月重点<br><span class="stars">★★★★☆</span></div></td>
+                        <td><span class="badge badge-daily">12-2月每天</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">阿根廷持续干旱</div><div class="signal-item bull">巴西南部降雨不足</div><div class="signal-item bull">减产预期升温</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">南美降雨充沛</div><div class="signal-item bear">巴西产量预期上调</div><div class="signal-item bear">丰收预期确认</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="ventusky.com 看马托格罗索/科尔多瓦">👁️</span><span class="source-text">ventusky.com 看马托格罗索/科尔多瓦</span></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -1652,13 +1852,51 @@
         <div class="section">
             <div class="section-title fund">🐷 三、需求端指标</div>
             <table>
-                <thead><tr><th style="width:18%">指标</th><th style="width:14%">数据来源</th><th style="width:12%">发布时间</th><th style="width:28%">偏多信号 🔴</th><th style="width:28%">偏空信号 🟢</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th style="width:16%">指标</th>
+                        <th style="width:12%">发布时间</th>
+                        <th style="width:28%">偏多信号 🔴</th>
+                        <th style="width:28%">偏空信号 🟢</th>
+                        <th class="source-col" style="width:40px;">📎</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr><td><div class="ind-name">能繁母猪存栏</div><div class="ind-sub">预判6-10月后需求 目标3750万头<br><span class="stars">★★★★★</span></div></td><td><div class="source">moa.gov.cn 或 data.stats.gov.cn 月度数据→农业→畜牧</div></td><td><span class="badge badge-monthly">每月月底</span></td><td><div class="signal-row"><div class="signal-item bull">低于3750万头目标</div><div class="signal-item bull">连续3个月下降</div><div class="signal-item bull">同比明显下降</div></div></td><td><div class="signal-row"><div class="signal-item bear">远超3750万头</div><div class="signal-item bear">连续3个月上升</div><div class="signal-item bear">产能明显过剩</div></div></td></tr>
-                    <tr><td><div class="ind-name">生猪存栏量</div><div class="ind-sub">当期饲料需求<br><span class="stars">★★★★☆</span></div></td><td><div class="source">moa.gov.cn 或 stats.gov.cn 搜生猪存栏</div></td><td><span class="badge badge-monthly">每月月底</span></td><td><div class="signal-row"><div class="signal-item bull">存栏同比上升</div><div class="signal-item bull">节前备货启动</div></div></td><td><div class="signal-row"><div class="signal-item bear">存栏同比下降</div><div class="signal-item bear">出栏量大增</div></div></td></tr>
-                    <tr><td><div class="ind-name">猪粮比</div><div class="ind-sub">养殖利润指标 正常线6:1<br><span class="stars">★★★☆☆</span></div></td><td><div class="source">新浪财经/东方财富 搜猪粮比</div></td><td><span class="badge badge-weekly">每周</span></td><td><div class="signal-row"><div class="signal-item bull">猪粮比&gt;7:1</div><div class="signal-item bull">养殖利润丰厚</div><div class="signal-item bull">积极补栏扩张</div></div></td><td><div class="signal-row"><div class="signal-item bear">猪粮比&lt;5:1</div><div class="signal-item bear">养殖严重亏损</div><div class="signal-item bear">大量淘汰母猪</div></div></td></tr>
-                    <tr><td><div class="ind-name">粕比</div><div class="ind-sub">豆粕vs菜粕竞争 正常2.0-2.5<br><span class="stars">★★★☆☆</span></div></td><td><div class="source">文华随身行 豆粕价÷菜粕价</div></td><td><span class="badge badge-realtime">实时计算</span></td><td><div class="signal-row"><div class="signal-item bull">粕比&lt;2.0</div><div class="signal-item bull">豆粕相对便宜</div><div class="signal-item bull">减少替代品使用</div></div></td><td><div class="signal-row"><div class="signal-item bear">粕比&gt;2.5</div><div class="signal-item bear">豆粕太贵</div><div class="signal-item bear">饲料厂多用菜粕</div></div></td></tr>
-                    <tr><td><div class="ind-name">水产养殖季节</div><div class="ind-sub">季节性需求<br><span class="stars">★★☆☆☆</span></div></td><td><div class="source">季节性规律 无需特别跟踪</div></td><td><span class="badge badge-monthly">季节性</span></td><td><div class="signal-row"><div class="signal-item bull">3-9月水产旺季</div><div class="signal-item bull">华南开塘补料</div></div></td><td><div class="signal-row"><div class="signal-item bear">10月-次年2月淡季</div><div class="signal-item bear">水产饲料需求低</div></div></td></tr>
+                    <tr>
+                        <td><div class="ind-name">能繁母猪存栏</div><div class="ind-sub">预判6-10月后需求 目标3750万头<br><span class="stars">★★★★★</span></div></td>
+                        <td><span class="badge badge-monthly">每月月底</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">低于3750万头目标</div><div class="signal-item bull">连续3个月下降</div><div class="signal-item bull">同比明显下降</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">远超3750万头</div><div class="signal-item bear">连续3个月上升</div><div class="signal-item bear">产能明显过剩</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="moa.gov.cn 或 data.stats.gov.cn 月度数据→农业→畜牧">👁️</span><span class="source-text">moa.gov.cn 或 data.stats.gov.cn 月度数据→农业→畜牧</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">生猪存栏量</div><div class="ind-sub">当期饲料需求<br><span class="stars">★★★★☆</span></div></td>
+                        <td><span class="badge badge-monthly">每月月底</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">存栏同比上升</div><div class="signal-item bull">节前备货启动</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">存栏同比下降</div><div class="signal-item bear">出栏量大增</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="moa.gov.cn 或 stats.gov.cn 搜生猪存栏">👁️</span><span class="source-text">moa.gov.cn 或 stats.gov.cn 搜生猪存栏</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">猪粮比</div><div class="ind-sub">养殖利润指标 正常线6:1<br><span class="stars">★★★☆☆</span></div></td>
+                        <td><span class="badge badge-weekly">每周</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">猪粮比&gt;7:1</div><div class="signal-item bull">养殖利润丰厚</div><div class="signal-item bull">积极补栏扩张</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">猪粮比&lt;5:1</div><div class="signal-item bear">养殖严重亏损</div><div class="signal-item bear">大量淘汰母猪</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="新浪财经/东方财富 搜猪粮比">👁️</span><span class="source-text">新浪财经/东方财富 搜猪粮比</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">粕比</div><div class="ind-sub">豆粕vs菜粕竞争 正常2.0-2.5<br><span class="stars">★★★☆☆</span></div></td>
+                        <td><span class="badge badge-realtime">实时计算</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">粕比&lt;2.0</div><div class="signal-item bull">豆粕相对便宜</div><div class="signal-item bull">减少替代品使用</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">粕比&gt;2.5</div><div class="signal-item bear">豆粕太贵</div><div class="signal-item bear">饲料厂多用菜粕</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="文华随身行 豆粕价÷菜粕价">👁️</span><span class="source-text">文华随身行 豆粕价÷菜粕价</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">水产养殖季节</div><div class="ind-sub">季节性需求<br><span class="stars">★★☆☆☆</span></div></td>
+                        <td><span class="badge badge-monthly">季节性</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">3-9月水产旺季</div><div class="signal-item bull">华南开塘补料</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">10月-次年2月淡季</div><div class="signal-item bear">水产饲料需求低</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="季节性规律 无需特别跟踪">👁️</span><span class="source-text">季节性规律 无需特别跟踪</span></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -1667,11 +1905,37 @@
         <div class="section">
             <div class="section-title fund">🏛 四、政策与宏观指标</div>
             <table>
-                <thead><tr><th style="width:18%">指标</th><th style="width:14%">数据来源</th><th style="width:12%">关注时机</th><th style="width:28%">偏多信号 🔴</th><th style="width:28%">偏空信号 🟢</th></tr></thead>
+                <thead>
+                    <tr>
+                        <th style="width:16%">指标</th>
+                        <th style="width:12%">关注时机</th>
+                        <th style="width:28%">偏多信号 🔴</th>
+                        <th style="width:28%">偏空信号 🟢</th>
+                        <th class="source-col" style="width:40px;">📎</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr><td><div class="ind-name">中美贸易关系</div><div class="ind-sub">进口成本影响<br><span class="stars">★★★★☆</span></div></td><td><div class="source">新闻关注 财新/路透/彭博</div></td><td><span class="badge badge-realtime">随时关注</span></td><td><div class="signal-row"><div class="signal-item bull">对美豆加征关税</div><div class="signal-item bull">贸易摩擦加剧</div><div class="signal-item bull">美豆进口成本上升</div></div></td><td><div class="signal-row"><div class="signal-item bear">贸易关系改善</div><div class="signal-item bear">美豆关税降低</div><div class="signal-item bear">进口成本下降</div></div></td></tr>
-                    <tr><td><div class="ind-name">人民币汇率</div><div class="ind-sub">进口成本换算<br><span class="stars">★★★☆☆</span></div></td><td><div class="source">文华随身行 搜美元/人民币 或东方财富</div></td><td><span class="badge badge-daily">每天</span></td><td><div class="signal-row"><div class="signal-item bull">人民币贬值</div><div class="signal-item bull">美元/人民币上升</div><div class="signal-item bull">进口成本增加</div></div></td><td><div class="signal-row"><div class="signal-item bear">人民币升值</div><div class="signal-item bear">美元/人民币下降</div><div class="signal-item bear">进口成本降低</div></div></td></tr>
-                    <tr><td><div class="ind-name">非洲猪瘟/疫情</div><div class="ind-sub">突发事件<br><span class="stars">★★★★★</span></div></td><td><div class="source">农业农村部 moa.gov.cn → 动物疫情</div></td><td><span class="badge badge-realtime">随时关注</span></td><td><div class="signal-row"><div class="signal-item bull">无大规模疫情</div><div class="signal-item bull">疫情得到控制</div></div></td><td><div class="signal-row"><div class="signal-item bear">大规模疫情爆发</div><div class="signal-item bear">生猪大量扑杀</div><div class="signal-item bear">存栏急剧下降</div></div></td></tr>
+                    <tr>
+                        <td><div class="ind-name">中美贸易关系</div><div class="ind-sub">进口成本影响<br><span class="stars">★★★★☆</span></div></td>
+                        <td><span class="badge badge-realtime">随时关注</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">对美豆加征关税</div><div class="signal-item bull">贸易摩擦加剧</div><div class="signal-item bull">美豆进口成本上升</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">贸易关系改善</div><div class="signal-item bear">美豆关税降低</div><div class="signal-item bear">进口成本下降</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="新闻关注 财新/路透/彭博">👁️</span><span class="source-text">新闻关注 财新/路透/彭博</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">人民币汇率</div><div class="ind-sub">进口成本换算<br><span class="stars">★★★☆☆</span></div></td>
+                        <td><span class="badge badge-daily">每天</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">人民币贬值</div><div class="signal-item bull">美元/人民币上升</div><div class="signal-item bull">进口成本增加</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">人民币升值</div><div class="signal-item bear">美元/人民币下降</div><div class="signal-item bear">进口成本降低</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="文华随身行 搜美元/人民币 或东方财富">👁️</span><span class="source-text">文华随身行 搜美元/人民币 或东方财富</span></td>
+                    </tr>
+                    <tr>
+                        <td><div class="ind-name">非洲猪瘟/疫情</div><div class="ind-sub">突发事件<br><span class="stars">★★★★★</span></div></td>
+                        <td><span class="badge badge-realtime">随时关注</span></td>
+                        <td><div class="signal-row"><div class="signal-item bull">无大规模疫情</div><div class="signal-item bull">疫情得到控制</div></div></td>
+                        <td><div class="signal-row"><div class="signal-item bear">大规模疫情爆发</div><div class="signal-item bear">生猪大量扑杀</div><div class="signal-item bear">存栏急剧下降</div></div></td>
+                        <td class="source-col"><span class="source-eye" data-source="农业农村部 moa.gov.cn → 动物疫情">👁️</span><span class="source-text">农业农村部 moa.gov.cn → 动物疫情</span></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -2000,6 +2264,13 @@
             function updateSentimentBar() {
                 const t = appData.techScores.reduce((a, b) => a + b, 0);
                 const f = appData.fundScores.reduce((a, b) => a + b, 0);
+                const bar = document.getElementById('sentimentBar');
+                if (t === 0 && f === 0) {
+                    bar.classList.remove('visible');
+                } else {
+                    bar.classList.add('visible');
+                }
+
                 document.getElementById('techSentiment').textContent = t;
                 document.getElementById('techSentiment').className = 'value ' + (t > 0 ? 'bull' : (t < 0 ? 'bear' :
                     'neutral'));
@@ -2189,6 +2460,36 @@
                 if (e.target === this) closeModal();
             });
 
+            // ===== 数据来源悬浮框（眼睛按钮） =====
+            const tooltip = document.createElement('div');
+            tooltip.className = 'source-tooltip';
+            document.body.appendChild(tooltip);
+
+            document.querySelectorAll('.source-eye').forEach(eye => {
+                eye.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const text = this.dataset.source || '无数据来源';
+                    tooltip.textContent = text;
+                    const rect = this.getBoundingClientRect();
+                    let left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2;
+                    let top = rect.bottom + 6;
+                    if (left < 10) left = 10;
+                    if (left + tooltip.offsetWidth > window.innerWidth - 10) left = window.innerWidth -
+                        tooltip.offsetWidth - 10;
+                    if (top + tooltip.offsetHeight > window.innerHeight - 10) top = rect.top - tooltip
+                        .offsetHeight - 6;
+                    tooltip.style.left = left + 'px';
+                    tooltip.style.top = top + 'px';
+                    tooltip.classList.toggle('visible');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.source-eye') && !e.target.closest('.source-tooltip')) {
+                    tooltip.classList.remove('visible');
+                }
+            });
+
             // ===== 导出Excel =====
             document.getElementById('exportExcel').addEventListener('click', function() {
                 const trades = appData.trades;
@@ -2211,7 +2512,7 @@
             });
 
             // ===== Tab 切换 & 搜索 =====
-            const tabBtns = document.querySelectorAll('.tab-nav button');
+            const tabBtns = document.querySelectorAll('.tab-nav-wrapper button');
             const tabs = { tech: document.getElementById('tab-tech'), fund: document.getElementById('tab-fund'),
                 memo: document.getElementById('tab-memo') };
             tabBtns.forEach(btn => {
@@ -2250,7 +2551,7 @@
                     acceptNode: function(node) {
                         const p = node.parentNode;
                         if (p.tagName === 'SCRIPT' || p.tagName === 'STYLE' || p.closest('.top-bar') || p
-                            .closest('.tab-nav') || node.textContent.trim().length === 0)
+                            .closest('.tab-nav-wrapper') || node.textContent.trim().length === 0)
                             return NodeFilter.FILTER_REJECT;
                         return NodeFilter.FILTER_ACCEPT;
                     }
@@ -2312,5 +2613,6 @@
             console.log('✅ 豆粕交易控制台（完整版）已加载');
         })();
     </script>
+
 </body>
 </html>
