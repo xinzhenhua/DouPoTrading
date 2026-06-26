@@ -2,1888 +2,1170 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>豆粕期货 · 完整交易参考手册</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>豆粕M · 完整交易系统</title>
 <style>
-/* ===== RESET & BASE ===== */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;font-size:14px}
-body{background:#080808;color:#d4d4d4;font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;min-height:100vh;overflow-x:hidden}
-
-/* ===== COLOR SYSTEM (Chinese convention: Red=Up/Bull, Green=Down/Bear) ===== */
+html{font-size:14px;scroll-behavior:smooth}
+body{background:#080808;color:#d4d4d4;font-family:-apple-system,'PingFang SC',sans-serif;min-height:100vh;overflow-x:hidden}
 :root{
-  --red:#e84141;
-  --red-dim:#c73535;
-  --red-bg:#1a0a0a;
-  --red-border:#3d1212;
-  --green:#00b37a;
-  --green-dim:#009966;
-  --green-bg:#051a10;
-  --green-border:#0a3d22;
-  --blue:#4a9eff;
-  --blue-bg:#050d1a;
-  --blue-border:#0d2545;
-  --gold:#d4a017;
-  --gold-bg:#1a1200;
-  --neutral:#6b7280;
-  --bg0:#080808;
-  --bg1:#0f0f0f;
-  --bg2:#141414;
-  --bg3:#1a1a1a;
-  --border:#222;
-  --text1:#e8e8e8;
-  --text2:#a0a0a0;
-  --text3:#666;
+  --r:#e84141;--r2:#ff6b6b;--rd:#1a0808;--rb:#3d1212;
+  --g:#00b37a;--g2:#00d492;--gd:#051a0f;--gb:#0a3d22;
+  --b:#4a9eff;--bd:#050d1a;--bb:#0d2545;
+  --gold:#d4a017;--goldd:#1a1200;
+  --n:#6b7280;--bg0:#080808;--bg1:#0f0f0f;--bg2:#141414;--bg3:#1c1c1c;
+  --bdr:#222;--t1:#ebebeb;--t2:#a0a0a0;--t3:#555;
 }
-
-/* ===== TOPBAR ===== */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.topbar-inner{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;flex-direction:column;gap:8px}
-.topbar-row1{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.logo{font-size:15px;font-weight:800;color:var(--text1);white-space:nowrap;letter-spacing:0.5px}
-.logo span{color:var(--red)}
-
-/* Search */
-.search-wrap{position:relative;flex:1;max-width:320px}
-.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);width:14px;height:14px}
-#searchInput{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:7px 10px 7px 32px;color:var(--text1);font-size:13px;outline:none;transition:border-color 0.2s}
-#searchInput:focus{border-color:var(--blue)}
-#searchInput::placeholder{color:var(--text3)}
-.search-count{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--blue);white-space:nowrap}
-.search-highlight{background:#d4a017;color:#000;border-radius:2px;padding:0 1px}
-.search-no-result{display:none;text-align:center;padding:40px;color:var(--text3);font-size:13px}
-
-/* Tabs */
-.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,8,8,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--bdr)}
+.tb-inner{max-width:960px;margin:0 auto;padding:10px 14px;display:flex;flex-direction:column;gap:8px}
+.tb-row1{display:flex;align-items:center;gap:10px}
+.logo{font-size:16px;font-weight:900;color:var(--t1);white-space:nowrap}
+.logo span{color:var(--r)}
+.search-wrap{position:relative;flex:1;max-width:300px}
+.search-wrap svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none}
+#sInput{width:100%;background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;padding:7px 32px;color:var(--t1);font-size:12px;outline:none;transition:border .2s}
+#sInput:focus{border-color:var(--b)}
+#sInput::placeholder{color:var(--t3)}
+.s-count{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--b)}
+.s-hl{background:#d4a017;color:#000;border-radius:2px;padding:0 1px}
+.tabs{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;padding-bottom:1px}
 .tabs::-webkit-scrollbar{display:none}
-.tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;white-space:nowrap;border:1px solid transparent;transition:all 0.2s;user-select:none}
-.tab.active{background:var(--bg3);color:var(--text1);border-color:var(--border)}
-.tab:hover:not(.active){color:var(--text2)}
-
-/* ===== MAIN ===== */
-.main{max-width:900px;margin:0 auto;padding:16px;padding-top:calc(90px + 16px)}
-
-/* Section */
-.tab-section{display:none;animation:fadeIn 0.25s ease}
-.tab-section.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-/* Section title */
-.sec-title{font-size:12px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;padding:16px 0 10px;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
-
-/* Card */
-.card{background:var(--bg1);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:10px;transition:border-color 0.2s}
-.card:hover{border-color:var(--bg3)}
-.card-head{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
-.card-head-left{display:flex;align-items:center;gap:10px}
-.card-icon{font-size:15px;width:28px;text-align:center;flex-shrink:0}
-.card-title{font-size:13px;font-weight:700;color:var(--text1)}
-.card-subtitle{font-size:11px;color:var(--text3);margin-top:2px}
-.card-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}
-.badge-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
-.badge-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
-.badge-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
-.badge-gold{background:var(--gold-bg);color:var(--gold)}
-.badge-gray{background:var(--bg3);color:var(--neutral)}
-.card-chevron{color:var(--text3);font-size:12px;transition:transform 0.25s;flex-shrink:0}
-.card.open .card-chevron{transform:rotate(180deg)}
-.card-body{display:none;padding:0 14px 14px}
-.card.open .card-body{display:block}
-
-/* Stars */
-.stars{color:var(--gold);font-size:10px;letter-spacing:1px}
-
-/* Signal rows */
-.signal-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
-@media(max-width:520px){.signal-cols{grid-template-columns:1fr}}
-.signal-col-title{font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)}
-.signal-col-title.bull{color:var(--red)}
-.signal-col-title.bear{color:var(--green)}
-.signal-col-title.note{color:var(--text3)}
-.signal-item{display:flex;align-items:flex-start;gap:5px;padding:3px 0;font-size:11px;line-height:1.5;color:var(--text2)}
-.signal-item::before{content:'·';font-size:14px;flex-shrink:0;line-height:1.3}
-.signal-item.bull{color:#d4785a}
-.signal-item.bull::before{color:var(--red)}
-.signal-item.bear{color:#5ab87a}
-.signal-item.bear::before{color:var(--green)}
-.signal-item.neutral{color:var(--text3)}
-.signal-item.neutral::before{color:var(--text3)}
-
-/* Source box */
-.source-box{background:var(--bg2);border-radius:6px;padding:8px 10px;margin-top:8px;font-size:11px;color:var(--text3)}
-.source-box a,.source-box .url{color:var(--blue);text-decoration:none;word-break:break-all}
-.source-box strong{color:var(--text2);display:block;margin-bottom:3px}
-.source-row{display:flex;align-items:flex-start;gap:6px;margin-bottom:3px}
-.source-label{color:var(--text3);white-space:nowrap;flex-shrink:0}
-
-/* K-line visual */
-.kline-box{display:flex;gap:16px;flex-wrap:wrap;margin:8px 0}
-.kline-item{background:var(--bg2);border-radius:6px;padding:8px 12px;text-align:center;min-width:80px}
-.kline-ascii{font-family:monospace;font-size:11px;line-height:1.4;color:var(--text2);white-space:pre;margin-bottom:4px}
-.kline-name{font-size:10px;font-weight:700}
-.kline-name.bull{color:var(--red)}
-.kline-name.bear{color:var(--green)}
-
-/* Checklist */
-.checklist-title{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin:10px 0 6px;padding:6px 10px;background:var(--bg2);border-radius:6px}
-.check-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
-.check-item:last-child{border-bottom:none}
-.check-num{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--text3);flex-shrink:0;margin-top:1px}
-.check-label{font-size:12px;color:var(--text1);font-weight:600}
-.check-desc{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.5}
-.em-red{color:var(--red);font-weight:700}
-.em-green{color:var(--green);font-weight:700}
-.em-blue{color:var(--blue);font-weight:700}
-.em-gold{color:var(--gold);font-weight:700}
-
-/* Score grid */
-.score-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
-.score-card{border-radius:8px;padding:14px 10px;text-align:center;border:1px solid}
-.score-card.bull{background:var(--red-bg);border-color:var(--red-border)}
-.score-card.bear{background:var(--green-bg);border-color:var(--green-border)}
-.score-card.neutral{background:var(--bg2);border-color:var(--border)}
-.score-card .s-num{font-size:22px;font-weight:900;display:block;line-height:1;margin-bottom:4px}
-.score-card.bull .s-num{color:var(--red)}
-.score-card.bear .s-num{color:var(--green)}
-.score-card.neutral .s-num{color:var(--text3)}
-.score-card .s-label{font-size:11px;font-weight:700;display:block;margin-bottom:3px}
-.score-card.bull .s-label{color:var(--red)}
-.score-card.bear .s-label{color:var(--green)}
-.score-card.neutral .s-label{color:var(--text3)}
-.score-card .s-action{font-size:10px;color:var(--text3)}
-
-/* Warning */
-.warning{background:var(--gold-bg);border:1px solid #3d2d00;border-radius:8px;padding:12px 14px;margin-top:8px}
-.warning-title{color:var(--gold);font-weight:700;font-size:12px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.warning ul{padding-left:16px}
-.warning li{color:#b8930f;font-size:11px;line-height:1.8}
-
-/* Calendar grid */
-.cal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-@media(max-width:480px){.cal-grid{grid-template-columns:1fr}}
-.cal-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
-.cal-day{font-size:10px;font-weight:700;color:var(--blue);margin-bottom:4px;letter-spacing:0.5px}
-.cal-content{font-size:11px;color:var(--text2);line-height:1.7}
-.cal-content .danger{color:var(--red);font-weight:700}
-
-/* Combo rows */
-.combo-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.tab{padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;color:var(--t3);cursor:pointer;white-space:nowrap;border:1px solid transparent;transition:all .2s;user-select:none}
+.tab.active{background:var(--bg3);color:var(--t1);border-color:var(--bdr)}
+.tab:hover:not(.active){color:var(--t2)}
+.main{max-width:960px;margin:0 auto;padding:14px;padding-top:108px}
+.tsec{display:none;animation:fi .25s ease}
+.tsec.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.stitle{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:1px;text-transform:uppercase;padding:14px 0 8px;border-bottom:1px solid var(--bdr);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.stitle::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.card{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;overflow:hidden;margin-bottom:8px}
+.chead{padding:11px 13px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.chead-l{display:flex;align-items:center;gap:9px}
+.cion{font-size:14px;width:26px;text-align:center;flex-shrink:0}
+.ctitle{font-size:13px;font-weight:700;color:var(--t1)}
+.csub{font-size:10px;color:var(--t3);margin-top:1px}
+.chev{color:var(--t3);font-size:11px;transition:transform .25s;flex-shrink:0}
+.card.open .chev{transform:rotate(180deg)}
+.cbody{display:none;padding:0 13px 13px}
+.card.open .cbody{display:block}
+.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.br{background:var(--rd);color:var(--r);border:1px solid var(--rb)}
+.bg{background:var(--gd);color:var(--g);border:1px solid var(--gb)}
+.bb{background:var(--bd);color:var(--b);border:1px solid var(--bb)}
+.bgold{background:var(--goldd);color:var(--gold)}
+.bgray{background:var(--bg3);color:var(--n)}
+.scols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+@media(max-width:500px){.scols{grid-template-columns:1fr}}
+.scol-t{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px;padding-bottom:3px;border-bottom:1px solid var(--bdr)}
+.scol-t.bull{color:var(--r)}.scol-t.bear{color:var(--g)}.scol-t.note{color:var(--t3)}
+.si{display:flex;align-items:flex-start;gap:4px;padding:2px 0;font-size:11px;line-height:1.5;color:var(--t2)}
+.si::before{content:'·';font-size:13px;flex-shrink:0;line-height:1.3}
+.si.bull{color:#d47a5a}.si.bull::before{color:var(--r)}
+.si.bear{color:#5ab87a}.si.bear::before{color:var(--g)}
+.si.n{color:var(--t3)}.si.n::before{color:var(--t3)}
+.ir{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--bdr);font-size:11px}
+.ir:last-child{border-bottom:none}
+.il{color:var(--t3);min-width:70px;flex-shrink:0}
+.iv{color:var(--t2);line-height:1.5;flex:1}
+.iv .r{color:var(--r);font-weight:600}.iv .g{color:var(--g);font-weight:600}
+.iv .b{color:var(--b);font-weight:600}.iv .gold{color:var(--gold);font-weight:600}
+.srcbox{background:var(--bg2);border-radius:6px;padding:7px 10px;margin-top:8px;font-size:11px;color:var(--t3)}
+.srcbox strong{color:var(--t2);display:block;margin-bottom:2px}
+.srcrow{display:flex;align-items:flex-start;gap:5px;margin-bottom:2px}
+.srclabel{color:var(--t3);white-space:nowrap;flex-shrink:0}
+.srcurl{color:var(--b);word-break:break-all}
+.scorer{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;padding:13px;margin-bottom:10px}
+.scorer-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.scorer-title small{font-size:10px;color:var(--t3);font-weight:400}
+.srow{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bdr)}
+.srow:last-child{border-bottom:none}
+.srow-label{flex:1;font-size:12px;color:var(--t2)}
+.sbtns{display:flex;gap:3px}
+.sbtn{min-width:34px;height:26px;border-radius:5px;border:1px solid var(--bdr);background:var(--bg2);color:var(--t3);font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;padding:0 4px}
+.sbtn.ab{background:var(--rd);color:var(--r);border-color:var(--rb)}
+.sbtn.ag{background:var(--gd);color:var(--g);border-color:var(--gb)}
+.sbtn.an{background:var(--bg3);color:var(--t2);border-color:var(--bdr)}
+.sresult{margin-top:10px;padding:11px;border-radius:8px;text-align:center;border:1px solid var(--bdr);background:var(--bg2);transition:all .3s}
+.sresult.bull{background:var(--rd);border-color:var(--rb)}
+.sresult.bear{background:var(--gd);border-color:var(--gb)}
+.sresult .rn{font-size:26px;font-weight:900;display:block;line-height:1}
+.sresult.bull .rn{color:var(--r)}.sresult.bear .rn{color:var(--g)}.sresult.neutral .rn{color:var(--t3)}
+.sresult .rt{font-size:12px;font-weight:700;margin-top:3px;display:block}
+.sresult.bull .rt{color:var(--r)}.sresult.bear .rt{color:var(--g)}.sresult.neutral .rt{color:var(--t2)}
+.sresult .ra{font-size:10px;color:var(--t3);margin-top:2px}
+.pcalc{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;padding:14px;margin-bottom:10px}
+.pcalc-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:12px}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.pg{grid-template-columns:1fr}}
+.pfield{display:flex;flex-direction:column;gap:4px}
+.pfield label{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.5px;text-transform:uppercase}
+.pinput{background:var(--bg2);border:1px solid var(--bdr);border-radius:7px;padding:8px 10px;color:var(--t1);font-size:13px;font-weight:700;outline:none;width:100%;transition:border .2s}
+.pinput:focus{border-color:var(--b)}
+.pdir{display:flex;gap:6px}
+.pdirb{flex:1;padding:8px;border-radius:7px;border:1px solid var(--bdr);background:var(--bg2);color:var(--t3);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+.pdirb.active-bull{background:var(--rd);color:var(--r);border-color:var(--rb)}
+.pdirb.active-bear{background:var(--gd);color:var(--g);border-color:var(--gb)}
+.presult{background:var(--bg2);border-radius:8px;padding:12px;margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(max-width:400px){.presult{grid-template-columns:1fr 1fr}}
+.pres-item{text-align:center}
+.pres-item .pval{font-size:18px;font-weight:800;display:block;line-height:1;margin-bottom:3px}
+.pres-item .plbl{font-size:10px;color:var(--t3)}
+.pres-item .pval.ok{color:var(--r)}.pres-item .pval.warn{color:var(--gold)}.pres-item .pval.bad{color:var(--g)}
+.pratio-bar{margin-top:10px;padding:10px;border-radius:8px;border:1px solid var(--bdr);background:var(--bg2);text-align:center}
+.pratio-bar .prval{font-size:22px;font-weight:900;display:inline-block}
+.prval.good{color:var(--r)}.prval.warn{color:var(--gold)}.prval.bad{color:var(--g)}
+.pratio-lbl{font-size:11px;color:var(--t3);margin-top:2px}
+.cl-tabs{display:flex;gap:6px;margin-bottom:12px}
+.cl-tab{flex:1;padding:8px;border-radius:8px;border:1px solid var(--bdr);background:var(--bg2);color:var(--t3);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+.cl-tab.active-bull{background:var(--rd);color:var(--r);border-color:var(--rb)}
+.cl-tab.active-bear{background:var(--gd);color:var(--g);border-color:var(--gb)}
+.cl-section{margin-bottom:14px;display:block;width:100%;}
+.cl-stitle{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;padding:6px 8px;background:var(--bg2);border-radius:5px;margin-bottom:6px}
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:8px 4px;border-bottom:1px solid var(--bdr);cursor:pointer;border-radius:4px;width:100%;box-sizing:border-box;min-height:44px;}
+.cl-item:last-child{border-bottom:none}
+.cl-item:hover{background:var(--bg2)}
+.cl-check{width:20px;height:20px;border-radius:5px;border:2px solid var(--bdr);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;font-size:11px}
+.cl-item.checked .cl-check{border-color:var(--r);background:var(--r);color:#fff}
+.cl-item.required .cl-check{border-style:dashed}
+.cl-item.required.checked .cl-check{border-style:solid}
+.cl-label{font-size:12px;color:var(--t2);line-height:1.4}
+.cl-desc{font-size:10px;color:var(--t3);margin-top:2px}
+.cl-tag-req{display:inline-block;font-size:9px;padding:1px 5px;background:var(--goldd);color:var(--gold);border-radius:3px;margin-right:4px;font-weight:700}
+.cl-result{margin-top:12px;padding:12px;border-radius:8px;border:1px solid var(--bdr);background:var(--bg2);text-align:center}
+.cl-result.go{background:var(--rd);border-color:var(--rb)}
+.cl-result.caution{background:var(--goldd);border-color:#3d2d00}
+.cl-result.stop{background:var(--gd);border-color:var(--gb)}
+.cl-rn{font-size:22px;font-weight:900;display:block;line-height:1;margin-bottom:4px}
+.cl-result.go .cl-rn{color:var(--r)}.cl-result.caution .cl-rn{color:var(--gold)}.cl-result.stop .cl-rn{color:var(--g)}
+.cl-rt{font-size:13px;font-weight:700;display:block;margin-bottom:3px}
+.cl-result.go .cl-rt{color:var(--r)}.cl-result.caution .cl-rt{color:var(--gold)}.cl-result.stop .cl-rt{color:var(--g)}
+.cl-ra{font-size:10px;color:var(--t3)}
+.cl-import-btn{width:100%;margin-top:8px;padding:8px;border-radius:7px;border:1px solid var(--bb);background:var(--bd);color:var(--b);font-size:12px;font-weight:700;cursor:pointer}#clContainer,.cl-section{display:block!important;width:100%!important;}.cl-item{display:flex!important;width:100%!important;min-width:0!important;flex-wrap:nowrap!important;}
+.tj-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.tj-btn{padding:7px 14px;border-radius:8px;border:none;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+.tj-add{background:var(--r);color:#fff}
+.tj-secondary{background:var(--bg2);color:var(--t2);border:1px solid var(--bdr)}
+.trade-card{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;margin-bottom:6px}
+.trade-card:hover{border-color:var(--t3)}
+.trade-card.pending{border-left:3px solid var(--gold)}
+.trade-card.profit{border-left:3px solid var(--r)}
+.trade-card.loss{border-left:3px solid var(--g)}
+.tc-row1{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:4px}
+.tc-dir{font-size:12px;font-weight:800;padding:2px 8px;border-radius:5px}
+.tc-dir.long{background:var(--rd);color:var(--r)}
+.tc-dir.short{background:var(--gd);color:var(--g)}
+.tc-contract{font-size:11px;color:var(--t3)}
+.tc-time{font-size:10px;color:var(--t3)}
+.tc-row2{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tc-price{font-size:18px;font-weight:800;color:var(--t1)}
+.tc-pl{font-size:14px;font-weight:700}
+.tc-pl.profit{color:var(--r)}.tc-pl.loss{color:var(--g)}.tc-pl.pending{color:var(--gold)}
+.tc-row3{margin-top:6px;font-size:11px;color:var(--t3);line-height:1.5}
+.tc-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.tc-tag{font-size:9px;padding:1px 6px;border-radius:10px}
+.empty-state{text-align:center;padding:48px 20px;color:var(--t3)}
+.empty-state .es-icon{font-size:36px;margin-bottom:10px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;overflow-y:auto;padding:16px}
+.modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
+.modal{background:var(--bg1);border:1px solid var(--bdr);border-radius:14px;width:100%;max-width:560px;margin:auto}
+.modal-head{padding:14px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:15px;font-weight:800;color:var(--t1)}
+.modal-close{width:30px;height:30px;border-radius:50%;border:1px solid var(--bdr);background:var(--bg2);color:var(--t2);cursor:pointer;font-size:16px}
+.modal-body{padding:16px;display:flex;flex-direction:column;gap:12px}
+.mfield{display:flex;flex-direction:column;gap:4px}
+.mfield label{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.5px;text-transform:uppercase}
+.minput{background:var(--bg2);border:1px solid var(--bdr);border-radius:7px;padding:9px 11px;color:var(--t1);font-size:13px;outline:none;width:100%;transition:border .2s}
+.minput:focus{border-color:var(--b)}
+textarea.minput{resize:vertical;min-height:70px;font-family:inherit}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:400px){.mrow{grid-template-columns:1fr}}
+.mtoggle{display:flex;gap:6px;flex-wrap:wrap}
+.mtbtn{flex:1;min-width:60px;padding:8px;border-radius:7px;border:1px solid var(--bdr);background:var(--bg2);color:var(--t3);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+.mtbtn.ab{background:var(--rd);color:var(--r);border-color:var(--rb)}
+.mtbtn.ag{background:var(--gd);color:var(--g);border-color:var(--gb)}
+.mtbtn.an{background:var(--bg3);color:var(--t2)}
+.mauto{background:var(--bg2);border-radius:7px;padding:10px;font-size:11px}
+.mauto-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--bdr)}
+.mauto-row:last-child{border-bottom:none}
+.mauto-label{color:var(--t3)}
+.mauto-val{font-weight:700;color:var(--t1)}
+.mauto-val.good{color:var(--r)}.mauto-val.warn{color:var(--gold)}.mauto-val.bad{color:var(--g)}
+.msec-title{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;padding:8px 0 4px;border-bottom:1px solid var(--bdr);margin-top:4px}
+.modal-foot{padding:12px 16px;border-top:1px solid var(--bdr);display:flex;gap:8px;justify-content:flex-end}
+.mfbtn{padding:8px 18px;border-radius:8px;border:none;font-size:12px;font-weight:700;cursor:pointer}
+.mbtn-save{background:var(--r);color:#fff}
+.mbtn-cancel{background:var(--bg2);color:var(--t2);border:1px solid var(--bdr)}
+.mbtn-delete{background:var(--gd);color:var(--g);border:1px solid var(--gb)}
+.import-reason-btn{padding:6px 10px;border-radius:6px;border:1px solid var(--bb);background:var(--bd);color:var(--b);font-size:11px;cursor:pointer;margin-bottom:6px;width:100%}
+.db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+@media(max-width:480px){.db-grid{grid-template-columns:1fr 1fr}}
+.db-card{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;padding:12px;text-align:center}
+.db-val{font-size:22px;font-weight:900;display:block;line-height:1;margin-bottom:4px}
+.db-label{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.db-val.pos{color:var(--r)}.db-val.neg{color:var(--g)}.db-val.neutral{color:var(--t1)}.db-val.warn{color:var(--gold)}
+.db-chart-card{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;padding:14px;margin-bottom:10px}
+.db-chart-title{font-size:12px;font-weight:700;color:var(--t2);margin-bottom:12px}
+.chart-svg{width:100%;overflow:visible}
+.recent-trades{display:flex;flex-direction:column;gap:5px}
+.rt-item{display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg2);border-radius:7px;font-size:11px}
+.rt-dir{width:36px;text-align:center;padding:2px 4px;border-radius:4px;font-size:10px;font-weight:800;flex-shrink:0}
+.rt-dir.long{background:var(--rd);color:var(--r)}
+.rt-dir.short{background:var(--gd);color:var(--g)}
+.rt-price{flex:1;color:var(--t2)}
+.rt-pl{font-weight:700}
+.rt-pl.profit{color:var(--r)}.rt-pl.loss{color:var(--g)}.rt-pl.pending{color:var(--gold)}
+.db-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.db-action-btn{padding:7px 14px;border-radius:8px;border:1px solid var(--bdr);background:var(--bg2);color:var(--t2);font-size:11px;font-weight:700;cursor:pointer}
+.db-action-btn.danger{border-color:var(--gb);color:var(--g)}
+.float-btn{position:fixed;bottom:22px;right:16px;z-index:150;width:48px;height:48px;border-radius:50%;background:var(--r);border:none;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 4px 20px rgba(232,65,65,.4);transition:all .2s;display:flex;align-items:center;justify-content:center}
+.float-btn:hover{background:var(--r2);transform:scale(1.05)}
+.float-panel{position:fixed;bottom:80px;right:16px;z-index:149;background:var(--bg1);border:1px solid var(--bdr);border-radius:12px;padding:14px;width:240px;display:none}
+.float-panel.open{display:block}
+.fp-title{font-size:12px;font-weight:700;color:var(--t1);margin-bottom:10px}
+.fp-row{display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
+.fp-row label{font-size:10px;color:var(--t3);font-weight:600}
+.fp-input{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:7px 9px;color:var(--t1);font-size:13px;outline:none;width:100%}
+.fp-result{background:var(--bg2);border-radius:7px;padding:10px;text-align:center}
+.fp-rval{font-size:22px;font-weight:900;display:block}
+.fp-rval.pos{color:var(--r)}.fp-rval.neg{color:var(--g)}.fp-rval.zero{color:var(--t3)}
+.fp-rlbl{font-size:10px;color:var(--t3)}
+.warnbox{background:var(--goldd);border:1px solid #3d2d00;border-radius:8px;padding:11px 13px;margin:8px 0}
+.warnbox .wt{color:var(--gold);font-weight:700;font-size:12px;margin-bottom:6px}
+.warnbox ul{padding-left:15px}
+.warnbox li{color:#b8930f;font-size:11px;line-height:1.8}
+.st-row{display:grid;grid-template-columns:55px 1fr 75px 1fr;gap:6px;padding:7px 0;border-bottom:1px solid var(--bdr);font-size:11px}
+@media(max-width:480px){.st-row{grid-template-columns:50px 1fr}.st-hide{display:none}}
+.st-row:last-child{border-bottom:none}
+.st-month{font-weight:800;color:var(--t1);font-size:12px}
+.st-event{color:var(--t2);line-height:1.5}
+.st-bias.bull{color:var(--r);font-weight:700}.st-bias.bear{color:var(--g);font-weight:700}.st-bias.n{color:var(--gold);font-weight:700}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+@media(max-width:460px){.cg{grid-template-columns:1fr}}
+.ci{background:var(--bg2);border:1px solid var(--bdr);border-radius:8px;padding:9px 11px}
+.ci-day{font-size:10px;font-weight:700;color:var(--b);margin-bottom:3px}
+.ci-content{font-size:11px;color:var(--t2);line-height:1.7}
+.ci-content .danger{color:var(--r);font-weight:700}
+.flow{display:flex;flex-direction:column;gap:8px;padding:12px;background:var(--bg2);border-radius:8px}
+.fitem{display:flex;gap:10px;align-items:flex-start}
+.fnum{background:var(--b);color:#000;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0;margin-top:1px}
+.fcontent{flex:1;font-size:12px;line-height:1.7;color:var(--t2)}
+.fcontent strong{color:var(--t1);display:block;margin-bottom:1px}
+.combo-item{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid var(--bdr);flex-wrap:wrap}
 .combo-item:last-child{border-bottom:none}
-.combo-tag{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:600;white-space:nowrap}
-.combo-tag.bull{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
-.combo-tag.bear{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
-.combo-arrow{color:var(--text3);font-size:12px}
-.combo-result{font-size:11px;font-weight:700}
-.combo-result.bull{color:var(--red)}
-.combo-result.bear{color:var(--green)}
-.combo-result.wait{color:var(--gold)}
-
-/* Decision flow */
-.flow-item{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
-.flow-num{background:var(--blue);color:#000;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0;margin-top:1px}
-.flow-content{flex:1;font-size:12px;line-height:1.7;color:var(--text2)}
-.flow-content strong{color:var(--text1);display:block;margin-bottom:2px}
-.flow-connector{width:22px;display:flex;justify-content:center;color:var(--border);font-size:16px;margin:-4px 0;padding-left:9px}
-
-/* Season table */
-.season-row{display:grid;grid-template-columns:60px 1fr 80px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);align-items:start;font-size:11px}
-@media(max-width:480px){.season-row{grid-template-columns:50px 1fr;}.season-hide-mobile{display:none}}
-.season-row:last-child{border-bottom:none}
-.season-month{font-weight:700;color:var(--text1);font-size:12px}
-.season-event{color:var(--text2);line-height:1.5}
-.season-bias.bull{color:var(--red);font-weight:700}
-.season-bias.bear{color:var(--green);font-weight:700}
-.season-bias.neutral{color:var(--gold);font-weight:700}
-.season-action{color:var(--text3);line-height:1.5}
-
-/* MA cards */
-.ma-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}
-@media(max-width:380px){.ma-grid{grid-template-columns:repeat(3,1fr)}}
-.ma-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:8px 4px;text-align:center}
-.ma-card .ma-label{font-size:9px;color:var(--text3);margin-bottom:3px}
-.ma-card .ma-bull{font-size:11px;color:var(--red);font-weight:700}
-.ma-card .ma-bear{font-size:11px;color:var(--green);font-weight:700}
-
-/* Interactive Score Calculator */
-.score-calc{background:var(--bg1);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px}
-.score-calc-title{font-size:13px;font-weight:700;color:var(--text1);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.score-calc-title span{font-size:11px;color:var(--text3);font-weight:400}
-.score-items{display:flex;flex-direction:column;gap:6px}
-.score-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
-.score-row:last-child{border-bottom:none}
-.score-row-label{flex:1;font-size:12px;color:var(--text2)}
-.score-btns{display:flex;gap:4px}
-.score-btn{width:36px;height:26px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);color:var(--text3);font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s}
-.score-btn:hover{border-color:var(--text3)}
-.score-btn.active-bull{background:var(--red-bg);color:var(--red);border-color:var(--red-border)}
-.score-btn.active-bear{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
-.score-btn.active-neutral{background:var(--bg3);color:var(--text2);border-color:var(--border)}
-.score-result-bar{margin-top:12px;padding:12px;border-radius:8px;text-align:center;border:1px solid var(--border);background:var(--bg2);transition:all 0.3s}
-.score-result-bar.bull{background:var(--red-bg);border-color:var(--red-border)}
-.score-result-bar.bear{background:var(--green-bg);border-color:var(--green-border)}
-.score-result-bar .result-num{font-size:28px;font-weight:900;display:block;line-height:1}
-.score-result-bar.bull .result-num{color:var(--red)}
-.score-result-bar.bear .result-num{color:var(--green)}
-.score-result-bar.neutral .result-num{color:var(--text3)}
-.score-result-bar .result-text{font-size:13px;font-weight:700;margin-top:4px;display:block}
-.score-result-bar .result-action{font-size:11px;color:var(--text3);margin-top:2px}
-
-/* Tag row */
-.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
-.tag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
-.tag-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
-.tag-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
-.tag-gray{background:var(--bg3);color:var(--text3)}
-.tag-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
-.tag-gold{background:var(--gold-bg);color:var(--gold)}
-
-/* divider */
-.divider{height:1px;background:var(--border);margin:12px 0}
-
-/* Info rows for compact display */
-.info-row{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--border);font-size:11px}
-.info-row:last-child{border-bottom:none}
-.info-label{color:var(--text3);min-width:70px;flex-shrink:0}
-.info-value{color:var(--text2);line-height:1.5;flex:1}
-.info-value .r{color:var(--red);font-weight:600}
-.info-value .g{color:var(--green);font-weight:600}
-.info-value .b{color:var(--blue);font-weight:600}
-.info-value .gold{color:var(--gold);font-weight:600}
-
-/* Sticky score indicator */
-.sticky-score{position:fixed;bottom:20px;right:16px;z-index:99;display:none}
-.sticky-score.visible{display:flex;gap:8px}
-.sticky-pill{padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;border:1px solid}
-.sticky-pill.bull{background:var(--red-bg);color:var(--red);border-color:var(--red-border)}
-.sticky-pill.bear{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
-
-/* Hide during search */
-.hidden-search{display:none!important}
-
-/* Scroll offset for anchors */
-:target{scroll-margin-top:100px}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:600px){
-  .topbar-row1{gap:8px}
-  .logo{font-size:13px}
-  .score-grid{grid-template-columns:1fr 1fr 1fr}
-  .score-card .s-num{font-size:18px}
-  .signal-cols{grid-template-columns:1fr}
-}
-@media(max-width:380px){
-  .score-grid{grid-template-columns:1fr}
-  html{font-size:13px}
-}
-
-/* ===== Print ===== */
-@media print{
-  .topbar{position:static}
-  .main{padding-top:16px}
-  .tab-section{display:block!important}
-}
+.ctag{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:600}
+.ctag.bull{background:var(--rd);color:var(--r);border:1px solid var(--rb)}
+.ctag.bear{background:var(--gd);color:var(--g);border:1px solid var(--gb)}
+.cresult{font-size:11px;font-weight:700}
+.cresult.bull{color:var(--r)}.cresult.bear{color:var(--g)}.cresult.wait{color:var(--gold)}
+.divider{height:1px;background:var(--bdr);margin:10px 0}
+.stars{color:var(--gold);font-size:10px}
+.kbox{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0}
+.kitem{background:var(--bg2);border-radius:6px;padding:8px 10px;text-align:center}
+.kascii{font-family:monospace;font-size:10px;line-height:1.3;color:var(--t2);white-space:pre;margin-bottom:3px}
+.kname{font-size:10px;font-weight:700}
+.kname.bull{color:var(--r)}.kname.bear{color:var(--g)}.kname.n{color:var(--n)}
+.no-result{display:none;text-align:center;padding:40px;color:var(--t3);font-size:13px}
+.hidden-s{display:none!important}
 </style>
 </head>
-<body>
-
-<!-- ===== TOPBAR ===== -->
-<div class="topbar">
-  <div class="topbar-inner">
-    <div class="topbar-row1">
-      <div class="logo">豆粕<span>M</span>交易手册</div>
-      <div class="search-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="searchInput" placeholder="搜索指标、数据源、信号..." autocomplete="off">
-        <span class="search-count" id="searchCount"></span>
-      </div>
-    </div>
-    <div class="tabs" id="tabBar">
-      <div class="tab active" data-tab="score">📊 打分器</div>
-      <div class="tab" data-tab="fundamental">📦 基本面</div>
-      <div class="tab" data-tab="technical">📈 技术面</div>
-      <div class="tab" data-tab="checklist">✅ 入场清单</div>
-      <div class="tab" data-tab="calendar">📅 日历</div>
-      <div class="tab" data-tab="loop">🔄 交易闭环</div>
-    </div>
+<body><div class="topbar"><div class="tb-inner">
+<div class="tb-row1">
+  <div class="logo">豆粕<span>M</span></div>
+  <div class="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="sInput" placeholder="搜索指标、信号、数据源..." autocomplete="off">
+    <span class="s-count" id="sCnt"></span>
   </div>
 </div>
-
+<div class="tabs" id="tabBar">
+  <div class="tab active" data-tab="scorer">📊 打分器</div>
+  <div class="tab" data-tab="fund">📦 基本面</div>
+  <div class="tab" data-tab="tech">📈 技术面</div>
+  <div class="tab" data-tab="checklist">✅ 入场清单</div>
+  <div class="tab" data-tab="pcalc">💰 仓位计算</div>
+  <div class="tab" data-tab="journal">📝 交易笔记</div>
+  <div class="tab" data-tab="dashboard">📉 仪表盘</div>
+  <div class="tab" data-tab="calendar">📅 日历</div>
+  <div class="tab" data-tab="loop">🔄 交易闭环</div>
+</div>
+</div></div>
 <div class="main" id="mainContent">
-<div class="search-no-result" id="noResult">🔍 未找到匹配内容，请尝试其他关键词</div>
-
-<!-- ========================================
-     TAB 1: 打分器
-======================================== -->
-<div class="tab-section active" id="tab-score">
-
-  <div class="sec-title">实时基本面打分器</div>
-
-  <div class="score-calc">
-    <div class="score-calc-title">每日基本面情绪 <span>点击选择信号方向，自动计算今日偏多/偏空</span></div>
-    <div class="score-items">
-      <div class="score-row">
-        <div class="score-row-label">① CBOT美豆隔夜</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="s1" data-val="1" onclick="scoreClick(this)">涨↑</button>
-          <button class="score-btn active-neutral" data-group="s1" data-val="0" onclick="scoreClick(this)">平</button>
-          <button class="score-btn" data-group="s1" data-val="-1" onclick="scoreClick(this)">跌↓</button>
-        </div>
-      </div>
-      <div class="score-row">
-        <div class="score-row-label">② 美豆天气（主产区）</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="s2" data-val="1" onclick="scoreClick(this)">干旱</button>
-          <button class="score-btn active-neutral" data-group="s2" data-val="0" onclick="scoreClick(this)">正常</button>
-          <button class="score-btn" data-group="s2" data-val="-1" onclick="scoreClick(this)">降雨</button>
-        </div>
-      </div>
-      <div class="score-row">
-        <div class="score-row-label">③ 本周大豆到港量</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="s3" data-val="1" onclick="scoreClick(this)">少↓</button>
-          <button class="score-btn active-neutral" data-group="s3" data-val="0" onclick="scoreClick(this)">正常</button>
-          <button class="score-btn" data-group="s3" data-val="-1" onclick="scoreClick(this)">多↑</button>
-        </div>
-      </div>
-      <div class="score-row">
-        <div class="score-row-label">④ 油厂开机率</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="s4" data-val="1" onclick="scoreClick(this)">&lt;40%</button>
-          <button class="score-btn active-neutral" data-group="s4" data-val="0" onclick="scoreClick(this)">中性</button>
-          <button class="score-btn" data-group="s4" data-val="-1" onclick="scoreClick(this)">&gt;60%</button>
-        </div>
-      </div>
-      <div class="score-row">
-        <div class="score-row-label">⑤ 现货基差</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="s5" data-val="1" onclick="scoreClick(this)">正基差</button>
-          <button class="score-btn active-neutral" data-group="s5" data-val="0" onclick="scoreClick(this)">中性</button>
-          <button class="score-btn" data-group="s5" data-val="-1" onclick="scoreClick(this)">负基差</button>
-        </div>
-      </div>
-      <div class="score-row">
-        <div class="score-row-label">⑥ 人民币汇率</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="s6" data-val="1" onclick="scoreClick(this)">贬值</button>
-          <button class="score-btn active-neutral" data-group="s6" data-val="0" onclick="scoreClick(this)">稳定</button>
-          <button class="score-btn" data-group="s6" data-val="-1" onclick="scoreClick(this)">升值</button>
-        </div>
-      </div>
-    </div>
-    <div class="score-result-bar neutral" id="scoreResult">
-      <span class="result-num" id="resultNum">0</span>
-      <span class="result-text" id="resultText">中性 — 等待方向</span>
-      <div class="result-action" id="resultAction">偏多信号不足，建议观望</div>
-    </div>
-  </div>
-
-  <div class="sec-title">技术面快速判断</div>
-
-  <div class="score-calc">
-    <div class="score-calc-title">每日技术面情绪 <span>开盘前5分钟看K线图完成打分</span></div>
-    <div class="score-items">
-      <div class="score-row">
-        <div class="score-row-label">① 均线排列</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="t1" data-val="-1" onclick="tScoreClick(this)">多头↑</button>
-          <button class="score-btn active-neutral" data-group="t1" data-val="0" onclick="tScoreClick(this)">混乱</button>
-          <button class="score-btn" data-group="t1" data-val="1" onclick="tScoreClick(this)">空头↓</button>
-        </div>
-      </div>
-      <div class="score-row">
-        <div class="score-row-label">② MACD状态</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="t2" data-val="-1" onclick="tScoreClick(this)">金叉↑</button>
-          <button class="score-btn active-neutral" data-group="t2" data-val="0" onclick="tScoreClick(this)">中性</button>
-          <button class="score-btn" data-group="t2" data-val="1" onclick="tScoreClick(this)">死叉↓</button>
-        </div>
-      </div>
-      <div class="score-row">
-        <div class="score-row-label">③ 价格位置</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="t3" data-val="-1" onclick="tScoreClick(this)">支撑位</button>
-          <button class="score-btn active-neutral" data-group="t3" data-val="0" onclick="tScoreClick(this)">中间</button>
-          <button class="score-btn" data-group="t3" data-val="1" onclick="tScoreClick(this)">压力位</button>
-        </div>
-      </div>
-      <div class="score-row">
-        <div class="score-row-label">④ K线形态</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="t4" data-val="-1" onclick="tScoreClick(this)">看涨</button>
-          <button class="score-btn active-neutral" data-group="t4" data-val="0" onclick="tScoreClick(this)">无形态</button>
-          <button class="score-btn" data-group="t4" data-val="1" onclick="tScoreClick(this)">看跌</button>
-        </div>
-      </div>
-      <div class="score-row">
-        <div class="score-row-label">⑤ 趋势线位置</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="t5" data-val="-1" onclick="tScoreClick(this)">突破↑</button>
-          <button class="score-btn active-neutral" data-group="t5" data-val="0" onclick="tScoreClick(this)">附近</button>
-          <button class="score-btn" data-group="t5" data-val="1" onclick="tScoreClick(this)">线下↓</button>
-        </div>
-      </div>
-      <div class="score-row">
-        <div class="score-row-label">⑥ 持仓量变化</div>
-        <div class="score-btns">
-          <button class="score-btn" data-group="t6" data-val="-1" onclick="tScoreClick(this)">增仓多</button>
-          <button class="score-btn active-neutral" data-group="t6" data-val="0" onclick="tScoreClick(this)">平稳</button>
-          <button class="score-btn" data-group="t6" data-val="1" onclick="tScoreClick(this)">减仓多</button>
-        </div>
-      </div>
-    </div>
-    <div class="score-result-bar neutral" id="tScoreResult">
-      <span class="result-num" id="tResultNum">0</span>
-      <span class="result-text" id="tResultText">技术面中性</span>
-      <div class="result-action" id="tResultAction">等待明确信号</div>
-    </div>
-  </div>
-
+<div class="no-result" id="noResult">🔍 未找到匹配内容</div>
+<!-- TAB SCORER -->
+<div class="tsec active" id="tab-scorer">
+<div class="stitle">基本面打分器</div>
+<div class="scorer">
+  <div class="scorer-title">每日基本面情绪 <small>选择今日各项信号方向，自动计算偏多/偏空</small></div>
+  <div class="srow"><div class="srow-label">① CBOT美豆隔夜</div><div class="sbtns"><button class="sbtn" data-g="f1" data-v="1" onclick="fScore(this)">涨↑</button><button class="sbtn an" data-g="f1" data-v="0" onclick="fScore(this)">平</button><button class="sbtn" data-g="f1" data-v="-1" onclick="fScore(this)">跌↓</button></div></div>
+  <div class="srow"><div class="srow-label">② 美豆天气主产区</div><div class="sbtns"><button class="sbtn" data-g="f2" data-v="1" onclick="fScore(this)">干旱</button><button class="sbtn an" data-g="f2" data-v="0" onclick="fScore(this)">正常</button><button class="sbtn" data-g="f2" data-v="-1" onclick="fScore(this)">降雨</button></div></div>
+  <div class="srow"><div class="srow-label">③ 本周大豆到港量</div><div class="sbtns"><button class="sbtn" data-g="f3" data-v="1" onclick="fScore(this)">偏少</button><button class="sbtn an" data-g="f3" data-v="0" onclick="fScore(this)">正常</button><button class="sbtn" data-g="f3" data-v="-1" onclick="fScore(this)">偏多</button></div></div>
+  <div class="srow"><div class="srow-label">④ 油厂开机率</div><div class="sbtns"><button class="sbtn" data-g="f4" data-v="1" onclick="fScore(this)">&lt;40%</button><button class="sbtn an" data-g="f4" data-v="0" onclick="fScore(this)">中性</button><button class="sbtn" data-g="f4" data-v="-1" onclick="fScore(this)">&gt;60%</button></div></div>
+  <div class="srow"><div class="srow-label">⑤ 现货基差</div><div class="sbtns"><button class="sbtn" data-g="f5" data-v="1" onclick="fScore(this)">正基差</button><button class="sbtn an" data-g="f5" data-v="0" onclick="fScore(this)">中性</button><button class="sbtn" data-g="f5" data-v="-1" onclick="fScore(this)">负基差</button></div></div>
+  <div class="srow"><div class="srow-label">⑥ 人民币汇率</div><div class="sbtns"><button class="sbtn" data-g="f6" data-v="1" onclick="fScore(this)">贬值</button><button class="sbtn an" data-g="f6" data-v="0" onclick="fScore(this)">稳定</button><button class="sbtn" data-g="f6" data-v="-1" onclick="fScore(this)">升值</button></div></div>
+  <div class="sresult neutral" id="fResult"><span class="rn" id="fRN">0</span><span class="rt" id="fRT">中性 — 等待方向</span><div class="ra" id="fRA">信号混合，建议观望</div></div>
 </div>
-
-<!-- ========================================
-     TAB 2: 基本面
-======================================== -->
-<div class="tab-section" id="tab-fundamental">
-
-  <!-- 供给端 -->
-  <div class="sec-title">一、供给端指标</div>
-
-  <!-- CBOT -->
-  <div class="card" id="card-cbot">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🌽</div>
-        <div>
-          <div class="card-title">CBOT美豆隔夜收盘</div>
-          <div class="card-subtitle">最重要的每日指标 <span class="stars">★★★★★</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge badge-blue">每天早上</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多做多信号</div>
-          <div class="signal-item bull">美豆涨超5点</div>
-          <div class="signal-item bull">放量上涨</div>
-          <div class="signal-item bull">连续3日上涨</div>
-          <div class="signal-item bull">天气炒作带动上涨</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空做空信号</div>
-          <div class="signal-item bear">美豆跌超5点</div>
-          <div class="signal-item bear">放量下跌</div>
-          <div class="signal-item bear">连续3日下跌</div>
-          <div class="signal-item bear">丰收预期压制</div>
-        </div>
-      </div>
-      <div class="source-box">
-        <strong>数据来源</strong>
-        <div class="source-row"><span class="source-label">文华随身行：</span><span class="url">搜索"美豆主连" → 查看K线日线图</span></div>
-        <div class="source-row"><span class="source-label">查看时间：</span><span>每天早上9点前，看昨晚22:00-次日3:00收盘价</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- USDA出口检验 -->
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">📋</div>
-        <div>
-          <div class="card-title">USDA出口检验报告</div>
-          <div class="card-subtitle">实际装船量 — 同步指标 <span class="stars">★★★★☆</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge badge-blue">每周一下午</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多信号</div>
-          <div class="signal-item bull">本周 &gt; 上周装船量</div>
-          <div class="signal-item bull">本周 &gt; 去年同期</div>
-          <div class="signal-item bull">中国收货量大</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空信号</div>
-          <div class="signal-item bear">本周 &lt; 上周装船量</div>
-          <div class="signal-item bear">本周 &lt; 去年同期</div>
-          <div class="signal-item bear">中国收货量小</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">关键数据</div><div class="info-value">找 <span class="b">SOYBEANS</span> 行 → 看本周/上周/去年同期 → 找 <span class="b">CHINA</span> 收货量</div></div>
-      <div class="source-box">
-        <strong>数据来源</strong>
-        <div class="source-row"><span class="source-label">网址：</span><span class="url">ams.usda.gov → Weekly Grains Inspected For Export (Mon)</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- USDA出口销售 -->
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">📝</div>
-        <div>
-          <div class="card-title">USDA出口销售报告</div>
-          <div class="card-subtitle">新增采购合同 — 领先指标 <span class="stars">★★★★★</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge" style="background:#1a0a0a;color:#e84141;border:1px solid #3d1212">⚠️ 每周四深夜</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="warning" style="margin-bottom:10px">
-        <div class="warning-title">⚠️ 当晚不建议持隔夜仓位，价格波动大</div>
-      </div>
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多信号</div>
-          <div class="signal-item bull">净销售量超预期</div>
-          <div class="signal-item bull">中国新增大额采购</div>
-          <div class="signal-item bull">比4周均值 +30%以上</div>
-          <div class="signal-item bull">淡季（旺季）标准：&gt;70（&gt;150）万吨</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空信号</div>
-          <div class="signal-item bear">净销售量低于预期</div>
-          <div class="signal-item bear">中国取消订单（负数）</div>
-          <div class="signal-item bear">比4周均值 -30%以上</div>
-        </div>
-      </div>
-      <div class="source-box">
-        <div class="source-row"><span class="source-label">网址：</span><span class="url">apps.fas.usda.gov → Weekly Export Sales → Weekly Highlights → PDF</span></div>
-        <div class="source-row"><span class="source-label">看哪里：</span><span>找 Soybeans 段落 → Net Sales数字 → China采购量</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WASDE -->
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">📊</div>
-        <div>
-          <div class="card-title">USDA WASDE 月度报告</div>
-          <div class="card-subtitle">全球供需平衡表 <span class="stars">★★★★★</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge" style="background:#1a0a0a;color:#e84141;border:1px solid #3d1212">⚠️ 每月约10日深夜</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="warning" style="margin-bottom:10px">
-        <div class="warning-title">⚠️ 7月WASDE最重要！前后3天不建议持隔夜仓</div>
-      </div>
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多信号</div>
-          <div class="signal-item bull">期末库存下调</div>
-          <div class="signal-item bull">低于市场预期</div>
-          <div class="signal-item bull">中国进口量上调</div>
-          <div class="signal-item bull">库存消费比 &lt;15%</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空信号</div>
-          <div class="signal-item bear">期末库存上调</div>
-          <div class="signal-item bear">高于市场预期</div>
-          <div class="signal-item bear">全球产量上调</div>
-          <div class="signal-item bear">库存消费比 &gt;20%</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">核心指标</div><div class="info-value"><span class="r">期末库存</span>变化方向 + 与<span class="b">市场预期</span>对比</div></div>
-      <div class="info-row"><div class="info-label">库存消费比</div><div class="info-value">期末库存 ÷ 年消费量 × 100%<br><span class="r">&lt;10% 非常紧张</span> / <span class="gold">10-15% 偏紧</span> / <span class="g">&gt;20% 宽松</span></div></div>
-      <div class="source-box">
-        <div class="source-row"><span class="source-label">网址：</span><span class="url">usda.gov 搜索 WASDE report → 找 Oilseeds 部分</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 海关进口 -->
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🚢</div>
-        <div>
-          <div class="card-title">中国大豆进口量</div>
-          <div class="card-subtitle">海关总署月报 <span class="stars">★★★★☆</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge badge-gold">每月中旬15-18日</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多信号</div>
-          <div class="signal-item bull">同比增长</div>
-          <div class="signal-item bull">旺季超1000万吨</div>
-          <div class="signal-item bull">超出正常范围上限</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空信号</div>
-          <div class="signal-item bear">同比下降</div>
-          <div class="signal-item bear">旺季低于800万吨</div>
-          <div class="signal-item bear">低于正常范围下限</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">正常范围</div><div class="info-value"><span class="r">旺季(5-10月)：800-1000万吨</span> / <span class="g">淡季(1-2月)：500-700万吨</span></div></div>
-      <div class="info-row"><div class="info-label">重点看</div><div class="info-value">同比变化方向（环比有季节性，参考价值小）</div></div>
-      <div class="source-box">
-        <div class="source-row"><span class="source-label">官方：</span><span class="url">customs.gov.cn → 进口主要商品量值表 → 找大豆（第28行）</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 到港预报 -->
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🏭</div>
-        <div>
-          <div class="card-title">大豆到港预报 + 油厂开机率 + 豆粕库存</div>
-          <div class="card-subtitle">国内供给三件套 <span class="stars">★★★★☆</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge badge-blue">每周更新</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多信号</div>
-          <div class="signal-item bull">本周到港少，未来2周少</div>
-          <div class="signal-item bull">油厂开机率低于40%</div>
-          <div class="signal-item bull">豆粕库存低于50万吨</div>
-          <div class="signal-item bull">正基差（现货&gt;期货）</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空信号</div>
-          <div class="signal-item bear">本周到港多，未来2周多</div>
-          <div class="signal-item bear">油厂开机率高于60%</div>
-          <div class="signal-item bear">豆粕库存高于100万吨</div>
-          <div class="signal-item bear">负基差（现货&lt;期货）</div>
-        </div>
-      </div>
-      <div class="source-box">
-        <div class="source-row"><span class="source-label">到港：</span><span class="url">天下粮仓 tiankuang.com 或 布瑞克 bric.com.cn</span></div>
-        <div class="source-row"><span class="source-label">开机率：</span><span class="url">汇易咨询 cnhnb.com 或 我的农产品网 mysteel.com（每周五）</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 需求端 -->
-  <div class="sec-title">二、需求端指标</div>
-
-  <!-- 能繁母猪 -->
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🐷</div>
-        <div>
-          <div class="card-title">能繁母猪存栏量</div>
-          <div class="card-subtitle">预判6-10个月后需求 · 目标3750万头 <span class="stars">★★★★★</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge badge-gold">每月月底</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多信号（中期）</div>
-          <div class="signal-item bull">低于3750万头目标</div>
-          <div class="signal-item bull">连续3个月下降</div>
-          <div class="signal-item bull">同比明显下降</div>
-          <div class="signal-item bull">→ 未来供应收紧，需求上升</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空信号（中期）</div>
-          <div class="signal-item bear">远超3750万头目标</div>
-          <div class="signal-item bear">连续3个月上升</div>
-          <div class="signal-item bear">产能明显过剩</div>
-          <div class="signal-item bear">→ 未来供应充足，需求下降</div>
-        </div>
-      </div>
-      <div class="source-box">
-        <div class="source-row"><span class="source-label">官方：</span><span class="url">moa.gov.cn 搜索"生猪生产" 或 data.stats.gov.cn → 月度数据→农业→畜牧</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 猪粮比+粕比 -->
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">⚖️</div>
-        <div>
-          <div class="card-title">猪粮比 + 粕比</div>
-          <div class="card-subtitle">养殖利润与替代品竞争 <span class="stars">★★★☆☆</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge badge-blue">每周</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多信号</div>
-          <div class="signal-item bull">猪粮比 &gt;7:1（养殖利润高）</div>
-          <div class="signal-item bull">积极补栏，未来需求增加</div>
-          <div class="signal-item bull">粕比 &lt;2.0（豆粕便宜）</div>
-          <div class="signal-item bull">减少菜粕等替代品使用</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空信号</div>
-          <div class="signal-item bear">猪粮比 &lt;5:1（养殖亏损）</div>
-          <div class="signal-item bear">大量淘汰母猪</div>
-          <div class="signal-item bear">粕比 &gt;2.5（豆粕贵）</div>
-          <div class="signal-item bear">饲料厂多用菜粕替代</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">猪粮比基准</div><div class="info-value">正常盈亏线 <span class="b">6:1</span>，&gt;7偏多，&lt;5偏空</div></div>
-      <div class="info-row"><div class="info-label">粕比计算</div><div class="info-value">豆粕价 ÷ 菜粕价，正常范围 <span class="b">2.0-2.5</span></div></div>
-    </div>
-  </div>
-
-  <!-- 天气 -->
-  <div class="sec-title">三、天气指标（6-8月最重要）</div>
-
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">☀️</div>
-        <div>
-          <div class="card-title">美国干旱监测 + 降雨预报</div>
-          <div class="card-subtitle">爱荷华/伊利诺伊/明尼苏达主产区 <span class="stars">★★★★★</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge badge-blue">每天/每周四更新</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多信号</div>
-          <div class="signal-item bull">干旱图橙色/红色扩大（D2-D4）</div>
-          <div class="signal-item bull">覆盖主产州 &gt;30%</div>
-          <div class="signal-item bull">未来7天无有效降雨</div>
-          <div class="signal-item bull">8-14天气温偏高（橙色）</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空信号</div>
-          <div class="signal-item bear">干旱图灰色/黄色为主</div>
-          <div class="signal-item bear">主产区正常</div>
-          <div class="signal-item bear">未来7天有充沛降雨（&gt;15mm）</div>
-          <div class="signal-item bear">气温正常或偏低</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">干旱等级</div><div class="info-value"><span class="gold">黄=轻度D0</span> / <span style="color:#e8a041">橙=中度D1-D2</span> / <span class="r">红=极端D3-D4</span>（炒作强度依次递增）</div></div>
-      <div class="info-row"><div class="info-label">关键时间</div><div class="info-value"><span class="r">7-8月授粉灌浆期</span>最敏感，一周高温干旱可能引发100+点行情</div></div>
-      <div class="source-box">
-        <div class="source-row"><span class="source-label">干旱：</span><span class="url">drought.gov（每周四更新）</span></div>
-        <div class="source-row"><span class="source-label">降雨：</span><span class="url">ventusky.com → 选降水量图层 → 移到美国中西部</span></div>
-        <div class="source-row"><span class="source-label">气温：</span><span class="url">cpc.ncep.noaa.gov → 8-14 Day Temperature Outlook</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🌎</div>
-        <div>
-          <div class="card-title">南美天气 + 厄尔尼诺/拉尼娜</div>
-          <div class="card-subtitle">巴西马托格罗索/阿根廷科尔多瓦（12月-2月重点）<span class="stars">★★★★☆</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge badge-gold">每月更新</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多信号</div>
-          <div class="signal-item bull">拉尼娜发生</div>
-          <div class="signal-item bull">阿根廷持续干旱</div>
-          <div class="signal-item bull">巴西南部降雨不足</div>
-          <div class="signal-item bull">南美减产预期</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空信号</div>
-          <div class="signal-item bear">厄尔尼诺发生（当前2026年）</div>
-          <div class="signal-item bear">南美降雨充沛</div>
-          <div class="signal-item bear">巴西/阿根廷丰收预期</div>
-          <div class="signal-item bear">全球供应宽松</div>
-        </div>
-      </div>
-      <div class="source-box">
-        <div class="source-row"><span class="source-label">ENSO：</span><span class="url">cpc.ncep.noaa.gov → El Niño/La Niña（当前：厄尔尼诺）</span></div>
-        <div class="source-row"><span class="source-label">巴西：</span><span class="url">climatempo.com.br 搜 Cuiabá（库亚巴）</span></div>
-        <div class="source-row"><span class="source-label">阿根廷：</span><span class="url">smn.gob.ar 搜 Córdoba（科尔多瓦）</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 政策宏观 -->
-  <div class="sec-title">四、政策与宏观</div>
-
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🏛️</div>
-        <div>
-          <div class="card-title">中美贸易 + 人民币汇率 + 突发事件</div>
-          <div class="card-subtitle">宏观政策影响 <span class="stars">★★★★☆</span></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="card-badge badge-gray">随时关注</span>
-        <span class="card-chevron">▼</span>
-      </div>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多信号</div>
-          <div class="signal-item bull">对美豆加征关税</div>
-          <div class="signal-item bull">贸易摩擦加剧</div>
-          <div class="signal-item bull">人民币贬值（进口成本↑）</div>
-          <div class="signal-item bull">无大规模猪瘟疫情</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空信号</div>
-          <div class="signal-item bear">贸易关系改善，关税降低</div>
-          <div class="signal-item bear">人民币升值（进口成本↓）</div>
-          <div class="signal-item bear">大规模猪瘟爆发</div>
-          <div class="signal-item bear">生猪大量扑杀</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 季节性 -->
-  <div class="sec-title">五、全年季节性规律速查</div>
-  <div class="card open">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🗓️</div>
-        <div>
-          <div class="card-title">12个月交易规律</div>
-          <div class="card-subtitle">按月查看偏多/偏空倾向和操作建议</div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="season-row" style="font-size:10px;color:var(--text3);font-weight:700;border-bottom:1px solid var(--border)">
-        <div>月份</div><div>主要事件</div><div class="season-hide-mobile">价格倾向</div><div>操作建议</div>
-      </div>
-      <div class="season-row">
-        <div class="season-month">1-2月</div>
-        <div class="season-event">南美大豆生长关键期<br>阿根廷干旱风险最高<br>拉尼娜年份最危险</div>
-        <div class="season-bias bull season-hide-mobile">偏多<br>（有干旱时）</div>
-        <div class="season-action">关注南美天气<br>干旱→做多机会</div>
-      </div>
-      <div class="season-row">
-        <div class="season-month">3-5月</div>
-        <div class="season-event">南美大豆集中收割<br>大量到港压力最大<br>全年最大供应压力</div>
-        <div class="season-bias bear season-hide-mobile">偏空</div>
-        <div class="season-action">以做空为主<br>反弹即做空机会</div>
-      </div>
-      <div class="season-row">
-        <div class="season-month">6月</div>
-        <div class="season-event">美豆种植出苗期<br>天气炒作开始<br>到港压力逐渐消化</div>
-        <div class="season-bias neutral season-hide-mobile">中性转多</div>
-        <div class="season-action">等待方向确认<br>关注天气变化</div>
-      </div>
-      <div class="season-row">
-        <div class="season-month" style="color:var(--red);font-weight:800">7-8月<br>⭐最重要</div>
-        <div class="season-event">美豆开花授粉灌浆<br>天气炒作最激烈<br>WASDE 7月最关键</div>
-        <div class="season-bias bull season-hide-mobile">偏多<br>（天气差时）</div>
-        <div class="season-action">关注干旱+高温<br>多空都有大机会</div>
-      </div>
-      <div class="season-row">
-        <div class="season-month">9-10月</div>
-        <div class="season-event">美豆收割上市<br>供应增加压力<br>早霜风险（偶发）</div>
-        <div class="season-bias bear season-hide-mobile">偏空</div>
-        <div class="season-action">收割季做空<br>警惕早霜逆转</div>
-      </div>
-      <div class="season-row">
-        <div class="season-month">11-12月</div>
-        <div class="season-event">南美种植开始<br>拉尼娜干旱炒作预期<br>国内需求旺季开始</div>
-        <div class="season-bias neutral season-hide-mobile">中性</div>
-        <div class="season-action">关注南美种植<br>ENSO状态判断</div>
-      </div>
-    </div>
-  </div>
-
+<div class="stitle">技术面打分器</div>
+<div class="scorer">
+  <div class="scorer-title">每日技术面情绪 <small>开盘前5分钟对照K线图完成打分</small></div>
+  <div class="srow"><div class="srow-label">① 均线排列</div><div class="sbtns"><button class="sbtn" data-g="t1" data-v="-1" onclick="tScore(this)">多头↑</button><button class="sbtn an" data-g="t1" data-v="0" onclick="tScore(this)">混乱</button><button class="sbtn" data-g="t1" data-v="1" onclick="tScore(this)">空头↓</button></div></div>
+  <div class="srow"><div class="srow-label">② MACD状态</div><div class="sbtns"><button class="sbtn" data-g="t2" data-v="-1" onclick="tScore(this)">金叉↑</button><button class="sbtn an" data-g="t2" data-v="0" onclick="tScore(this)">中性</button><button class="sbtn" data-g="t2" data-v="1" onclick="tScore(this)">死叉↓</button></div></div>
+  <div class="srow"><div class="srow-label">③ 价格位置</div><div class="sbtns"><button class="sbtn" data-g="t3" data-v="-1" onclick="tScore(this)">支撑位</button><button class="sbtn an" data-g="t3" data-v="0" onclick="tScore(this)">中间</button><button class="sbtn" data-g="t3" data-v="1" onclick="tScore(this)">压力位</button></div></div>
+  <div class="srow"><div class="srow-label">④ K线形态</div><div class="sbtns"><button class="sbtn" data-g="t4" data-v="-1" onclick="tScore(this)">看涨</button><button class="sbtn an" data-g="t4" data-v="0" onclick="tScore(this)">无形态</button><button class="sbtn" data-g="t4" data-v="1" onclick="tScore(this)">看跌</button></div></div>
+  <div class="srow"><div class="srow-label">⑤ 趋势线位置</div><div class="sbtns"><button class="sbtn" data-g="t5" data-v="-1" onclick="tScore(this)">已突破</button><button class="sbtn an" data-g="t5" data-v="0" onclick="tScore(this)">附近</button><button class="sbtn" data-g="t5" data-v="1" onclick="tScore(this)">线下方</button></div></div>
+  <div class="srow"><div class="srow-label">⑥ 持仓量变化</div><div class="sbtns"><button class="sbtn" data-g="t6" data-v="-1" onclick="tScore(this)">增仓多</button><button class="sbtn an" data-g="t6" data-v="0" onclick="tScore(this)">平稳</button><button class="sbtn" data-g="t6" data-v="1" onclick="tScore(this)">减仓多</button></div></div>
+  <div class="sresult neutral" id="tResult"><span class="rn" id="tRN">0</span><span class="rt" id="tRT">技术面中性</span><div class="ra" id="tRA">等待明确信号</div></div>
 </div>
-
-<!-- ========================================
-     TAB 3: 技术面
-======================================== -->
-<div class="tab-section" id="tab-technical">
-
-  <!-- 均线 -->
-  <div class="sec-title">一、均线系统</div>
-
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">📈</div>
-        <div>
-          <div class="card-title">均线多空排列</div>
-          <div class="card-subtitle">最重要的趋势方向指标 <span class="stars">★★★★★</span></div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="ma-grid">
-        <div class="ma-card"><div class="ma-label">MA5</div><div class="ma-bull">最敏感</div></div>
-        <div class="ma-card"><div class="ma-label">MA10</div><div class="ma-bull">短期均线</div></div>
-        <div class="ma-card"><div class="ma-label">MA20</div><div class="ma-bull">中期分界</div></div>
-        <div class="ma-card"><div class="ma-label">MA40</div><div class="ma-bear">中长期</div></div>
-        <div class="ma-card"><div class="ma-label">MA60</div><div class="ma-bear">最稳定</div></div>
-      </div>
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 多头排列（做多）</div>
-          <div class="signal-item bull">MA5&gt;MA10&gt;MA20&gt;MA40&gt;MA60</div>
-          <div class="signal-item bull">均线全部向上倾斜</div>
-          <div class="signal-item bull">价格在所有均线上方</div>
-          <div class="signal-item bull">回调到MA5/MA10 = 做多机会</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 空头排列（做空）</div>
-          <div class="signal-item bear">MA5&lt;MA10&lt;MA20&lt;MA40&lt;MA60</div>
-          <div class="signal-item bear">均线全部向下倾斜</div>
-          <div class="signal-item bear">价格在所有均线下方</div>
-          <div class="signal-item bear">反弹到MA5/MA10 = 做空机会</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">注意</div><div class="info-value">排列越完整信号越强 · 均线走平=趋势转换期 · 至少满足3条才算有效</div></div>
-    </div>
-  </div>
-
-  <!-- MACD -->
-  <div class="sec-title">二、MACD指标</div>
-
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">📊</div>
-        <div>
-          <div class="card-title">MACD 金叉/死叉 + 背离</div>
-          <div class="card-subtitle">动能方向与强度判断 <span class="stars">★★★★★</span></div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 偏多/做多信号</div>
-          <div class="signal-item bull">DIFF上穿DEA（金叉）</div>
-          <div class="signal-item bull">STICK从负变正</div>
-          <div class="signal-item bull">0轴上方金叉：强烈做多</div>
-          <div class="signal-item bull">0轴下方金叉：短期反弹</div>
-          <div class="signal-item bull">底背离：价格创新低DIFF未创新低</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 偏空/做空信号</div>
-          <div class="signal-item bear">DIFF下穿DEA（死叉）</div>
-          <div class="signal-item bear">STICK从正变负</div>
-          <div class="signal-item bear">0轴下方死叉：强烈做空</div>
-          <div class="signal-item bear">0轴上方死叉：短期回调</div>
-          <div class="signal-item bear">顶背离：价格创新高DIFF未创新高</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">DIFF与DEA</div><div class="info-value">两线距离缩小→动能减弱 · 接近≠立即反转 · 需等金叉/死叉确认</div></div>
-      <div class="info-row"><div class="info-label">STICK柱子</div><div class="info-value"><span class="r">变长=趋势动能增强</span> / <span class="g">变短=趋势动能减弱</span></div></div>
-    </div>
-  </div>
-
-  <!-- K线形态 -->
-  <div class="sec-title">三、K线形态（精准入场信号）</div>
-
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🕯️</div>
-        <div>
-          <div class="card-title">6大K线形态图解</div>
-          <div class="card-subtitle">形态必须在关键位置出现才有效，需等下一根K线确认</div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="kline-box">
-        <div class="kline-item">
-          <div class="kline-ascii"> ┌─┐
+</div>
+<!-- TAB FUND -->
+<div class="tsec" id="tab-fund">
+<div class="stitle">一、供给端指标</div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🌽</div><div><div class="ctitle">CBOT美豆隔夜收盘</div><div class="csub">最重要每日指标 <span class="stars">★★★★★</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge bb">每天早上</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 偏多信号</div><div class="si bull">美豆涨超5点</div><div class="si bull">放量上涨</div><div class="si bull">连续3日上涨</div></div><div><div class="scol-t bear">🟢 偏空信号</div><div class="si bear">美豆跌超5点</div><div class="si bear">放量下跌</div><div class="si bear">丰收预期压制</div></div></div><div class="srcbox"><strong>数据来源</strong><div class="srcrow"><span class="srclabel">文华随身行：</span><span class="srcurl">搜索"美豆主连" → K线日线图</span></div></div></div></div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">📋</div><div><div class="ctitle">USDA出口检验报告</div><div class="csub">实际装船量 — 每周一 <span class="stars">★★★★☆</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge bb">每周一</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 偏多</div><div class="si bull">本周>上周装船量</div><div class="si bull">本周>去年同期</div><div class="si bull">中国收货量大</div></div><div><div class="scol-t bear">🟢 偏空</div><div class="si bear">本周&lt;上周装船量</div><div class="si bear">本周&lt;去年同期</div><div class="si bear">中国收货量小</div></div></div><div class="srcbox"><div class="srcrow"><span class="srclabel">网址：</span><span class="srcurl">ams.usda.gov → Weekly Grains Inspected For Export</span></div></div></div></div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">📝</div><div><div class="ctitle">USDA出口销售报告</div><div class="csub">新增采购合同 <span class="stars">★★★★★</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge br">⚠️ 每周四深夜</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="warnbox"><div class="wt">⚠️ 当晚不建议持隔夜仓，价格波动大</div></div><div class="scols"><div><div class="scol-t bull">🔴 偏多</div><div class="si bull">净销售量超预期</div><div class="si bull">中国新增大额采购</div><div class="si bull">比4周均值+30%以上</div></div><div><div class="scol-t bear">🟢 偏空</div><div class="si bear">净销售量低于预期</div><div class="si bear">中国取消订单（负数）</div><div class="si bear">比4周均值-30%以上</div></div></div><div class="srcbox"><div class="srcrow"><span class="srclabel">网址：</span><span class="srcurl">apps.fas.usda.gov → Weekly Export Sales → PDF → Soybeans段落</span></div></div></div></div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">📊</div><div><div class="ctitle">USDA WASDE 月度报告</div><div class="csub">全球供需平衡表 <span class="stars">★★★★★</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge br">⚠️ 每月约10日深夜</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="warnbox"><div class="wt">⚠️ 7月WASDE最重要！前后3天不建议持隔夜仓</div></div><div class="scols"><div><div class="scol-t bull">🔴 偏多</div><div class="si bull">期末库存下调</div><div class="si bull">低于市场预期</div><div class="si bull">中国进口量上调</div><div class="si bull">库存消费比&lt;15%</div></div><div><div class="scol-t bear">🟢 偏空</div><div class="si bear">期末库存上调</div><div class="si bear">高于市场预期</div><div class="si bear">全球产量上调</div><div class="si bear">库存消费比&gt;20%</div></div></div><div class="srcbox"><div class="srcrow"><span class="srclabel">网址：</span><span class="srcurl">usda.gov 搜索 WASDE report → Oilseeds部分</span></div></div></div></div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🚢</div><div><div class="ctitle">中国大豆进口量（海关总署）</div><div class="csub"><span class="stars">★★★★☆</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge bgold">每月中旬</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 偏多</div><div class="si bull">同比增长</div><div class="si bull">旺季超1000万吨</div></div><div><div class="scol-t bear">🟢 偏空</div><div class="si bear">同比下降</div><div class="si bear">旺季低于800万吨</div></div></div><div class="ir"><div class="il">正常范围</div><div class="iv"><span class="r">旺季5-10月：800-1000万吨</span> / <span class="g">淡季1-2月：500-700万吨</span></div></div><div class="srcbox"><div class="srcrow"><span class="srclabel">官方：</span><span class="srcurl">customs.gov.cn → 进口主要商品量值表 → 大豆（约第28行）</span></div></div></div></div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🏭</div><div><div class="ctitle">到港预报 + 油厂开机率 + 豆粕库存</div><div class="csub"><span class="stars">★★★★☆</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge bb">每周</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 偏多</div><div class="si bull">本周到港少，未来2周少</div><div class="si bull">油厂开机率低于40%</div><div class="si bull">豆粕库存低于50万吨</div><div class="si bull">正基差（现货>期货）</div></div><div><div class="scol-t bear">🟢 偏空</div><div class="si bear">本周到港多</div><div class="si bear">油厂开机率高于60%</div><div class="si bear">豆粕库存高于100万吨</div><div class="si bear">负基差（现货&lt;期货）</div></div></div><div class="srcbox"><div class="srcrow"><span class="srclabel">到港：</span><span class="srcurl">tiankuang.com / bric.com.cn</span></div><div class="srcrow"><span class="srclabel">开机率：</span><span class="srcurl">cnhnb.com / mysteel.com（每周五）</span></div></div></div></div>
+<div class="stitle">二、需求端指标</div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🐷</div><div><div class="ctitle">能繁母猪存栏量</div><div class="csub">预判6-10月后需求 · 目标3750万头 <span class="stars">★★★★★</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge bgold">每月月底</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 偏多（中期）</div><div class="si bull">低于3750万头目标</div><div class="si bull">连续3个月下降</div><div class="si bull">同比明显下降</div></div><div><div class="scol-t bear">🟢 偏空（中期）</div><div class="si bear">远超3750万头目标</div><div class="si bear">连续3个月上升</div><div class="si bear">产能明显过剩</div></div></div><div class="srcbox"><div class="srcrow"><span class="srclabel">官方：</span><span class="srcurl">moa.gov.cn 搜"生猪生产" 或 data.stats.gov.cn</span></div></div></div></div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">⚖️</div><div><div class="ctitle">猪粮比 + 粕比</div><div class="csub">养殖利润与替代品竞争 <span class="stars">★★★☆☆</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge bb">每周</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 偏多</div><div class="si bull">猪粮比&gt;7:1（养殖利润高）</div><div class="si bull">积极补栏未来需求增</div><div class="si bull">粕比&lt;2.0（豆粕便宜）</div></div><div><div class="scol-t bear">🟢 偏空</div><div class="si bear">猪粮比&lt;5:1（养殖亏损）</div><div class="si bear">大量淘汰母猪</div><div class="si bear">粕比&gt;2.5（多用菜粕替代）</div></div></div><div class="ir"><div class="il">猪粮比基准</div><div class="iv">正常盈亏线<span class="b">6:1</span>，粕比正常范围<span class="b">2.0-2.5</span></div></div></div></div>
+<div class="stitle">三、天气指标（6-8月最重要）</div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">☀️</div><div><div class="ctitle">美国干旱监测 + 降雨预报 + NOAA气温</div><div class="csub">爱荷华/伊利诺伊/明尼苏达主产区 <span class="stars">★★★★★</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge bb">每天/每周四</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 偏多</div><div class="si bull">干旱图橙/红色扩大(D2-D4)</div><div class="si bull">覆盖主产州&gt;30%</div><div class="si bull">未来7天无有效降雨</div><div class="si bull">8-14天气温偏高（橙色）</div></div><div><div class="scol-t bear">🟢 偏空</div><div class="si bear">干旱图灰/黄色为主</div><div class="si bear">主产区正常</div><div class="si bear">未来7天有充沛降雨</div><div class="si bear">气温正常或偏低</div></div></div><div class="ir"><div class="il">干旱等级</div><div class="iv"><span class="gold">黄=轻度D0</span> / <span class="gold">橙=中度D2</span> / <span class="r">红=极端D3-D4（炒作最强）</span></div></div><div class="srcbox"><div class="srcrow"><span class="srclabel">干旱：</span><span class="srcurl">drought.gov（每周四更新）</span></div><div class="srcrow"><span class="srclabel">降雨：</span><span class="srcurl">ventusky.com → 降水量图层 → 美国中西部</span></div><div class="srcrow"><span class="srclabel">气温：</span><span class="srcurl">cpc.ncep.noaa.gov → 8-14 Day Temperature Outlook</span></div></div></div></div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🌎</div><div><div class="ctitle">南美天气 + 厄尔尼诺/拉尼娜</div><div class="csub">巴西马托格罗索/阿根廷科尔多瓦（12-2月重点）<span class="stars">★★★★☆</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge bgold">每月更新</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 偏多</div><div class="si bull">拉尼娜发生</div><div class="si bull">阿根廷持续干旱</div><div class="si bull">巴西南部降雨不足</div></div><div><div class="scol-t bear">🟢 偏空</div><div class="si bear">厄尔尼诺发生（当前2026）</div><div class="si bear">南美降雨充沛丰收预期</div></div></div><div class="srcbox"><div class="srcrow"><span class="srclabel">ENSO：</span><span class="srcurl">cpc.ncep.noaa.gov → El Niño/La Niña</span></div><div class="srcrow"><span class="srclabel">巴西：</span><span class="srcurl">climatempo.com.br 搜 Cuiabá</span></div><div class="srcrow"><span class="srclabel">阿根廷：</span><span class="srcurl">smn.gob.ar 搜 Córdoba</span></div></div></div></div>
+<div class="stitle">四、政策宏观</div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🏛️</div><div><div class="ctitle">中美贸易 + 人民币汇率 + 突发事件</div><div class="csub"><span class="stars">★★★★☆</span></div></div></div><div style="display:flex;align-items:center;gap:6px"><span class="badge bgray">随时关注</span><span class="chev">▼</span></div></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 偏多</div><div class="si bull">对美豆加征关税</div><div class="si bull">人民币贬值（进口成本↑）</div><div class="si bull">无大规模猪瘟疫情</div></div><div><div class="scol-t bear">🟢 偏空</div><div class="si bear">贸易关系改善关税降低</div><div class="si bear">人民币升值（进口成本↓）</div><div class="si bear">大规模猪瘟爆发</div></div></div></div></div>
+<div class="stitle">五、全年季节性规律</div>
+<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🗓️</div><div><div class="ctitle">12个月交易规律速查</div></div></div><span class="chev">▼</span></div>
+<div class="cbody">
+<div class="st-row" style="font-size:10px;color:var(--t3);font-weight:700"><div>月份</div><div>主要事件</div><div class="st-hide">倾向</div><div>建议</div></div>
+<div class="st-row"><div class="st-month">1-2月</div><div class="st-event">南美大豆生长关键期<br>阿根廷干旱风险最高</div><div class="st-bias bull st-hide">偏多（干旱时）</div><div>关注南美天气<br>干旱→做多机会</div></div>
+<div class="st-row"><div class="st-month">3-5月</div><div class="st-event">南美集中收割到港<br>全年最大供应压力</div><div class="st-bias bear st-hide">偏空</div><div>以做空为主<br>反弹即做空</div></div>
+<div class="st-row"><div class="st-month">6月</div><div class="st-event">美豆种植出苗<br>天气炒作开始</div><div class="st-bias n st-hide">中性转多</div><div>等待方向确认<br>关注天气</div></div>
+<div class="st-row"><div class="st-month" style="color:var(--r);font-weight:900">7-8月⭐</div><div class="st-event">美豆授粉灌浆<br>天气炒作最激烈<br>WASDE 7月最关键</div><div class="st-bias bull st-hide">偏多（天气差）</div><div>关注干旱+高温<br>多空都有大机会</div></div>
+<div class="st-row"><div class="st-month">9-10月</div><div class="st-event">美豆收割上市<br>供应增加压力</div><div class="st-bias bear st-hide">偏空</div><div>收割季做空<br>警惕早霜逆转</div></div>
+<div class="st-row"><div class="st-month">11-12月</div><div class="st-event">南美种植开始<br>拉尼娜炒作预期</div><div class="st-bias n st-hide">中性</div><div>关注南美种植<br>ENSO判断</div></div>
+</div></div>
+</div>
+<!-- TAB TECH -->
+<div class="tsec" id="tab-tech">
+<div class="stitle">一、均线系统</div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">📈</div><div><div class="ctitle">均线多空排列 + 动态支撑压力</div><div class="csub"><span class="stars">★★★★★</span></div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 多头排列（做多）</div><div class="si bull">MA5>MA10>MA20>MA40>MA60</div><div class="si bull">均线全部向上倾斜</div><div class="si bull">回调到MA5/MA10=做多机会</div></div><div><div class="scol-t bear">🟢 空头排列（做空）</div><div class="si bear">MA5&lt;MA10&lt;MA20&lt;MA40&lt;MA60</div><div class="si bear">均线全部向下倾斜</div><div class="si bear">反弹到MA5/MA10=做空机会</div></div></div><div class="ir"><div class="il">注意</div><div class="iv">排列越完整信号越强 · 均线走平=趋势转换期 · 至少满足3条均线才算有效排列</div></div></div></div>
+<div class="stitle">二、MACD指标</div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">📊</div><div><div class="ctitle">MACD 金叉/死叉 + 背离 + STICK分析</div><div class="csub"><span class="stars">★★★★★</span></div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 偏多/做多</div><div class="si bull">DIFF上穿DEA（金叉）STICK变正</div><div class="si bull">0轴上方金叉：强烈做多</div><div class="si bull">0轴下方金叉：短期反弹</div><div class="si bull">底背离：价格创新低DIFF未创新低</div></div><div><div class="scol-t bear">🟢 偏空/做空</div><div class="si bear">DIFF下穿DEA（死叉）STICK变负</div><div class="si bear">0轴下方死叉：强烈做空</div><div class="si bear">0轴上方死叉：短期回调</div><div class="si bear">顶背离：价格创新高DIFF未创新高</div></div></div><div class="ir"><div class="il">两线距离</div><div class="iv">距离缩小→动能减弱 · 两线接近≠立即反转 · 需等金叉/死叉确认</div></div><div class="ir"><div class="il">STICK柱子</div><div class="iv"><span class="r">变长=趋势动能增强</span> / <span class="g">变短=趋势动能减弱，注意反转</span></div></div></div></div>
+<div class="stitle">三、K线形态（必须在关键位置出现，等下一根确认）</div>
+<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🕯️</div><div><div class="ctitle">6大K线形态图解与操作规则</div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="kbox">
+<div class="kitem"><div class="kascii"> ┌─┐
  │ │
  └┬┘
   │
-  │</div>
-          <div class="kline-name bull">🔨锤子线<br>做多信号</div>
-        </div>
-        <div class="kline-item">
-          <div class="kline-ascii">  │
+  │</div><div class="kname bull">🔨锤子线<br>做多信号</div></div>
+<div class="kitem"><div class="kascii">  │
   │
  ┌┴┐
  │ │
- └─┘</div>
-          <div class="kline-name bear">⭐射击之星<br>做空信号</div>
-        </div>
-        <div class="kline-item">
-          <div class="kline-ascii">┌──┐小阳
+ └─┘</div><div class="kname bear">⭐射击之星<br>做空信号</div></div>
+<div class="kitem"><div class="kascii">┌──┐小阳
 └──┘
 ┌────┐
-│    │大阴
-└────┘</div>
-          <div class="kline-name bear">🔻看跌吞噬<br>做空信号</div>
-        </div>
-        <div class="kline-item">
-          <div class="kline-ascii">┌──┐小阴
+│大阴│
+└────┘</div><div class="kname bear">🔻看跌吞噬<br>做空信号</div></div>
+<div class="kitem"><div class="kascii">┌──┐小阴
 └──┘
 ┌────┐
-│    │大阳
-└────┘</div>
-          <div class="kline-name bull">🔺看涨吞噬<br>做多信号</div>
-        </div>
-        <div class="kline-item">
-          <div class="kline-ascii">  │
-──┼──
-  │</div>
-          <div class="kline-name" style="color:var(--neutral)">✛十字星<br>方向待定</div>
-        </div>
-        <div class="kline-item">
-          <div class="kline-ascii">┌──┐大阴
+│大阳│
+└────┘</div><div class="kname bull">🔺看涨吞噬<br>做多信号</div></div>
+<div class="kitem"><div class="kascii">   │
+───┼───
+   │</div><div class="kname n">✛十字星<br>方向待定</div></div>
+<div class="kitem"><div class="kascii">┌──┐大阴
 └──┘
   ─
 ┌────┐
-│    │大阳
-└────┘</div>
-          <div class="kline-name bull">🌅早晨之星<br>底部反转</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="tag-row">
-        <span class="tag tag-red">做多形态：锤子线 / 看涨吞噬 / 早晨之星</span>
-        <span class="tag tag-green">做空形态：射击之星 / 看跌吞噬</span>
-      </div>
-      <div class="info-row" style="margin-top:8px"><div class="info-label">铁律</div><div class="info-value">形态出现后<span class="r">必须等下一根K线确认</span>才能入场！随机位置出现无效，必须在<span class="b">支撑位/压力位/均线/趋势线</span>附近出现</div></div>
-      <div class="info-row"><div class="info-label">锤子线标准</div><div class="info-value">下影线≥实体2倍 / 上影线≤实体1倍 / 实体在上方<br>有上影线也可以，越短越好</div></div>
-      <div class="info-row"><div class="info-label">射击之星标准</div><div class="info-value">上影线≥实体2倍 / 下影线≤实体1倍 / 实体在下方</div></div>
-      <div class="info-row"><div class="info-label">吞噬标准</div><div class="info-value">第二根实体必须<span class="b">完全包住</span>第一根实体，包住一半不算</div></div>
-    </div>
-  </div>
-
-  <!-- 支撑压力 -->
-  <div class="sec-title">四、支撑位与压力位</div>
-
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🧱</div>
-        <div>
-          <div class="card-title">支撑压力位判断与使用</div>
-          <div class="card-subtitle">价格天花板与地板 <span class="stars">★★★★★</span></div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 支撑位（做多区域）</div>
-          <div class="signal-item bull">历史低点：2887 / 2900附近</div>
-          <div class="signal-item bull">整数关口：2800 / 2900 / 3000</div>
-          <div class="signal-item bull">均线支撑（多头趋势中）</div>
-          <div class="signal-item bull">价格跌到此处+看涨形态=入场</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 压力位（做空区域）</div>
-          <div class="signal-item bear">历史高点：3073 / 3010 / 2960</div>
-          <div class="signal-item bear">整数关口：3000 / 3100</div>
-          <div class="signal-item bear">均线压力（空头趋势中）</div>
-          <div class="signal-item bear">价格涨到此处+看跌形态=入场</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">支撑变压力</div><div class="info-value">原支撑位被有效跌破 → 反弹到该位置受阻 → <span class="g">在此做空</span></div></div>
-      <div class="info-row"><div class="info-label">压力变支撑</div><div class="info-value">原压力位被有效突破 → 回踩该位置获支撑 → <span class="r">在此做多</span></div></div>
-      <div class="info-row"><div class="info-label">有效突破</div><div class="info-value">收盘确认（不只是日内高低点）+ 成交量放大</div></div>
-    </div>
-  </div>
-
-  <!-- 趋势线 -->
-  <div class="sec-title">五、趋势线分析</div>
-
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">📐</div>
-        <div>
-          <div class="card-title">下降/上升趋势线的画法与应用</div>
-          <div class="card-subtitle">每天位置不同，需在文华K线图上亲手画 <span class="stars">★★★★☆</span></div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 趋势线突破（做多信号）</div>
-          <div class="signal-item bull">下降趋势线被放量向上突破</div>
-          <div class="signal-item bull">收盘站稳趋势线上方</div>
-          <div class="signal-item bull">下一根K线确认</div>
-          <div class="signal-item bull">→ 趋势反转，考虑做多</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 趋势线受阻（做空信号）</div>
-          <div class="signal-item bear">价格反弹到下降趋势线受阻</div>
-          <div class="signal-item bear">出现射击之星/看跌吞噬</div>
-          <div class="signal-item bear">→ 趋势延续，做空机会</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">下降趋势线</div><div class="info-value">连接下跌中的<span class="b">高点</span>（至少2个，越多越可靠）→ 向右延伸</div></div>
-      <div class="info-row"><div class="info-label">上升趋势线</div><div class="info-value">连接上涨中的<span class="b">低点</span>（至少2个）→ 向右延伸</div></div>
-      <div class="info-row"><div class="info-label">假突破识别</div><div class="info-value">量小 + 很快收回趋势线内 → 继续原方向交易</div></div>
-      <div class="info-row"><div class="info-label">画法</div><div class="info-value">文华K线图 → 右上角画笔图标(✏️) → 选直线 → 点两个高点/低点连线</div></div>
-    </div>
-  </div>
-
-  <!-- 分时图盘口 -->
-  <div class="sec-title">六、分时图 + 盘口（日内判断）</div>
-
-  <div class="card">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">⏱️</div>
-        <div>
-          <div class="card-title">分时图白线/均价线 + 盘口外内盘 + 逐笔成交</div>
-          <div class="card-subtitle">日内多空力量判断 <span class="stars">★★★★☆</span></div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="signal-cols">
-        <div>
-          <div class="signal-col-title bull">🔴 日内偏多信号</div>
-          <div class="signal-item bull">白线持续在均价线（黄线）上方</div>
-          <div class="signal-item bull">外盘 &gt; 内盘（&gt;55%）</div>
-          <div class="signal-item bull">逐笔以多开/空平为主</div>
-          <div class="signal-item bull">高开后持续上涨</div>
-        </div>
-        <div>
-          <div class="signal-col-title bear">🟢 日内偏空信号</div>
-          <div class="signal-item bear">白线持续在均价线（黄线）下方</div>
-          <div class="signal-item bear">内盘 &gt; 外盘（&gt;55%）</div>
-          <div class="signal-item bear">逐笔以空开/多平为主</div>
-          <div class="signal-item bear">低开后持续下跌</div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">逐笔类型</div><div class="info-value"><span class="r">多开=新多进场</span> / <span class="g">空开=新空进场</span> / <span class="r">空平=空头离场（短期反弹）</span> / <span class="g">多平=多头离场</span> / 双开=分歧大 / 双平=趋势结束</div></div>
-      <div class="info-row"><div class="info-label">持仓量变化</div><div class="info-value"><span class="r">日增仓为负（空头平仓）=短期反弹信号</span> · <span class="g">日增仓为正（多头进场）=趋势延续</span></div></div>
-    </div>
-  </div>
-
+│大阳│
+└────┘</div><div class="kname bull">🌅早晨之星<br>底部反转</div></div>
 </div>
-
-<!-- ========================================
-     TAB 4: 入场清单
-======================================== -->
-<div class="tab-section" id="tab-checklist">
-
-  <div class="sec-title">做空入场清单（需满足8项以上）</div>
-
-  <div class="card open">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🟢</div>
-        <div>
-          <div class="card-title">做空 10项检查</div>
-          <div class="card-subtitle">每次开空仓前逐项核对</div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="check-item">
-        <div class="check-num">1</div>
-        <div class="check-content">
-          <div class="check-label">均线空头排列确认</div>
-          <div class="check-desc"><span class="em-green">MA5&lt;MA10&lt;MA20</span> 且均线向下倾斜</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">2</div>
-        <div class="check-content">
-          <div class="check-label">价格在下降趋势线下方</div>
-          <div class="check-desc">趋势线未被有效突破，价格仍在线下运行</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">3</div>
-        <div class="check-content">
-          <div class="check-label">MACD死叉 / 偏空状态</div>
-          <div class="check-desc">DIFF和DEA均在<span class="em-green">0轴下方</span>，处于死叉状态；STICK为负且扩大</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">4</div>
-        <div class="check-content">
-          <div class="check-label">价格在压力位附近</div>
-          <div class="check-desc">价格反弹到<span class="em-blue">均线/趋势线/历史压力位</span>附近，而非随机位置</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">5</div>
-        <div class="check-content">
-          <div class="check-label">K线看跌形态出现</div>
-          <div class="check-desc">出现<span class="em-green">射击之星 / 看跌吞噬 / 十字星</span>其中之一</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">6</div>
-        <div class="check-content">
-          <div class="check-label">下一根K线收阴线确认</div>
-          <div class="check-desc"><span class="em-green">不能看到形态就立刻入场</span>，必须等下一根收阴线后才开空</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">7</div>
-        <div class="check-content">
-          <div class="check-label">分时图配合偏空</div>
-          <div class="check-desc">白线在均价线<span class="em-green">下方</span>，内盘&gt;外盘，逐笔空开/多平为主</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">8</div>
-        <div class="check-content">
-          <div class="check-label">基本面方向配合</div>
-          <div class="check-desc">基本面打分<span class="em-green">偏空（-3以上）</span>，不与技术面矛盾</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">9</div>
-        <div class="check-content">
-          <div class="check-label">盈亏比 ≥ 1.5:1</div>
-          <div class="check-desc">潜在收益 ÷ 潜在风险 ≥ <span class="em-blue">1.5</span>，止损止盈位置已明确</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">10</div>
-        <div class="check-content">
-          <div class="check-label">仓位符合规则</div>
-          <div class="check-desc">单笔亏损 ≤ <span class="em-blue">账户2%</span> · 实盘5万最多3手 · 止损设好再开仓</div>
-        </div>
-      </div>
-      <div class="score-grid" style="margin-top:12px">
-        <div class="score-card bear"><span class="s-num">8-10</span><span class="s-label">积极做空</span><span class="s-action">信号充分，入场</span></div>
-        <div class="score-card neutral"><span class="s-num">6-7</span><span class="s-label">谨慎做空</span><span class="s-action">减半仓位</span></div>
-        <div class="score-card" style="background:var(--bg2);border-color:var(--border)"><span class="s-num" style="color:var(--text3)">&lt;6</span><span class="s-label" style="color:var(--text3)">不入场</span><span class="s-action">继续等待</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="sec-title">做多入场清单（需满足8项以上）</div>
-
-  <div class="card open">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🔴</div>
-        <div>
-          <div class="card-title">做多 10项检查</div>
-          <div class="card-subtitle">每次开多仓前逐项核对</div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="check-item">
-        <div class="check-num">1</div>
-        <div class="check-content">
-          <div class="check-label">均线多头排列 / 金叉确认</div>
-          <div class="check-desc"><span class="em-red">MA5&gt;MA10&gt;MA20</span> 或MACD金叉出现</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">2</div>
-        <div class="check-content">
-          <div class="check-label">价格在上升趋势线上方 / 支撑位</div>
-          <div class="check-desc">价格回调到<span class="em-red">支撑位/上升趋势线</span>附近，未跌破</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">3</div>
-        <div class="check-content">
-          <div class="check-label">MACD金叉 / 偏多状态</div>
-          <div class="check-desc">STICK从负变正，DIFF上穿DEA，<span class="em-red">金叉成立</span>；0轴上方金叉最强</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">4</div>
-        <div class="check-content">
-          <div class="check-label">价格在支撑位附近</div>
-          <div class="check-desc">价格回调到<span class="em-blue">均线/趋势线/历史支撑位</span>附近而非随机位置</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">5</div>
-        <div class="check-content">
-          <div class="check-label">K线看涨形态出现</div>
-          <div class="check-desc">出现<span class="em-red">锤子线 / 看涨吞噬 / 早晨之星</span>其中之一</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">6</div>
-        <div class="check-content">
-          <div class="check-label">下一根K线收阳线确认</div>
-          <div class="check-desc"><span class="em-red">等下一根收阳线确认</span>后才开多，不冲动追涨</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">7</div>
-        <div class="check-content">
-          <div class="check-label">分时图配合偏多</div>
-          <div class="check-desc">白线在均价线<span class="em-red">上方</span>，外盘&gt;内盘，逐笔多开/空平为主</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">8</div>
-        <div class="check-content">
-          <div class="check-label">基本面方向配合</div>
-          <div class="check-desc">基本面打分<span class="em-red">偏多（+3以上）</span>，不与技术面矛盾</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">9</div>
-        <div class="check-content">
-          <div class="check-label">盈亏比 ≥ 1.5:1</div>
-          <div class="check-desc">潜在收益 ÷ 潜在风险 ≥ <span class="em-blue">1.5</span>，止损止盈位置已明确</div>
-        </div>
-      </div>
-      <div class="check-item">
-        <div class="check-num">10</div>
-        <div class="check-content">
-          <div class="check-label">仓位符合规则</div>
-          <div class="check-desc">单笔亏损 ≤ <span class="em-blue">账户2%</span> · 实盘5万最多3手 · 止损设好再开仓</div>
-        </div>
-      </div>
-      <div class="score-grid" style="margin-top:12px">
-        <div class="score-card bull"><span class="s-num">8-10</span><span class="s-label">积极做多</span><span class="s-action">信号充分，入场</span></div>
-        <div class="score-card neutral"><span class="s-num">6-7</span><span class="s-label">谨慎做多</span><span class="s-action">减半仓位</span></div>
-        <div class="score-card" style="background:var(--bg2);border-color:var(--border)"><span class="s-num" style="color:var(--text3)">&lt;6</span><span class="s-label" style="color:var(--text3)">不入场</span><span class="s-action">继续等待</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="sec-title">仓位管理铁律</div>
-
-  <div class="card open">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🛡️</div>
-        <div>
-          <div class="card-title">5万实盘仓位计算表</div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="info-row"><div class="info-label">总资金</div><div class="info-value">50,000元 · 单笔最大亏损 = <span class="em-red">1,000元（2%）</span></div></div>
-      <div class="info-row"><div class="info-label">止损10点</div><div class="info-value">100元/手 → 最多开 <span class="em-blue">10手</span></div></div>
-      <div class="info-row"><div class="info-label">止损20点</div><div class="info-value">200元/手 → 最多开 <span class="em-blue">5手</span></div></div>
-      <div class="info-row"><div class="info-label">止损30点</div><div class="info-value">300元/手 → 最多开 <span class="em-blue">3手</span></div></div>
-      <div class="info-row"><div class="info-label">止损50点</div><div class="info-value">500元/手 → 最多开 <span class="em-blue">2手</span></div></div>
-      <div class="info-row"><div class="info-label">新手建议</div><div class="info-value"><span class="em-red">固定开3手，止损20点</span>，先练习纪律再考虑加仓</div></div>
-      <div class="info-row"><div class="info-label">保证金检查</div><div class="info-value">3手×2050元 = 6150元，占50000元的 <span class="em-blue">12%</span>，不超过30%上限 ✅</div></div>
-    </div>
-  </div>
-
-  <div class="warning">
-    <div class="warning-title">🚫 6条铁律 — 永远不能做</div>
-    <ul>
-      <li>止损被触发后手动取消，等价格回来 → <strong>爆仓的根本原因</strong></li>
-      <li>没有信号就扩大止损距离 → 让小亏变成大亏</li>
-      <li>价格大涨/大跌后才追入 → 追涨杀跌必亏</li>
-      <li>连续止损后立即加大仓位报复 → 情绪交易最危险</li>
-      <li>技术面和基本面方向矛盾时强行交易 → 胜率不足50%</li>
-      <li>每天频繁交易超过3次 → 手续费磨光账户</li>
-    </ul>
-  </div>
-
+<div class="ir"><div class="il">使用铁律</div><div class="iv">必须在<span class="b">支撑位/压力位/均线/趋势线</span>附近出现 · 必须等下一根K线确认才入场 · 随机位置出现无效</div></div>
+<div class="ir"><div class="il">锤子线标准</div><div class="iv">下影线≥实体2倍 / 上影线≤实体1倍 / 有一点上影线也可以</div></div>
+<div class="ir"><div class="il">吞噬标准</div><div class="iv">第二根实体必须<span class="b">完全包住</span>第一根，包住一半不算</div></div>
+</div></div>
+<div class="stitle">四、支撑压力位 + 趋势线</div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🧱</div><div><div class="ctitle">支撑位/压力位判断与互换规则</div><div class="csub"><span class="stars">★★★★★</span></div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 支撑位（做多区域）</div><div class="si bull">历史低点：2887/2900附近</div><div class="si bull">整数关口：2800/2900/3000</div><div class="si bull">均线支撑（多头趋势中）</div></div><div><div class="scol-t bear">🟢 压力位（做空区域）</div><div class="si bear">历史高点：3073/3010/2960</div><div class="si bear">整数关口：3000/3100</div><div class="si bear">均线压力（空头趋势中）</div></div></div><div class="ir"><div class="il">支撑变压力</div><div class="iv">原支撑被跌破→反弹到此受阻→<span class="g">在此做空</span></div></div><div class="ir"><div class="il">压力变支撑</div><div class="iv">原压力被突破→回踩此处获支撑→<span class="r">在此做多</span></div></div><div class="ir"><div class="il">有效突破</div><div class="iv">收盘确认+成交量放大，仅日内高低点不算突破</div></div></div></div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">📐</div><div><div class="ctitle">趋势线画法与应用</div><div class="csub">文华K线图→画笔→直线 <span class="stars">★★★★☆</span></div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 突破趋势线（做多）</div><div class="si bull">下降趋势线被放量向上突破</div><div class="si bull">收盘站稳趋势线上方</div><div class="si bull">下一根确认→考虑做多</div></div><div><div class="scol-t bear">🟢 受阻于趋势线（做空）</div><div class="si bear">价格反弹到下降趋势线受阻</div><div class="si bear">出现射击之星/看跌吞噬</div><div class="si bear">趋势延续→做空机会</div></div></div><div class="ir"><div class="il">画法</div><div class="iv">下降趋势线：连接下跌中的高点（至少2个，越多越可靠）</div></div><div class="ir"><div class="il">假突破</div><div class="iv">成交量小+很快收回趋势线内→假突破，继续原方向</div></div></div></div>
+<div class="stitle">五、分时图 + 盘口（日内判断）</div>
+<div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">⏱️</div><div><div class="ctitle">分时白线/均价线 + 外内盘 + 逐笔成交</div><div class="csub"><span class="stars">★★★★☆</span></div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 日内偏多</div><div class="si bull">白线持续在均价线（黄线）上方</div><div class="si bull">外盘>内盘（&gt;55%）</div><div class="si bull">逐笔以多开/空平为主</div><div class="si bull">高开后持续上涨</div></div><div><div class="scol-t bear">🟢 日内偏空</div><div class="si bear">白线持续在均价线（黄线）下方</div><div class="si bear">内盘>外盘（&gt;55%）</div><div class="si bear">逐笔以空开/多平为主</div><div class="si bear">低开后持续下跌</div></div></div><div class="ir"><div class="il">逐笔类型</div><div class="iv"><span class="r">多开=新多进场</span>/<span class="g">空开=新空进场</span>/<span class="r">空平=空头离场(反弹)</span>/双开=分歧/双平=趋势结束</div></div></div></div>
 </div>
-
-<!-- ========================================
-     TAB 5: 数据日历
-======================================== -->
-<div class="tab-section" id="tab-calendar">
-
-  <div class="sec-title">每天必做（5分钟）</div>
-  <div class="cal-grid">
-    <div class="cal-item">
-      <div class="cal-day">早上9点前</div>
-      <div class="cal-content">文华随身行：查美豆主连昨晚收盘<br>判断今日开盘偏多/偏空方向</div>
-    </div>
-    <div class="cal-item">
-      <div class="cal-day">开盘前5分钟</div>
-      <div class="cal-content">K线图：均线/MACD/支撑压力<br>完成技术面打分（共6项）</div>
-    </div>
-    <div class="cal-item">
-      <div class="cal-day">持仓过夜前</div>
-      <div class="cal-content"><span class="danger">必查！</span>今晚有无重大数据？<br>美豆天气？止损够宽？</div>
-    </div>
-    <div class="cal-item">
-      <div class="cal-day">收盘后</div>
-      <div class="cal-content">写交易日志：开仓理由/盈亏<br>哪里做对了/哪里做错了</div>
-    </div>
-  </div>
-
-  <div class="sec-title">每周（15分钟）</div>
-  <div class="cal-grid">
-    <div class="cal-item">
-      <div class="cal-day">每周一下午</div>
-      <div class="cal-content">USDA出口检验报告<br>→ ams.usda.gov<br>找SOYBEANS+CHINA数量</div>
-    </div>
-    <div class="cal-item">
-      <div class="cal-day">每周四下午</div>
-      <div class="cal-content">drought.gov干旱图更新<br>→ 看主产州颜色变化<br>ventusky.com降雨7天预报</div>
-    </div>
-    <div class="cal-item">
-      <div class="cal-day"><span style="color:var(--red)">⚠️ 每周四深夜</span></div>
-      <div class="cal-content"><span class="danger">不建议持隔夜仓！</span><br>USDA出口销售报告发布<br>→ apps.fas.usda.gov</div>
-    </div>
-    <div class="cal-item">
-      <div class="cal-day">每周五</div>
-      <div class="cal-content">油厂开机率 → cnhnb.com<br>豆粕商业库存变化<br>猪粮比、粕比更新</div>
-    </div>
-  </div>
-
-  <div class="sec-title">每月（30分钟）</div>
-  <div class="cal-grid">
-    <div class="cal-item">
-      <div class="cal-day"><span style="color:var(--red)">⚠️ 每月约10日深夜</span></div>
-      <div class="cal-content"><span class="danger">前后3天不建议隔夜！</span><br>USDA WASDE月度报告<br>→ usda.gov 找Oilseeds部分</div>
-    </div>
-    <div class="cal-item">
-      <div class="cal-day">每月中旬（15-18日）</div>
-      <div class="cal-content">中国海关进口数据<br>→ customs.gov.cn<br>找大豆进口量同比变化</div>
-    </div>
-    <div class="cal-item">
-      <div class="cal-day">每月月底</div>
-      <div class="cal-content">农业农村部生猪数据<br>→ moa.gov.cn 搜"生猪生产"<br>能繁母猪存栏量变化</div>
-    </div>
-    <div class="cal-item">
-      <div class="cal-day">每月月底</div>
-      <div class="cal-content">NOAA ENSO报告<br>→ cpc.ncep.noaa.gov<br>厄尔尼诺/拉尼娜最新状态</div>
-    </div>
-  </div>
-
-  <div class="sec-title">数据源书签清单</div>
-  <div class="card open">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🔖</div>
-        <div><div class="card-title">所有必备网址（建议全部收藏到浏览器）</div></div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="info-row"><div class="info-label">美豆行情</div><div class="info-value" style="color:var(--blue)">文华随身行 → 搜"美豆主连"</div></div>
-      <div class="info-row"><div class="info-label">美国干旱</div><div class="info-value" style="color:var(--blue)">drought.gov</div></div>
-      <div class="info-row"><div class="info-label">全球降雨</div><div class="info-value" style="color:var(--blue)">ventusky.com</div></div>
-      <div class="info-row"><div class="info-label">NOAA气候</div><div class="info-value" style="color:var(--blue)">cpc.ncep.noaa.gov</div></div>
-      <div class="info-row"><div class="info-label">USDA出口检验</div><div class="info-value" style="color:var(--blue)">ams.usda.gov</div></div>
-      <div class="info-row"><div class="info-label">USDA出口销售</div><div class="info-value" style="color:var(--blue)">apps.fas.usda.gov</div></div>
-      <div class="info-row"><div class="info-label">USDA月报</div><div class="info-value" style="color:var(--blue)">usda.gov 搜 WASDE</div></div>
-      <div class="info-row"><div class="info-label">中国海关</div><div class="info-value" style="color:var(--blue)">customs.gov.cn</div></div>
-      <div class="info-row"><div class="info-label">农业农村部</div><div class="info-value" style="color:var(--blue)">moa.gov.cn / data.stats.gov.cn</div></div>
-      <div class="info-row"><div class="info-label">到港预报</div><div class="info-value" style="color:var(--blue)">tiankuang.com（天下粮仓）/ bric.com.cn（布瑞克）</div></div>
-      <div class="info-row"><div class="info-label">开机率/库存</div><div class="info-value" style="color:var(--blue)">cnhnb.com（汇易咨询）/ mysteel.com（我的农产品网）</div></div>
-      <div class="info-row"><div class="info-label">巴西天气</div><div class="info-value" style="color:var(--blue)">climatempo.com.br 搜 Cuiabá</div></div>
-      <div class="info-row"><div class="info-label">阿根廷天气</div><div class="info-value" style="color:var(--blue)">smn.gob.ar 搜 Córdoba</div></div>
-    </div>
-  </div>
-
+<!-- TAB CHECKLIST -->
+<div class="tsec" id="tab-checklist">
+<div class="stitle">动态入场清单（勾选完成自动评分）</div>
+<div class="cl-tabs">
+  <div class="cl-tab active-bull" id="clLong" onclick="setCLDir('long')">🔴 做多入场清单</div>
+  <div class="cl-tab" id="clShort" onclick="setCLDir('short')">🟢 做空入场清单</div>
 </div>
-
-<!-- ========================================
-     TAB 6: 交易闭环
-======================================== -->
-<div class="tab-section" id="tab-loop">
-
-  <div class="sec-title">完整交易决策流程（8步）</div>
-
-  <div class="card open">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">🔄</div>
-        <div>
-          <div class="card-title">从分析到执行的完整闭环</div>
-          <div class="card-subtitle">每次交易都必须走完这8步</div>
-        </div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="flow-item">
-        <div class="flow-num">1</div>
-        <div class="flow-content">
-          <strong>早上开盘前：基本面打分（10分钟）</strong>
-          查CBOT美豆收盘 + 天气 + 到港预报 → 基本面今日<span class="em-red">偏多</span>/<span class="em-green">偏空</span>/中性
-        </div>
-      </div>
-      <div class="flow-connector">│</div>
-      <div class="flow-item">
-        <div class="flow-num">2</div>
-        <div class="flow-content">
-          <strong>开盘前：技术面打分（5分钟）</strong>
-          看日线K线 → 均线/MACD/支撑压力/趋势线 → 技术面<span class="em-red">偏多</span>/<span class="em-green">偏空</span>/中性
-        </div>
-      </div>
-      <div class="flow-connector">│</div>
-      <div class="flow-item">
-        <div class="flow-num">3</div>
-        <div class="flow-content">
-          <strong>方向确认：两者必须一致才操作</strong>
-          <span class="em-red">基本面+技术面都偏多→做多</span> / <span class="em-green">都偏空→做空</span> / <span class="em-gold">矛盾→不操作</span>
-        </div>
-      </div>
-      <div class="flow-connector">│</div>
-      <div class="flow-item">
-        <div class="flow-num">4</div>
-        <div class="flow-content">
-          <strong>盘中：等待精确入场信号</strong>
-          等价格到支撑/压力位 → 出现K线形态 → 等下一根确认
-        </div>
-      </div>
-      <div class="flow-connector">│</div>
-      <div class="flow-item">
-        <div class="flow-num">5</div>
-        <div class="flow-content">
-          <strong>开仓前：10项清单（≥8项才开）</strong>
-          计算盈亏比≥1.5:1 → 确定手数 → 止损止盈位置确定
-        </div>
-      </div>
-      <div class="flow-connector">│</div>
-      <div class="flow-item">
-        <div class="flow-num">6</div>
-        <div class="flow-content">
-          <strong>持仓期间：只有两种处理</strong>
-          <span class="em-red">顺利运行</span>：不动，让系统跑到止盈 / <span class="em-green">反向运行</span>：严格止损，不扛亏损
-        </div>
-      </div>
-      <div class="flow-connector">│</div>
-      <div class="flow-item">
-        <div class="flow-num">7</div>
-        <div class="flow-content">
-          <strong>过夜前：5个额外问题</strong>
-          今晚有无重大数据？美豆方向？基本面支持过夜？持仓量变化？止损够宽？
-        </div>
-      </div>
-      <div class="flow-connector">│</div>
-      <div class="flow-item">
-        <div class="flow-num">8</div>
-        <div class="flow-content">
-          <strong>收盘后：写交易日志</strong>
-          记录：开仓理由 / 盈亏结果 / 做对了什么 / 做错了什么 / 下次改进
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="sec-title">四种技术×基本面组合结果</div>
-
-  <div class="card open">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">⚔️</div>
-        <div><div class="card-title">双维度方向组合判断</div></div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="combo-item">
-        <span class="combo-tag bear">技术面偏空↘</span>
-        <span class="combo-tag bear">基本面偏空↘</span>
-        <span class="combo-arrow">→</span>
-        <span class="combo-result bear">最强做空，积极满仓 🟢🟢</span>
-      </div>
-      <div class="combo-item">
-        <span class="combo-tag bull">技术面偏多↗</span>
-        <span class="combo-tag bull">基本面偏多↗</span>
-        <span class="combo-arrow">→</span>
-        <span class="combo-result bull">最强做多，积极满仓 🔴🔴</span>
-      </div>
-      <div class="combo-item">
-        <span class="combo-tag bear">技术面偏空↘</span>
-        <span class="combo-tag bull">基本面偏多↗</span>
-        <span class="combo-arrow">→</span>
-        <span class="combo-result wait">信号矛盾，轻仓或不操作 ⚠️</span>
-      </div>
-      <div class="combo-item">
-        <span class="combo-tag bull">技术面偏多↗</span>
-        <span class="combo-tag bear">基本面偏空↘</span>
-        <span class="combo-arrow">→</span>
-        <span class="combo-result wait">可能只是技术反弹，快进快出 ⚠️</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="sec-title">核心交易理念</div>
-
-  <div class="card open">
-    <div class="card-head" onclick="toggleCard(this)">
-      <div class="card-head-left">
-        <div class="card-icon">💡</div>
-        <div><div class="card-title">三句话总结完整体系</div></div>
-      </div>
-      <span class="card-chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div style="padding:12px 0;text-align:center">
-        <div style="font-size:16px;font-weight:800;color:var(--gold);margin-bottom:10px;letter-spacing:1px">基本面定方向</div>
-        <div style="font-size:12px;color:var(--text3);margin-bottom:16px">WASDE/天气/供需数据 → 判断中长期趋势</div>
-        <div style="font-size:22px;color:var(--border)">↓</div>
-        <div style="font-size:16px;font-weight:800;color:var(--blue);margin:10px 0;letter-spacing:1px">技术面找时机</div>
-        <div style="font-size:12px;color:var(--text3);margin-bottom:16px">均线/MACD/K线形态 → 精确入场价格</div>
-        <div style="font-size:22px;color:var(--border)">↓</div>
-        <div style="font-size:16px;font-weight:800;color:var(--red);margin:10px 0;letter-spacing:1px">风控保本金</div>
-        <div style="font-size:12px;color:var(--text3)">止损2% + 仓位3手 + 纪律执行 → 长期生存</div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-row"><div class="info-label">高手思维</div><div class="info-value">不是每笔都赚，而是<span class="em-red">亏的时候亏小，赚的时候赚大</span></div></div>
-      <div class="info-row"><div class="info-label">止损本质</div><div class="info-value">不是承认判断错了，是承认<span class="em-blue">市场比你更大</span></div></div>
-      <div class="info-row"><div class="info-label">最大敌人</div><div class="info-value">不是市场，是<span class="em-green">你自己的情绪和侥幸心理</span></div></div>
-    </div>
-  </div>
-
+<div id="clContainer"></div>
+<button class="cl-import-btn" onclick="importScoreToReason()">📋 一键将今日打分结果导入交易理由（在新增记录中使用）</button>
 </div>
-
-</div><!-- /main -->
-
+<!-- TAB PCALC -->
+<div class="tsec" id="tab-pcalc">
+<div class="stitle">仓位计算器（正向：由风险算手数）</div>
+<div class="pcalc">
+  <div class="pcalc-title">输入资金与止损→自动计算最大手数</div>
+  <div class="pg">
+    <div class="pfield"><label>账户资金（元）</label><input class="pinput" id="pc_capital" type="number" value="50000" oninput="calcPos()"></div>
+    <div class="pfield"><label>风险比例（%）</label><input class="pinput" id="pc_risk" type="number" value="2" step="0.5" oninput="calcPos()"></div>
+    <div class="pfield"><label>止损点数（点）</label><input class="pinput" id="pc_sl" type="number" value="20" oninput="calcPos()"></div>
+    <div class="pfield"><label>止盈点数（点）</label><input class="pinput" id="pc_tp" type="number" value="40" oninput="calcPos()"></div>
+    <div class="pfield"><label>开仓价格（可选）</label><input class="pinput" id="pc_price" type="number" placeholder="如2940" oninput="calcPos()"></div>
+    <div class="pfield"><label>交易方向</label>
+      <div class="pdir">
+        <div class="pdirb active-bull" id="pcLong" onclick="setPCDir('long')">🔴 做多</div>
+        <div class="pdirb" id="pcShort" onclick="setPCDir('short')">🟢 做空</div>
+      </div>
+    </div>
+  </div>
+  <div class="presult" id="pcResult">
+    <div class="pres-item"><span class="pval ok" id="pc_lots">-</span><div class="plbl">最大手数</div></div>
+    <div class="pres-item"><span class="pval" id="pc_riskAmt">-</span><div class="plbl">最大亏损(元)</div></div>
+    <div class="pres-item"><span class="pval" id="pc_margin">-</span><div class="plbl">保证金(元)</div></div>
+    <div class="pres-item"><span class="pval" id="pc_marginPct">-</span><div class="plbl">保证金占比</div></div>
+    <div class="pres-item"><span class="pval" id="pc_slPrice">-</span><div class="plbl">止损价格</div></div>
+    <div class="pres-item"><span class="pval" id="pc_tpPrice">-</span><div class="plbl">止盈价格</div></div>
+  </div>
+  <div class="pratio-bar" id="pcRatioBar">
+    <span class="prval" id="pc_ratio">--</span><span style="font-size:14px;color:var(--t3)"> : 1</span>
+    <div class="pratio-lbl" id="pc_ratioLbl">输入止损止盈点数计算盈亏比</div>
+  </div>
+</div>
+<div class="stitle">反向计算（已知手数→最大允许止损点数）</div>
+<div class="pcalc">
+  <div class="pcalc-title">输入手数→自动计算允许最大止损点数</div>
+  <div class="pg">
+    <div class="pfield"><label>账户资金（元）</label><input class="pinput" id="pr_capital" type="number" value="50000" oninput="calcReverse()"></div>
+    <div class="pfield"><label>风险比例（%）</label><input class="pinput" id="pr_risk" type="number" value="2" step="0.5" oninput="calcReverse()"></div>
+    <div class="pfield"><label>手数</label><input class="pinput" id="pr_lots" type="number" value="3" oninput="calcReverse()"></div>
+  </div>
+  <div class="presult" id="prResult" style="grid-template-columns:1fr 1fr">
+    <div class="pres-item"><span class="pval ok" id="pr_maxSL">-</span><div class="plbl">最大允许止损点数</div></div>
+    <div class="pres-item"><span class="pval" id="pr_riskAmt">-</span><div class="plbl">对应最大亏损(元)</div></div>
+  </div>
+</div>
+</div>
+<!-- TAB JOURNAL -->
+<div class="tsec" id="tab-journal">
+<div class="tj-header">
+  <div style="font-size:13px;font-weight:700;color:var(--t1)">交易笔记 <span id="tradeCount" style="font-size:11px;color:var(--t3);font-weight:400"></span></div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap">
+    <button class="tj-btn tj-secondary" onclick="exportTrades()">导出CSV</button>
+    <button class="tj-btn tj-secondary" onclick="exportJSON()">备份JSON</button>
+    <button class="tj-btn tj-add" onclick="openModal()">+ 新增记录</button>
+  </div>
+</div>
+<div id="tradeList"></div>
+</div>
+<!-- TAB DASHBOARD -->
+<div class="tsec" id="tab-dashboard">
+<div class="stitle">账户设置</div>
+<div class="pcalc" style="margin-bottom:10px">
+  <div class="pcalc-title" style="margin-bottom:10px">📊 账户初始资金设置</div>
+  <div class="pg">
+    <div class="pfield">
+      <label>初始账户资金（元）</label>
+      <input class="pinput" id="db_initCap" type="number" placeholder="如50000" oninput="saveInitCap()">
+    </div>
+    <div class="pfield">
+      <label>当前账户资金（自动计算）</label>
+      <input class="pinput" id="db_curCap" type="number" readonly style="opacity:.6;cursor:not-allowed">
+    </div>
+  </div>
+  <div style="font-size:10px;color:var(--t3);margin-top:6px">初始资金设置后，仪表盘将自动计算当前账户余额（初始资金 + 所有已平仓盈亏）</div>
+</div>
+<div class="stitle">账户总览</div>
+<div class="db-grid" id="dbStats"></div>
+<div class="stitle">账户权益曲线</div>
+<div class="db-chart-card"><div class="db-chart-title">每笔交易后账户变化</div><div id="equityChart"></div></div>
+<div class="stitle">月度盈亏（近12个月）</div>
+<div class="db-chart-card"><div class="db-chart-title">按月统计盈亏金额</div><div id="monthChart"></div></div>
+<div class="stitle">近7笔交易</div>
+<div class="db-chart-card"><div id="recent7"></div></div>
+<div class="stitle">数据管理</div>
+<div class="db-actions">
+  <button class="db-action-btn" onclick="exportTrades()">📥 导出CSV</button>
+  <button class="db-action-btn" onclick="exportJSON()">💾 备份JSON</button>
+  <button class="db-action-btn" onclick="importJSON()">📤 恢复备份</button>
+  <button class="db-action-btn danger" onclick="resetAll()">🗑️ 重置全部数据</button>
+</div>
+<input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)">
+</div>
+<!-- TAB CALENDAR -->
+<div class="tsec" id="tab-calendar">
+<div class="stitle">每天必做（5分钟）</div>
+<div class="cg">
+<div class="ci"><div class="ci-day">早上9点前</div><div class="ci-content">文华随身行：查美豆主连昨晚收盘<br>判断今日开盘偏多/偏空方向</div></div>
+<div class="ci"><div class="ci-day">开盘前5分钟</div><div class="ci-content">K线图：均线/MACD/支撑压力<br>完成技术面打分器（共6项）</div></div>
+<div class="ci"><div class="ci-day">持仓过夜前</div><div class="ci-content"><span class="danger">必查！</span>今晚有无重大数据？<br>美豆天气方向？止损够宽？</div></div>
+<div class="ci"><div class="ci-day">收盘后</div><div class="ci-content">写交易笔记：开仓理由/盈亏<br>哪里做对了/哪里做错了</div></div>
+</div>
+<div class="stitle">每周（15分钟）</div>
+<div class="cg">
+<div class="ci"><div class="ci-day">每周一下午</div><div class="ci-content">USDA出口检验报告<br>→ ams.usda.gov<br>找SOYBEANS+CHINA数量</div></div>
+<div class="ci"><div class="ci-day">每周四下午</div><div class="ci-content">drought.gov干旱图更新<br>→ 看主产州颜色变化<br>ventusky.com 7天降雨预报</div></div>
+<div class="ci"><div class="ci-day"><span class="danger">⚠️ 每周四深夜</span></div><div class="ci-content"><span class="danger">不建议持隔夜仓！</span><br>USDA出口销售报告<br>→ apps.fas.usda.gov</div></div>
+<div class="ci"><div class="ci-day">每周五</div><div class="ci-content">油厂开机率 cnhnb.com<br>豆粕商业库存变化<br>猪粮比、粕比更新</div></div>
+</div>
+<div class="stitle">每月（30分钟）</div>
+<div class="cg">
+<div class="ci"><div class="ci-day"><span class="danger">⚠️ 每月约10日深夜</span></div><div class="ci-content"><span class="danger">前后3天不建议隔夜！</span><br>USDA WASDE月度报告<br>→ usda.gov</div></div>
+<div class="ci"><div class="ci-day">每月中旬（15-18日）</div><div class="ci-content">中国海关进口数据<br>→ customs.gov.cn<br>大豆进口量同比变化</div></div>
+<div class="ci"><div class="ci-day">每月月底</div><div class="ci-content">农业农村部生猪数据<br>→ moa.gov.cn<br>能繁母猪存栏量变化</div></div>
+<div class="ci"><div class="ci-day">每月月底</div><div class="ci-content">NOAA ENSO报告<br>→ cpc.ncep.noaa.gov<br>厄尔尼诺/拉尼娜状态</div></div>
+</div>
+<div class="stitle">必备网址书签</div>
+<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🔖</div><div><div class="ctitle">所有官方数据源（全部收藏到浏览器）</div></div></div><span class="chev">▼</span></div>
+<div class="cbody">
+<div class="ir"><div class="il">美豆行情</div><div class="iv" style="color:var(--b)">文华随身行 → 搜"美豆主连"</div></div>
+<div class="ir"><div class="il">美国干旱</div><div class="iv" style="color:var(--b)">drought.gov</div></div>
+<div class="ir"><div class="il">全球降雨</div><div class="iv" style="color:var(--b)">ventusky.com（免费）</div></div>
+<div class="ir"><div class="il">NOAA气候</div><div class="iv" style="color:var(--b)">cpc.ncep.noaa.gov</div></div>
+<div class="ir"><div class="il">USDA出口检验</div><div class="iv" style="color:var(--b)">ams.usda.gov</div></div>
+<div class="ir"><div class="il">USDA出口销售</div><div class="iv" style="color:var(--b)">apps.fas.usda.gov</div></div>
+<div class="ir"><div class="il">USDA WASDE</div><div class="iv" style="color:var(--b)">usda.gov</div></div>
+<div class="ir"><div class="il">中国海关</div><div class="iv" style="color:var(--b)">customs.gov.cn</div></div>
+<div class="ir"><div class="il">农业农村部</div><div class="iv" style="color:var(--b)">moa.gov.cn / data.stats.gov.cn</div></div>
+<div class="ir"><div class="il">到港/库存</div><div class="iv" style="color:var(--b)">tiankuang.com / bric.com.cn / cnhnb.com</div></div>
+<div class="ir"><div class="il">巴西天气</div><div class="iv" style="color:var(--b)">climatempo.com.br 搜 Cuiabá</div></div>
+<div class="ir"><div class="il">阿根廷天气</div><div class="iv" style="color:var(--b)">smn.gob.ar 搜 Córdoba</div></div>
+</div></div>
+</div>
+<!-- TAB LOOP -->
+<div class="tsec" id="tab-loop">
+<div class="stitle">完整交易决策8步闭环</div>
+<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🔄</div><div><div class="ctitle">从分析到执行的完整流程</div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="flow">
+<div class="fitem"><div class="fnum">1</div><div class="fcontent"><strong>早上开盘前：基本面打分（10分钟）</strong>查CBOT美豆+天气+到港 → 今日<span style="color:var(--r);font-weight:700">偏多</span>/<span style="color:var(--g);font-weight:700">偏空</span>/中性</div></div>
+<div class="fitem"><div class="fnum">2</div><div class="fcontent"><strong>开盘前：技术面打分（5分钟）</strong>看日线K线 → 均线/MACD/支撑压力/趋势线 → <span style="color:var(--r);font-weight:700">偏多</span>/<span style="color:var(--g);font-weight:700">偏空</span>/中性</div></div>
+<div class="fitem"><div class="fnum">3</div><div class="fcontent"><strong>方向确认：两者必须一致才操作</strong><span style="color:var(--r);font-weight:700">都偏多→做多</span> / <span style="color:var(--g);font-weight:700">都偏空→做空</span> / <span style="color:var(--gold);font-weight:700">矛盾→不操作</span></div></div>
+<div class="fitem"><div class="fnum">4</div><div class="fcontent"><strong>盘中：等待精确入场信号</strong>等价格到支撑/压力位 → 出现K线形态 → 等下一根K线确认</div></div>
+<div class="fitem"><div class="fnum">5</div><div class="fcontent"><strong>开仓前：入场清单≥8项才开仓</strong>计算盈亏比≥1.5:1 → 确定手数 → 止损止盈设好</div></div>
+<div class="fitem"><div class="fnum">6</div><div class="fcontent"><strong>持仓期间：只有两种处理</strong><span style="color:var(--r);font-weight:700">顺利运行→不动让系统跑</span> / <span style="color:var(--g);font-weight:700">反向运行→严格止损</span></div></div>
+<div class="fitem"><div class="fnum">7</div><div class="fcontent"><strong>过夜前：5个额外问题</strong>今晚有无重大数据？美豆方向？基本面支持？持仓量变化？止损够宽？</div></div>
+<div class="fitem"><div class="fnum">8</div><div class="fcontent"><strong>收盘后：写交易日志</strong>开仓理由 / 盈亏 / 做对了什么 / 做错了什么 / 下次改进</div></div>
+</div></div></div>
+<div class="stitle">四种方向组合判断</div>
+<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">⚔️</div><div><div class="ctitle">技术面 × 基本面双维度组合</div></div></div><span class="chev">▼</span></div>
+<div class="cbody">
+<div class="combo-item"><span class="ctag bear">技术面偏空↘</span><span class="ctag bear">基本面偏空↘</span><span style="color:var(--t3)">→</span><span class="cresult bear">最强做空，积极入场 🟢🟢</span></div>
+<div class="combo-item"><span class="ctag bull">技术面偏多↗</span><span class="ctag bull">基本面偏多↗</span><span style="color:var(--t3)">→</span><span class="cresult bull">最强做多，积极入场 🔴🔴</span></div>
+<div class="combo-item"><span class="ctag bear">技术面偏空↘</span><span class="ctag bull">基本面偏多↗</span><span style="color:var(--t3)">→</span><span class="cresult wait">信号矛盾，轻仓或不操作 ⚠️</span></div>
+<div class="combo-item"><span class="ctag bull">技术面偏多↗</span><span class="ctag bear">基本面偏空↘</span><span style="color:var(--t3)">→</span><span class="cresult wait">可能只是技术反弹，快进快出 ⚠️</span></div>
+</div></div>
+<div class="warnbox"><div class="wt">🚫 6条铁律 — 永远不能做</div><ul>
+<li>止损触发后手动取消等回来 → <strong>爆仓根本原因</strong></li>
+<li>没有信号就扩大止损距离 → 小亏变大亏</li>
+<li>价格大涨/大跌后才追入 → 追涨杀跌必亏</li>
+<li>连续止损后立即加大仓位报复 → 情绪交易最危险</li>
+<li>技术面和基本面方向矛盾时强行交易 → 胜率不足50%</li>
+<li>每天频繁交易超过3次 → 手续费磨光账户</li>
+</ul></div>
+</div>
+</div>
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="overlayClick(event)">
+<div class="modal" id="tradeModal">
+<div class="modal-head">
+  <div class="modal-title" id="modalTitle">新增交易记录</div>
+  <button class="modal-close" onclick="closeModal()">✕</button>
+</div>
+<div class="modal-body" id="modalBody"></div>
+<div class="modal-foot" id="modalFoot"></div>
+</div>
+</div>
+<!-- FLOAT CALC -->
+<button class="float-btn" onclick="toggleFloat()" title="快速盈亏计算">⚡</button>
+<div class="float-panel" id="floatPanel">
+  <div class="fp-title">⚡ 快速盈亏计算</div>
+  <div class="fp-row"><label>开仓价</label><input class="fp-input" id="fp_entry" type="number" placeholder="2940" oninput="calcFloat()"></div>
+  <div class="fp-row"><label>平仓价</label><input class="fp-input" id="fp_exit" type="number" placeholder="2910" oninput="calcFloat()"></div>
+  <div class="fp-row"><label>手数</label><input class="fp-input" id="fp_lots" type="number" value="3" oninput="calcFloat()"></div>
+  <div class="fp-row"><label>方向</label>
+    <div style="display:flex;gap:4px;margin-top:2px">
+      <button class="sbtn ab" id="fp_long" onclick="setFPDir('long')" style="flex:1">🔴做多</button>
+      <button class="sbtn" id="fp_short" onclick="setFPDir('short')" style="flex:1">🟢做空</button>
+    </div>
+  </div>
+  <div class="fp-result">
+    <span class="fp-rval zero" id="fp_result">--</span>
+    <div class="fp-rlbl" id="fp_label">元（输入价格计算）</div>
+  </div>
+</div>
 <script>
-// ===== TAB SWITCHING =====
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-    window.scrollTo({top:0, behavior:'smooth'});
+// ===== STATE =====
+const S={fS:{f1:0,f2:0,f3:0,f4:0,f5:0,f6:0},tS:{t1:0,t2:0,t3:0,t4:0,t5:0,t6:0},clDir:'long',pcDir:'long',fpDir:'long',editId:null};
+// ===== STORAGE =====
+function loadT(){try{return JSON.parse(localStorage.getItem('dmTrades')||'[]')}catch{return[]}}
+function saveT(t){localStorage.setItem('dmTrades',JSON.stringify(t))}
+function loadCfg(){try{return JSON.parse(localStorage.getItem('dmCfg')||'{}')}catch{return{}}}
+function saveCfg(c){localStorage.setItem('dmCfg',JSON.stringify(c))}
+// ===== TABS =====
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tsec').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('tab-'+t.dataset.tab).classList.add('active');
+    if(t.dataset.tab==='dashboard')renderDB();
+    if(t.dataset.tab==='journal')renderList();
+    window.scrollTo({top:0,behavior:'smooth'});
   });
 });
-
-// ===== CARD TOGGLE =====
-function toggleCard(head) {
-  const card = head.closest('.card');
-  card.classList.toggle('open');
+// ===== CARD =====
+function tc(h){h.closest('.card').classList.toggle('open')}
+// ===== FUND SCORER =====
+function fScore(btn){
+  const g=btn.dataset.g,v=parseInt(btn.dataset.v);
+  document.querySelectorAll('[data-g="'+g+'"]').forEach(b=>b.classList.remove('ab','ag','an'));
+  if(v>0)btn.classList.add('ab');else if(v<0)btn.classList.add('ag');else btn.classList.add('an');
+  S.fS[g]=v;updF();
 }
-
+function updF(){
+  const tot=Object.values(S.fS).reduce((a,b)=>a+b,0);
+  const el=document.getElementById('fResult');
+  document.getElementById('fRN').textContent=(tot>0?'+':'')+tot;
+  el.className='sresult';
+  if(tot>=3){el.classList.add('bull');document.getElementById('fRT').textContent='偏多 — 可以考虑做多';document.getElementById('fRA').textContent='基本面支持做多方向';}
+  else if(tot<=-3){el.classList.add('bear');document.getElementById('fRT').textContent='偏空 — 可以考虑做空';document.getElementById('fRA').textContent='基本面支持做空方向';}
+  else{el.classList.add('neutral');document.getElementById('fRT').textContent='中性 — 等待方向';document.getElementById('fRA').textContent='信号混合，建议观望';}
+}
+// ===== TECH SCORER =====
+function tScore(btn){
+  const g=btn.dataset.g,v=parseInt(btn.dataset.v);
+  document.querySelectorAll('[data-g="'+g+'"]').forEach(b=>b.classList.remove('ab','ag','an'));
+  if(v<0)btn.classList.add('ab');else if(v>0)btn.classList.add('ag');else btn.classList.add('an');
+  S.tS[g]=v;updT();
+}
+function updT(){
+  const tot=Object.values(S.tS).reduce((a,b)=>a+b,0);
+  const el=document.getElementById('tResult');
+  document.getElementById('tRN').textContent=(tot>0?'+':'')+tot;
+  el.className='sresult';
+  if(tot>=3){el.classList.add('bear');document.getElementById('tRT').textContent='技术面偏空';document.getElementById('tRA').textContent='寻找做空入场信号';}
+  else if(tot<=-3){el.classList.add('bull');document.getElementById('tRT').textContent='技术面偏多';document.getElementById('tRA').textContent='寻找做多入场信号';}
+  else{el.classList.add('neutral');document.getElementById('tRT').textContent='技术面中性';document.getElementById('tRA').textContent='等待明确信号出现';}
+}
+// ===== CHECKLIST =====
+const CLD={
+  long:{
+    required:[
+      {id:'lr1',label:'止损位置已明确',desc:'已确定止损价格，非随意设置'},
+      {id:'lr2',label:'止盈位置已明确',desc:'已确定止盈价格，有明确目标'},
+      {id:'lr3',label:'盈亏比 ≥ 1.5:1',desc:'潜在收益/潜在亏损不低于1.5'},
+      {id:'lr4',label:'仓位符合2%规则',desc:'单笔最大亏损不超过账户2%'},
+    ],
+    bonus:[
+      {id:'lb1',label:'均线多头排列（MA5&gt;MA10&gt;MA20）',desc:'至少3条均线向上，趋势方向一致'},
+      {id:'lb2',label:'MACD金叉/偏多',desc:'DIFF上穿DEA或STICK从负变正'},
+      {id:'lb3',label:'价格在支撑位附近',desc:'历史低点/整数关口/均线支撑'},
+      {id:'lb4',label:'看涨K线形态出现并确认',desc:'锤子线/看涨吞噬/早晨之星+下一根收阳'},
+      {id:'lb5',label:'基本面偏多（打分器≥+3分）',desc:'CBOT/天气/供需等基本面支持做多'},
+      {id:'lb6',label:'分时图白线在均价线上方',desc:'当日多方占优，外盘>内盘'},
+    ]
+  },
+  short:{
+    required:[
+      {id:'sr1',label:'止损位置已明确',desc:'已确定止损价格，非随意设置'},
+      {id:'sr2',label:'止盈位置已明确',desc:'已确定止盈价格，有明确目标'},
+      {id:'sr3',label:'盈亏比 ≥ 1.5:1',desc:'潜在收益/潜在亏损不低于1.5'},
+      {id:'sr4',label:'仓位符合2%规则',desc:'单笔最大亏损不超过账户2%'},
+    ],
+    bonus:[
+      {id:'sb1',label:'均线空头排列（MA5&lt;MA10&lt;MA20）',desc:'至少3条均线向下，趋势方向一致'},
+      {id:'sb2',label:'MACD死叉/偏空',desc:'DIFF下穿DEA或STICK持续为负'},
+      {id:'sb3',label:'价格在压力位附近',desc:'历史高点/整数关口/均线压力'},
+      {id:'sb4',label:'看跌K线形态出现并确认',desc:'射击之星/看跌吞噬/十字星+下一根收阴'},
+      {id:'sb5',label:'基本面偏空（打分器≤-3分）',desc:'供应充裕/需求疲软/CBOT下跌'},
+      {id:'sb6',label:'分时图白线在均价线下方',desc:'当日空方占优，内盘>外盘'},
+    ]
+  }
+};
+const clSt={long:{},short:{}};
+function setCLDir(dir){
+  S.clDir=dir;
+  document.getElementById('clLong').className='cl-tab'+(dir==='long'?' active-bull':'');
+  document.getElementById('clShort').className='cl-tab'+(dir==='short'?' active-bear':'');
+  renderCL();
+}
+function renderCL(){
+  const dir=S.clDir,data=CLD[dir],st=clSt[dir];
+  let h='<div class="cl-section"><div class="cl-stitle">🔒 必须项（4条全部满足才可入场）</div>';
+  data.required.forEach(item=>{
+    const c=st[item.id]?'checked':'';
+    h+=`<div class="cl-item required ${c}" onclick="toggleCL('${dir}','${item.id}',event)">
+      <div class="cl-check">${st[item.id]?'✓':''}</div>
+      <div><div class="cl-label"><span class="cl-tag-req">必须</span>${esc(item.label)}</div><div class="cl-desc">${esc(item.desc)}</div></div>
+    </div>`;
+  });
+  h+='</div><div class="cl-section"><div class="cl-stitle">⭐ 加分项（满足5项以上推荐入场）</div>';
+  data.bonus.forEach(item=>{
+    const c=st[item.id]?'checked':'';
+    h+=`<div class="cl-item ${c}" onclick="toggleCL('${dir}','${item.id}',event)">
+      <div class="cl-check">${st[item.id]?'✓':''}</div>
+      <div><div class="cl-label">${esc(item.label)}</div><div class="cl-desc">${esc(item.desc)}</div></div>
+    </div>`;
+  });
+  h+='</div>';
+  const reqOk=data.required.every(i=>st[i.id]);
+  const bn=data.bonus.filter(i=>st[i.id]).length;
+  let cls,rn,rt,ra;
+  if(!reqOk){cls='stop';rn='❌';rt='不可入场';ra='必须项未全部满足，请先完成所有必须项';}
+  else if(bn>=5){cls='go';rn=bn+'/6';rt='建议入场！';ra='条件充分，可以开仓';}
+  else if(bn>=3){cls='caution';rn=bn+'/6';rt='谨慎入场';ra='条件一般，建议减半仓位';}
+  else{cls='stop';rn=bn+'/6';rt='不建议入场';ra='加分项不足，等待更好的信号';}
+  h+=`<div class="cl-result ${cls}"><span class="cl-rn">${rn}</span><span class="cl-rt">${rt}</span><div class="cl-ra">${ra}</div></div>`;
+  document.getElementById('clContainer').innerHTML=h;
+}
+function toggleCL(dir,id,ev){
+  if(ev){ev.stopPropagation();ev.preventDefault();}
+  clSt[dir][id]=!clSt[dir][id];
+  renderCL();
+}
+function importScoreToReason(){
+  const fMap={f1:'CBOT美豆',f2:'美豆天气',f3:'大豆到港量',f4:'油厂开机率',f5:'现货基差',f6:'人民币汇率'};
+  const fVals=['偏空','中性','偏多'];
+  const fl=Object.keys(S.fS).map(k=>fMap[k]+':'+fVals[S.fS[k]+1]).join(' | ');
+  const fTotal=Object.values(S.fS).reduce((a,b)=>a+b,0);
+  const fConc=fTotal>=3?'偏多':fTotal<=-3?'偏空':'中性';
+  
+  const tMap={t1:'均线排列',t2:'MACD状态',t3:'价格位置',t4:'K线形态',t5:'趋势线',t6:'持仓量变化'};
+  const tVals={'-1':'偏多','0':'中性','1':'偏空'};
+  const tl=Object.keys(S.tS).map(k=>tMap[k]+':'+tVals[S.tS[k]]).join(' | ');
+  const tTotal=Object.values(S.tS).reduce((a,b)=>a+b,0);
+  const tConc=tTotal>=3?'偏空':tTotal<=-3?'偏多':'中性';
+  
+  // Get current checklist state
+  const dir=S.clDir;
+  const data=CLD[dir];
+  const st=clSt[dir];
+  const dirLabel=dir==='long'?'做多':'做空';
+  const reqChecked=data.required.filter(i=>st[i.id]).map(i=>i.label);
+  const reqMissing=data.required.filter(i=>!st[i.id]).map(i=>i.label);
+  const bonusChecked=data.bonus.filter(i=>st[i.id]).map(i=>i.label);
+  const reqOk=data.required.every(i=>st[i.id]);
+  const bonusCnt=bonusChecked.length;
+  const clConc=!reqOk?'不可入场':bonusCnt>=5?'建议入场':bonusCnt>=3?'谨慎入场':'暂不入场';
+  
+  let reason='';
+  reason+='【交易方向】'+dirLabel+'\n';
+  reason+='【基本面综合】'+fConc+'（'+fl+'）\n';
+  reason+='【技术面综合】'+tConc+'（'+tl+'）\n';
+  reason+='【入场清单】'+clConc+'（加分项 '+bonusCnt+'/6 满足）\n';
+  if(reqChecked.length)reason+='✅ 必须项已满足：'+reqChecked.join('、')+'\n';
+  if(reqMissing.length)reason+='❌ 必须项未满足：'+reqMissing.join('、')+'\n';
+  if(bonusChecked.length)reason+='⭐ 加分项已满足：'+bonusChecked.join('、');
+  
+  window._importedReason=reason;
+  alert('入场分析已生成！包含基本面、技术面和入场清单详细数据。\n去新增记录中点击"导入打分器结果"即可填入。');
+}
+// ===== POSITION CALC =====
+function setPCDir(dir){
+  S.pcDir=dir;
+  document.getElementById('pcLong').className='pdirb'+(dir==='long'?' active-bull':'');
+  document.getElementById('pcShort').className='pdirb'+(dir==='short'?' active-bear':'');
+  calcPos();
+}
+function calcPos(){
+  const cap=parseFloat(document.getElementById('pc_capital').value)||50000;
+  const rp=parseFloat(document.getElementById('pc_risk').value)||2;
+  const slPts=parseFloat(document.getElementById('pc_sl').value)||0;
+  const tpPts=parseFloat(document.getElementById('pc_tp').value)||0;
+  const price=parseFloat(document.getElementById('pc_price').value)||0;
+  const rAmt=cap*rp/100;
+  const lRisk=slPts*10;
+  const maxL=lRisk>0?Math.floor(rAmt/lRisk):0;
+  const mgn=maxL*(price>0?price*10*0.07:2100);
+  const mPct=cap>0?(mgn/cap*100):0;
+  const ratio=slPts>0&&tpPts>0?(tpPts/slPts):0;
+  const slP=price>0?(S.pcDir==='long'?price-slPts:price+slPts):0;
+  const tpP=price>0?(S.pcDir==='long'?price+tpPts:price-tpPts):0;
+  const le=document.getElementById('pc_lots');
+  le.textContent=maxL+'手';le.className='pval '+(maxL>=3?'ok':maxL>=1?'warn':'bad');
+  document.getElementById('pc_riskAmt').textContent=rAmt.toFixed(0);
+  const me=document.getElementById('pc_margin');me.textContent=mgn>0?mgn.toFixed(0):'--';
+  const mpe=document.getElementById('pc_marginPct');mpe.textContent=mgn>0?mPct.toFixed(1)+'%':'--';
+  mpe.className='pval '+(mPct<=30?'ok':mPct<=50?'warn':'bad');
+  document.getElementById('pc_slPrice').textContent=slP>0?slP.toFixed(0):'--';
+  document.getElementById('pc_tpPrice').textContent=tpP>0?tpP.toFixed(0):'--';
+  const rv=document.getElementById('pc_ratio');
+  if(ratio>0){rv.textContent=ratio.toFixed(2);rv.className='prval '+(ratio>=2?'good':ratio>=1.5?'warn':'bad');document.getElementById('pc_ratioLbl').textContent=ratio>=2?'✅ 盈亏比优秀':ratio>=1.5?'⚠️ 盈亏比达标':'❌ 盈亏比不足，建议调整';}
+  else{rv.textContent='--';rv.className='prval';document.getElementById('pc_ratioLbl').textContent='输入止损和止盈点数计算盈亏比';}
+}
+function calcReverse(){
+  const cap=parseFloat(document.getElementById('pr_capital').value)||50000;
+  const rp=parseFloat(document.getElementById('pr_risk').value)||2;
+  const lots=parseFloat(document.getElementById('pr_lots').value)||1;
+  const rAmt=cap*rp/100;
+  const maxSL=lots>0?Math.floor(rAmt/(lots*10)):0;
+  document.getElementById('pr_maxSL').textContent=maxSL+'点';
+  document.getElementById('pr_riskAmt').textContent=rAmt.toFixed(0)+'元';
+}
+// ===== FLOAT CALC =====
+let fpOpen=false;
+function toggleFloat(){fpOpen=!fpOpen;document.getElementById('floatPanel').className='float-panel'+(fpOpen?' open':'');}
+function setFPDir(dir){
+  S.fpDir=dir;
+  document.getElementById('fp_long').className='sbtn'+(dir==='long'?' ab':'');
+  document.getElementById('fp_short').className='sbtn'+(dir==='short'?' ag':'');
+  calcFloat();
+}
+function calcFloat(){
+  const e=parseFloat(document.getElementById('fp_entry').value);
+  const x=parseFloat(document.getElementById('fp_exit').value);
+  const l=parseFloat(document.getElementById('fp_lots').value)||1;
+  const el=document.getElementById('fp_result'),lb=document.getElementById('fp_label');
+  if(!isNaN(e)&&!isNaN(x)){
+    const pl=(S.fpDir==='long'?(x-e):(e-x))*l*10;
+    el.textContent=(pl>=0?'+':'')+pl.toFixed(0);
+    el.className='fp-rval '+(pl>0?'pos':pl<0?'neg':'zero');
+    lb.textContent='元 ('+l+'手×'+(Math.abs(x-e)).toFixed(0)+'点)';
+  }else{el.textContent='--';el.className='fp-rval zero';lb.textContent='元（输入价格计算）';}
+}
+// ===== TRADE JOURNAL =====
+function fmtDt(iso){
+  if(!iso)return'--';
+  const d=new Date(iso);
+  return d.getFullYear()+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getDate().toString().padStart(2,'0')+' '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+}
+function nowLocal(){
+  const d=new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0')+'T'+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+}
+function openModal(id){
+  S.editId=id||null;
+  const trades=loadT();
+  const tr=id?trades.find(t=>t.id===id):{};
+  const isNew=!id;
+  document.getElementById('modalTitle').textContent=isNew?'新增交易记录':tr.status==='open'?'更新/关闭交易':'查看/编辑记录';
+  const dir=tr.direction||'long';
+  window._mDir=dir;window._mEmo=tr.emotion||'calm';window._mState=tr.marketState||'trend';window._mFollowed=tr.followedPlan===undefined?null:tr.followedPlan;
+  document.getElementById('modalBody').innerHTML=buildForm(tr,dir,isNew);
+  const foot=document.getElementById('modalFoot');foot.innerHTML='';
+  if(!isNew){const db=document.createElement('button');db.className='mfbtn mbtn-delete';db.textContent='删除记录';db.onclick=()=>deleteTrade(id);foot.appendChild(db);}
+  const cb=document.createElement('button');cb.className='mfbtn mbtn-cancel';cb.textContent='取消';cb.onclick=closeModal;foot.appendChild(cb);
+  const sb=document.createElement('button');sb.className='mfbtn mbtn-save';sb.textContent='保存';sb.onclick=saveTrade;foot.appendChild(sb);
+  document.getElementById('modalOverlay').classList.add('open');
+  calcMA();if(tr.exitPrice)calcMR();
+}
+function buildForm(tr,dir,isNew){
+  const emos=['calm','anxious','impulsive'];const estates=['trend','ranging','unclear'];
+  const emoL={calm:'😌冷静',anxious:'😰焦虑',impulsive:'🔥冲动'};
+  const stateL={trend:'趋势行情',ranging:'震荡行情',unclear:'方向不明'};
+  return`
+  <div class="msec-title">📋 开仓信息（入场时填写）</div>
+  <div class="mrow">
+    <div class="mfield"><label>入场时间</label><input class="minput" id="m_time" type="datetime-local" value="${tr.entryTime||nowLocal()}"></div>
+    <div class="mfield"><label>合约</label><input class="minput" id="m_contract" value="${tr.contract||'M2609'}" placeholder="M2609"></div>
+  </div>
+  <div class="mfield"><label>交易方向</label>
+    <div class="mtoggle">
+      <div class="mtbtn ${dir==='long'?'ab':''}" id="md_long" onclick="setMDir('long')">🔴 做多</div>
+      <div class="mtbtn ${dir==='short'?'ag':''}" id="md_short" onclick="setMDir('short')">🟢 做空</div>
+    </div>
+  </div>
+  <div class="mrow">
+    <div class="mfield"><label>开仓价格</label><input class="minput" id="m_entry" type="number" value="${tr.entryPrice||''}" placeholder="2940" oninput="calcMA()"></div>
+    <div class="mfield"><label>手数</label><input class="minput" id="m_lots" type="number" value="${tr.lots||3}" oninput="calcMA()"></div>
+  </div>
+  <div class="mrow">
+    <div class="mfield"><label>止损价格</label><input class="minput" id="m_sl" type="number" value="${tr.stopLossPrice||''}" placeholder="2920" oninput="calcMA()"></div>
+    <div class="mfield"><label>止盈价格</label><input class="minput" id="m_tp" type="number" value="${tr.takeProfitPrice||''}" placeholder="2980" oninput="calcMA()"></div>
+  </div>
+  <div class="mauto" id="m_auto">
+    <div class="mauto-row"><span class="mauto-label">止损点数</span><span class="mauto-val" id="ma_slp">--</span></div>
+    <div class="mauto-row"><span class="mauto-label">止盈点数</span><span class="mauto-val" id="ma_tpp">--</span></div>
+    <div class="mauto-row"><span class="mauto-label">盈亏比</span><span class="mauto-val" id="ma_rat">--</span></div>
+    <div class="mauto-row"><span class="mauto-label">最大亏损</span><span class="mauto-val" id="ma_risk">--</span></div>
+  </div>
+  <div class="mfield"><label>入场理由</label>
+    <button class="import-reason-btn" onclick="importR()">📋 导入打分器结果</button>
+    <textarea class="minput" id="m_reason" rows="3" placeholder="输入入场理由，或点击上方按钮导入打分结果...">${tr.reason||''}</textarea>
+  </div>
+  <div class="mrow">
+    <div class="mfield"><label>交易情绪</label>
+      <div class="mtoggle">${emos.map(e=>`<div class="mtbtn ${(tr.emotion||'calm')===e?'an':''}" id="me_${e}" onclick="setMEmo('${e}')">${emoL[e]}</div>`).join('')}</div>
+    </div>
+    <div class="mfield"><label>市场状态</label>
+      <div class="mtoggle">${estates.map(s=>`<div class="mtbtn ${(tr.marketState||'trend')===s?'an':''}" id="ms_${s}" onclick="setMSt('${s}')">${stateL[s]}</div>`).join('')}</div>
+    </div>
+  </div>
+  <div class="msec-title">📊 平仓结果（平仓后填写）</div>
+  <div class="mrow">
+    <div class="mfield"><label>平仓价格</label><input class="minput" id="m_exit" type="number" value="${tr.exitPrice||''}" placeholder="平仓后填写" oninput="calcMR()"></div>
+    <div class="mfield"><label>平仓时间</label><input class="minput" id="m_exitTime" type="datetime-local" value="${tr.exitTime||''}"></div>
+  </div>
+  <div class="mauto" id="m_rAuto" style="display:${tr.exitPrice?'block':'none'}">
+    <div class="mauto-row"><span class="mauto-label">实际盈亏</span><span class="mauto-val" id="mar_pl">--</span></div>
+    <div class="mauto-row"><span class="mauto-label">交易结果</span><span class="mauto-val" id="mar_res">--</span></div>
+  </div>
+  <div class="mfield"><label>是否按计划执行</label>
+    <div class="mtoggle">
+      <div class="mtbtn ${tr.followedPlan===true?'ab':''}" id="mfp_y" onclick="setMFP(true)">✅ 是，严格按计划</div>
+      <div class="mtbtn ${tr.followedPlan===false?'ag':''}" id="mfp_n" onclick="setMFP(false)">❌ 否，有偏差</div>
+    </div>
+  </div>
+  <div class="mfield"><label>交易心得与复盘</label><textarea class="minput" id="m_notes" rows="3" placeholder="记录心得、哪里做对了、哪里做错了、下次改进...">${tr.notes||''}</textarea></div>`;
+}
+function setMDir(d){window._mDir=d;document.getElementById('md_long').className='mtbtn'+(d==='long'?' ab':'');document.getElementById('md_short').className='mtbtn'+(d==='short'?' ag':'');calcMA();calcMR();}
+function setMEmo(e){window._mEmo=e;['calm','anxious','impulsive'].forEach(x=>document.getElementById('me_'+x).className='mtbtn'+(e===x?' an':''));}
+function setMSt(s){window._mState=s;['trend','ranging','unclear'].forEach(x=>document.getElementById('ms_'+x).className='mtbtn'+(s===x?' an':''));}
+function setMFP(v){window._mFollowed=v;document.getElementById('mfp_y').className='mtbtn'+(v===true?' ab':'');document.getElementById('mfp_n').className='mtbtn'+(v===false?' ag':'');}
+function importR(){if(window._importedReason){document.getElementById('m_reason').value=window._importedReason;}else{alert('请先在打分器Tab完成打分，然后点击"一键将今日打分结果导入交易理由"按钮');}}
+function calcMA(){
+  const e=parseFloat(document.getElementById('m_entry').value)||0;
+  const sl=parseFloat(document.getElementById('m_sl').value)||0;
+  const tp=parseFloat(document.getElementById('m_tp').value)||0;
+  const l=parseFloat(document.getElementById('m_lots').value)||0;
+  if(e&&sl&&tp){
+    const sp=Math.abs(e-sl),tp2=Math.abs(tp-e),r=sp>0?tp2/sp:0,risk=sp*l*10;
+    document.getElementById('ma_slp').textContent=sp.toFixed(0)+'点';
+    document.getElementById('ma_tpp').textContent=tp2.toFixed(0)+'点';
+    const re=document.getElementById('ma_rat');re.textContent=r.toFixed(2)+':1';re.className='mauto-val '+(r>=2?'good':r>=1.5?'warn':'bad');
+    document.getElementById('ma_risk').textContent=risk.toFixed(0)+'元';
+  }
+}
+function calcMR(){
+  const e=parseFloat(document.getElementById('m_entry').value)||0;
+  const x=parseFloat(document.getElementById('m_exit').value)||0;
+  const l=parseFloat(document.getElementById('m_lots').value)||0;
+  const ra=document.getElementById('m_rAuto');
+  if(x&&e&&l){
+    ra.style.display='block';
+    const pl=(window._mDir==='long'?(x-e):(e-x))*l*10;
+    const pe=document.getElementById('mar_pl');pe.textContent=(pl>=0?'+':'')+pl.toFixed(0)+'元';pe.className='mauto-val '+(pl>0?'good':pl<0?'bad':'');
+    document.getElementById('mar_res').textContent=pl>0?'✅ 盈利（止盈）':pl<0?'❌ 亏损（止损）':'→ 保本出场';
+  }else ra.style.display='none';
+}
+function saveTrade(){
+  const trades=loadT();
+  const e=parseFloat(document.getElementById('m_entry').value)||0;
+  const sl=parseFloat(document.getElementById('m_sl').value)||0;
+  const tp=parseFloat(document.getElementById('m_tp').value)||0;
+  const lots=parseFloat(document.getElementById('m_lots').value)||3;
+  const ex=parseFloat(document.getElementById('m_exit').value)||0;
+  const dir=window._mDir||'long';
+  const slPts=e&&sl?Math.abs(e-sl):0;
+  const tpPts=e&&tp?Math.abs(tp-e):0;
+  const ratio=slPts>0?tpPts/slPts:0;
+  const pl=ex&&e?(dir==='long'?(ex-e):(e-ex))*lots*10:null;
+  const tr={
+    id:S.editId||Date.now().toString(),
+    createdAt:new Date().toISOString(),
+    entryTime:document.getElementById('m_time').value,
+    direction:dir,
+    contract:document.getElementById('m_contract').value||'M2609',
+    entryPrice:e,lots,
+    stopLossPrice:sl,takeProfitPrice:tp,
+    stopLossPoints:slPts,takeProfitPoints:tpPts,plRatio:ratio,
+    reason:document.getElementById('m_reason').value,
+    emotion:window._mEmo||'calm',marketState:window._mState||'trend',
+    fundScore:Object.values(S.fS).reduce((a,b)=>a+b,0),
+    techScore:Object.values(S.tS).reduce((a,b)=>a+b,0),
+    exitPrice:ex||null,exitTime:document.getElementById('m_exitTime').value||null,
+    actualPL:pl,result:pl!==null?(pl>0?'profit':pl<0?'loss':'breakeven'):'pending',
+    status:ex?'closed':'open',
+    followedPlan:window._mFollowed,
+    notes:document.getElementById('m_notes').value
+  };
+  if(S.editId){const i=trades.findIndex(t=>t.id===S.editId);if(i>=0)trades[i]=tr;}
+  else trades.unshift(tr);
+  saveT(trades);closeModal();renderList();
+}
+function deleteTrade(id){if(!confirm('确认删除？'))return;saveT(loadT().filter(t=>t.id!==id));closeModal();renderList();}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+function overlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+function renderList(){
+  const trades=loadT();
+  document.getElementById('tradeCount').textContent='共'+trades.length+'笔';
+  const el=document.getElementById('tradeList');
+  if(!trades.length){el.innerHTML='<div class="empty-state"><div class="es-icon">📝</div><div class="es-text">还没有交易记录，点击右上角"新增记录"开始第一笔</div></div>';return;}
+  const emoM={calm:'😌冷静',anxious:'😰焦虑',impulsive:'🔥冲动'};
+  const stM={trend:'趋势',ranging:'震荡',unclear:'不明'};
+  el.innerHTML=trades.map(t=>{
+    const dC=t.direction==='long'?'long':'short',dT=t.direction==='long'?'做多':'做空';
+    const rC=t.result==='profit'?'profit':t.result==='loss'?'loss':'pending';
+    const plT=t.actualPL!==null?(t.actualPL>=0?'盈利 +'+t.actualPL.toFixed(0):'亏损 '+t.actualPL.toFixed(0)):'持仓中';
+    return`<div class="trade-card ${rC}" onclick="openModal('${t.id}')">
+      <div class="tc-row1"><div style="display:flex;align-items:center;gap:6px"><span class="tc-dir ${dC}">${dT}</span><span class="tc-contract">${t.contract||'M'}</span></div><span class="tc-time">${fmtDt(t.entryTime)}</span></div>
+      <div class="tc-row2"><span class="tc-price">${t.entryPrice||'--'}</span>${t.stopLossPrice?`<span style="font-size:11px;color:var(--g)">止损${t.stopLossPrice}</span>`:''} ${t.takeProfitPrice?`<span style="font-size:11px;color:var(--r)">止盈${t.takeProfitPrice}</span>`:''}<span class="tc-pl ${rC}">${plT}元</span></div>
+      ${t.reason?`<div class="tc-row3">${t.reason.substring(0,80)}${t.reason.length>80?'...':''}</div>`:''}
+      <div class="tc-tags">
+        ${t.plRatio>0?`<span class="tc-tag" style="background:var(--bd);color:var(--b)">盈亏比${t.plRatio.toFixed(1)}:1</span>`:''}
+        <span class="tc-tag" style="background:var(--bg3);color:var(--t3)">${emoM[t.emotion]||'--'}</span>
+        <span class="tc-tag" style="background:var(--bg3);color:var(--t3)">${stM[t.marketState]||'--'}</span>
+        ${t.followedPlan===true?'<span class="tc-tag" style="background:var(--rd);color:var(--r)">按计划✓</span>':t.followedPlan===false?'<span class="tc-tag" style="background:var(--gd);color:var(--g)">未按计划</span>':''}
+      </div>
+    </div>`;
+  }).join('');
+}
+// ===== DASHBOARD =====
+function renderDB(){
+  const trades=loadT();
+  // Load initial capital into UI
+  const cfgTmp=loadCfg();
+  const initEl=document.getElementById('db_initCap');
+  if(initEl&&cfgTmp.initialCapital){initEl.value=cfgTmp.initialCapital;}
+  const closed=trades.filter(t=>t.status==='closed'&&t.actualPL!==null);
+  const wins=closed.filter(t=>t.actualPL>0).length;
+  const totalPL=closed.reduce((s,t)=>s+(t.actualPL||0),0);
+  const avgR=closed.length?closed.reduce((s,t)=>s+(t.plRatio||0),0)/closed.length:0;
+  const wr=closed.length?(wins/closed.length*100):0;
+  const rok=closed.filter(t=>t.plRatio>=1.5).length;
+  const rokP=closed.length?(rok/closed.length*100):0;
+  const fok=closed.filter(t=>t.followedPlan===true).length;
+  const fokP=closed.length?(fok/closed.length*100):0;
+  let maxC=0,curC=0;closed.forEach(t=>{if(t.actualPL<0){curC++;maxC=Math.max(maxC,curC);}else curC=0;});
+  const maxSL=closed.length?Math.min(...closed.map(t=>t.actualPL||0)):0;
+  const cfg=loadCfg();const initCap=cfg.initialCapital||50000;const curCap=initCap+totalPL;
+  const ccEl=document.getElementById('db_curCap');if(ccEl)ccEl.value=curCap.toFixed(0);
+  document.getElementById('dbStats').innerHTML=`
+    <div class="db-card"><span class="db-val ${totalPL>=0?'pos':'neg'}">${totalPL>=0?'+':''}${totalPL.toFixed(0)}</span><div class="db-label">总盈亏（元）</div></div>
+    <div class="db-card"><span class="db-val neutral">${trades.length}</span><div class="db-label">总交易次数</div></div>
+    <div class="db-card"><span class="db-val ${wr>=50?'pos':'neg'}">${wr.toFixed(1)}%</span><div class="db-label">胜率</div></div>
+    <div class="db-card"><span class="db-val ${avgR>=1.5?'pos':avgR>=1?'warn':'neg'}">${avgR.toFixed(2)}</span><div class="db-label">平均盈亏比</div></div>
+    <div class="db-card"><span class="db-val ${rokP>=70?'pos':'warn'}">${rokP.toFixed(0)}%</span><div class="db-label">盈亏比达标率</div></div>
+    <div class="db-card"><span class="db-val ${fokP>=80?'pos':'warn'}">${fokP.toFixed(0)}%</span><div class="db-label">按计划执行率</div></div>
+    <div class="db-card"><span class="db-val ${maxC>=3?'neg':'warn'}">${maxC}</span><div class="db-label">最大连续亏损</div></div>
+    <div class="db-card"><span class="db-val neg">${maxSL.toFixed(0)}</span><div class="db-label">最大单笔亏损</div></div>
+    <div class="db-card"><span class="db-val ${curCap>=initCap?'pos':'neg'}">${curCap.toFixed(0)}</span><div class="db-label">当前账户（元）</div></div>`;
+  renderEQ(closed,initCap);renderMC(closed);renderR7(trades);
+}
+function renderEQ(closed,initCap){
+  const el=document.getElementById('equityChart');
+  if(!closed.length){el.innerHTML='<div style="text-align:center;padding:28px;color:var(--t3);font-size:12px">暂无已完成的交易数据</div>';return;}
+  const pts=[initCap];let run=initCap;
+  [...closed].reverse().forEach(t=>{run+=t.actualPL||0;pts.push(run);});
+  const w=Math.max(300,el.clientWidth||320),h=100;
+  const minV=Math.min(...pts),maxV=Math.max(...pts),range=maxV-minV||1;
+  const xS=(w-20)/(pts.length-1||1),yS=(h-20)/range;
+  const pts2=pts.map((v,i)=>`${10+i*xS},${h-10-(v-minV)*yS}`).join(' ');
+  const col=pts[pts.length-1]>=pts[0]?'var(--r)':'var(--g)';
+  el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" height="${h}" style="width:100%;overflow:visible">
+    <line x1="10" y1="${h-10-(initCap-minV)*yS}" x2="${w-10}" y2="${h-10-(initCap-minV)*yS}" stroke="var(--t3)" stroke-width="1" stroke-dasharray="4"/>
+    <polyline points="${pts2}" fill="none" stroke="${col}" stroke-width="2" stroke-linejoin="round"/>
+    ${pts.map((v,i)=>`<circle cx="${10+i*xS}" cy="${h-10-(v-minV)*yS}" r="3" fill="${col}"><title>${v.toFixed(0)}元</title></circle>`).join('')}
+  </svg>`;
+}
+function renderMC(closed){
+  const el=document.getElementById('monthChart');
+  if(!closed.length){el.innerHTML='<div style="text-align:center;padding:28px;color:var(--t3);font-size:12px">暂无数据</div>';return;}
+  const mo={};closed.forEach(t=>{if(!t.exitTime)return;const d=new Date(t.exitTime),k=d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0');mo[k]=(mo[k]||0)+(t.actualPL||0);});
+  const keys=Object.keys(mo).sort().slice(-12);
+  if(!keys.length){el.innerHTML='<div style="text-align:center;padding:28px;color:var(--t3);font-size:12px">暂无月度数据</div>';return;}
+  const vals=keys.map(k=>mo[k]),maxA=Math.max(...vals.map(Math.abs))||1;
+  const w=Math.max(300,el.clientWidth||320),h=110,mid=h/2;
+  const gap=(w-20)/keys.length,bw=Math.max(8,gap*0.65);
+  const bars=keys.map((k,i)=>{
+    const v=vals[i],x=10+i*gap,bh=Math.max(2,Math.abs(v)/maxA*(mid-14));
+    const y=v>=0?mid-bh:mid,col=v>=0?'var(--r)':'var(--g)';
+    return`<rect x="${x}" y="${y}" width="${bw}" height="${bh}" fill="${col}" rx="2"/>
+    <text x="${x+bw/2}" y="${v>=0?y-2:y+bh+10}" text-anchor="middle" font-size="8" fill="${col}">${v>=0?'+':''}${(v/1000).toFixed(1)}k</text>
+    <text x="${x+bw/2}" y="${h}" text-anchor="middle" font-size="7" fill="var(--t3)">${k.slice(5)}</text>`;
+  }).join('');
+  el.innerHTML=`<svg viewBox="0 0 ${w} ${h+4}" height="${h+4}" style="width:100%">
+    <line x1="10" y1="${mid}" x2="${w-10}" y2="${mid}" stroke="var(--bdr)" stroke-width="1"/>${bars}</svg>`;
+}
+function renderR7(trades){
+  const el=document.getElementById('recent7');
+  const r=trades.slice(0,7);
+  if(!r.length){el.innerHTML='<div class="db-chart-title">近7笔交易</div><div style="text-align:center;padding:20px;color:var(--t3);font-size:12px">暂无记录</div>';return;}
+  el.innerHTML='<div class="db-chart-title">近7笔交易</div><div class="recent-trades">'+r.map(t=>{
+    const plT=t.actualPL!==null?(t.actualPL>=0?'+'+t.actualPL.toFixed(0):t.actualPL.toFixed(0)):'进行中';
+    const plC=t.actualPL===null?'pending':t.actualPL>0?'profit':'loss';
+    return`<div class="rt-item"><span class="rt-dir ${t.direction==='long'?'long':'short'}">${t.direction==='long'?'多':'空'}</span><span class="rt-price">${t.contract||'M'} @ ${t.entryPrice||'--'} | 盈亏比${t.plRatio>0?t.plRatio.toFixed(1):'--'}:1</span><span class="rt-pl ${plC}">${plT}元</span></div>`;
+  }).join('')+'</div>';
+}
+// ===== EXPORT / IMPORT / RESET =====
+function exportTrades(){
+  const t=loadT();
+  const h='ID,时间,方向,合约,开仓价,手数,止损价,止盈价,盈亏比,平仓价,盈亏元,结果,按计划,情绪,市场,理由,心得\n';
+  const r=t.map(x=>[x.id,x.entryTime,x.direction==='long'?'做多':'做空',x.contract,x.entryPrice,x.lots,x.stopLossPrice,x.takeProfitPrice,(x.plRatio||0).toFixed(2),x.exitPrice||'',x.actualPL!=null?x.actualPL.toFixed(0):'',x.result,x.followedPlan===true?'是':x.followedPlan===false?'否':'',x.emotion,x.marketState,'"'+(x.reason||'').replace(/"/g,'""')+'"','"'+(x.notes||'').replace(/"/g,'""')+'"'].join(',')).join('\n');
+  const b=new Blob(['\ufeff'+h+r],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='豆粕交易记录_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+function exportJSON(){
+  const d={trades:loadT(),config:loadCfg(),exportTime:new Date().toISOString(),version:'2.0'};
+  const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='豆粕交易备份_'+new Date().toISOString().slice(0,10)+'.json';a.click();
+}
+function importJSON(){document.getElementById('importFile').click();}
+function handleImport(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(d.trades){saveT(d.trades);}
+      if(d.config){saveCfg(d.config);}
+      alert('备份恢复成功！共恢复'+(d.trades||[]).length+'笔交易记录');
+      renderList();renderDB();
+    }catch{alert('文件格式错误，请选择正确的JSON备份文件');}
+    e.target.value='';
+  };r.readAsText(f);
+}
+function resetAll(){
+  if(!confirm('⚠️ 确认重置所有数据？此操作不可撤销！请确保已备份！'))return;
+  if(!confirm('最终确认：将永久删除所有交易记录！'))return;
+  localStorage.removeItem('dmTrades');localStorage.removeItem('dmCfg');
+  renderList();renderDB();alert('所有数据已重置');
+}
 // ===== SEARCH =====
-const searchInput = document.getElementById('searchInput');
-const searchCount = document.getElementById('searchCount');
-const noResult = document.getElementById('noResult');
-
-searchInput.addEventListener('input', function() {
-  const q = this.value.trim().toLowerCase();
-  clearHighlights();
-  
-  if (!q) {
-    searchCount.textContent = '';
-    noResult.style.display = 'none';
-    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('hidden-search'));
-    document.querySelectorAll('.card').forEach(c => c.classList.remove('hidden-search'));
-    return;
-  }
-
-  let total = 0;
-  
-  // Show all tabs
-  document.querySelectorAll('.tab-section').forEach(s => s.classList.add('active'));
-  
-  // Search through cards
-  document.querySelectorAll('.card').forEach(card => {
-    const text = card.textContent.toLowerCase();
-    if (text.includes(q)) {
-      card.classList.remove('hidden-search');
-      card.classList.add('open');
-      // Highlight
-      highlightInElement(card, q);
-      total++;
-    } else {
-      card.classList.add('hidden-search');
-    }
+document.getElementById('sInput').addEventListener('input',function(){
+  const q=this.value.trim().toLowerCase();
+  clearHL();
+  if(!q){document.getElementById('sCnt').textContent='';document.getElementById('noResult').style.display='none';return;}
+  let cnt=0;
+  document.querySelectorAll('.card').forEach(c=>{
+    if(c.textContent.toLowerCase().includes(q)){c.classList.remove('hidden-s');c.classList.add('open');hlEl(c,q);cnt++;}
+    else c.classList.add('hidden-s');
   });
-
-  // Search season rows and other non-card content
-  document.querySelectorAll('.season-row, .check-item, .flow-item, .combo-item, .info-row').forEach(el => {
-    const text = el.textContent.toLowerCase();
-    if (text.includes(q)) {
-      highlightInElement(el, q);
-    }
-  });
-
-  if (total === 0) {
-    noResult.style.display = 'block';
-    searchCount.textContent = '';
-  } else {
-    noResult.style.display = 'none';
-    searchCount.textContent = total + '项';
-  }
+  document.getElementById('sCnt').textContent=cnt?cnt+'项':'';
+  document.getElementById('noResult').style.display=cnt?'none':'block';
 });
-
-function highlightInElement(el, q) {
-  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
-  const nodes = [];
-  while (walker.nextNode()) nodes.push(walker.currentNode);
-  nodes.forEach(node => {
-    const parent = node.parentNode;
-    if (parent.classList && parent.classList.contains('search-highlight')) return;
-    const text = node.textContent;
-    const idx = text.toLowerCase().indexOf(q);
-    if (idx !== -1) {
-      const span = document.createElement('span');
-      span.innerHTML = text.substring(0,idx) +
-        '<span class="search-highlight">' + text.substring(idx, idx+q.length) + '</span>' +
-        text.substring(idx+q.length);
-      parent.replaceChild(span, node);
-    }
+function hlEl(el,q){
+  const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false);
+  const ns=[];while(w.nextNode())ns.push(w.currentNode);
+  ns.forEach(n=>{
+    const p=n.parentNode;if(p.className==='s-hl')return;
+    const t=n.textContent,i=t.toLowerCase().indexOf(q);
+    if(i!==-1){const s=document.createElement('span');s.innerHTML=t.slice(0,i)+'<span class="s-hl">'+t.slice(i,i+q.length)+'</span>'+t.slice(i+q.length);p.replaceChild(s,n);}
   });
 }
-
-function clearHighlights() {
-  document.querySelectorAll('.search-highlight').forEach(el => {
-    const parent = el.parentNode;
-    parent.replaceChild(document.createTextNode(el.textContent), el);
-    parent.normalize();
-  });
-  // Reset card visibility
-  document.querySelectorAll('.card').forEach(c => c.classList.remove('hidden-search'));
-  // Reset tab sections - only show active one
-  const activeTab = document.querySelector('.tab.active');
-  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-  if (activeTab) {
-    document.getElementById('tab-' + activeTab.dataset.tab).classList.add('active');
-  }
+function clearHL(){
+  document.querySelectorAll('.s-hl').forEach(el=>{const p=el.parentNode;p.replaceChild(document.createTextNode(el.textContent),el);p.normalize();});
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('hidden-s'));
 }
-
-// ===== SCORE CALCULATOR (Fundamental) =====
-const scores = {s1:0, s2:0, s3:0, s4:0, s5:0, s6:0};
-
-function scoreClick(btn) {
-  const group = btn.dataset.group;
-  const val = parseInt(btn.dataset.val);
-  document.querySelectorAll(`[data-group="${group}"]`).forEach(b => {
-    b.classList.remove('active-bull','active-bear','active-neutral');
-  });
-  if (val > 0) btn.classList.add('active-bull');
-  else if (val < 0) btn.classList.add('active-bear');
-  else btn.classList.add('active-neutral');
-  scores[group] = val;
-  updateScore();
+// ===== INIT =====
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function saveInitCap(){
+  const v=parseFloat(document.getElementById('db_initCap').value)||0;
+  const cfg=loadCfg();cfg.initialCapital=v;saveCfg(cfg);
+  renderDB();
 }
-
-function updateScore() {
-  const total = Object.values(scores).reduce((a,b)=>a+b,0);
-  const el = document.getElementById('scoreResult');
-  const numEl = document.getElementById('resultNum');
-  const textEl = document.getElementById('resultText');
-  const actionEl = document.getElementById('resultAction');
-  numEl.textContent = (total>0?'+':'')+total;
-  el.className = 'score-result-bar';
-  if (total >= 3) {
-    el.classList.add('bull');
-    textEl.textContent = '偏多 — 考虑做多';
-    actionEl.textContent = '基本面支持做多方向';
-  } else if (total <= -3) {
-    el.classList.add('bear');
-    textEl.textContent = '偏空 — 考虑做空';
-    actionEl.textContent = '基本面支持做空方向';
-  } else {
-    el.classList.add('neutral');
-    textEl.textContent = '中性 — 等待方向';
-    actionEl.textContent = '信号混合，建议观望或轻仓';
-  }
-}
-
-// ===== SCORE CALCULATOR (Technical) =====
-const tScores = {t1:0, t2:0, t3:0, t4:0, t5:0, t6:0};
-
-function tScoreClick(btn) {
-  const group = btn.dataset.group;
-  const val = parseInt(btn.dataset.val);
-  document.querySelectorAll(`[data-group="${group}"]`).forEach(b => {
-    b.classList.remove('active-bull','active-bear','active-neutral');
-  });
-  if (val < 0) btn.classList.add('active-bull');
-  else if (val > 0) btn.classList.add('active-bear');
-  else btn.classList.add('active-neutral');
-  tScores[group] = val;
-  updateTScore();
-}
-
-function updateTScore() {
-  const total = Object.values(tScores).reduce((a,b)=>a+b,0);
-  const el = document.getElementById('tScoreResult');
-  const numEl = document.getElementById('tResultNum');
-  const textEl = document.getElementById('tResultText');
-  const actionEl = document.getElementById('tResultAction');
-  numEl.textContent = (total>0?'+':'')+total;
-  el.className = 'score-result-bar';
-  if (total >= 3) {
-    el.classList.add('bear');
-    textEl.textContent = '技术面偏空';
-    actionEl.textContent = '寻找做空入场信号';
-  } else if (total <= -3) {
-    el.classList.add('bull');
-    textEl.textContent = '技术面偏多';
-    actionEl.textContent = '寻找做多入场信号';
-  } else {
-    el.classList.add('neutral');
-    textEl.textContent = '技术面中性';
-    actionEl.textContent = '等待明确信号出现';
-  }
-}
+window.addEventListener('DOMContentLoaded',()=>{
+  setCLDir('long');calcPos();calcReverse();renderList();
+});
 </script>
-</body>
-</html>
+</body></html>
