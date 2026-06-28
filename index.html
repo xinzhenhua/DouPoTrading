@@ -266,6 +266,65 @@ textarea.minput{resize:vertical;min-height:70px;font-family:inherit}
 .kname{font-size:10px;font-weight:700}
 .kname.bull{color:var(--r)}.kname.bear{color:var(--g)}.kname.n{color:var(--n)}
 .no-result{display:none;text-align:center;padding:40px;color:var(--t3);font-size:13px}
+.rule-card{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;padding:14px;margin-bottom:10px}
+.rule-title{font-size:12px;font-weight:800;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px;letter-spacing:.5px}
+.rule-item{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--bdr);font-size:12px}
+.rule-item:last-child{border-bottom:none}
+.rule-icon{font-size:14px;flex-shrink:0;width:20px;text-align:center}
+.rule-text{flex:1;line-height:1.6;color:var(--t2)}
+.rule-text .hl-r{color:var(--r);font-weight:700}
+.rule-text .hl-g{color:var(--g);font-weight:700}
+.rule-text .hl-b{color:var(--b);font-weight:700}
+.rule-text .hl-gold{color:var(--gold);font-weight:700}
+.rule-warn{background:var(--rd);border-left:3px solid var(--r);padding:8px 12px;border-radius:0 6px 6px 0;margin:4px 0;font-size:11px;color:var(--r);font-weight:700}
+.rule-ok{background:var(--gd);border-left:3px solid var(--g);padding:8px 12px;border-radius:0 6px 6px 0;margin:4px 0;font-size:11px;color:var(--g);font-weight:700}
+.step-flow{display:flex;flex-direction:column;gap:0}
+.step-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--bdr)}
+.step-item:last-child{border-bottom:none}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--b);color:#000;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0}
+.step-body{flex:1}
+.step-title{font-size:13px;font-weight:800;color:var(--t1);margin-bottom:4px}
+.step-when{font-size:10px;color:var(--b);font-weight:700;margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase}
+.step-detail{font-size:11px;color:var(--t2);line-height:1.8}
+.step-detail .sr{color:var(--r);font-weight:700}
+.step-detail .sg{color:var(--g);font-weight:700}
+.step-detail .sb{color:var(--b);font-weight:700}
+.step-detail .sgold{color:var(--gold);font-weight:700}
+.step-key{background:var(--bg3);border-radius:6px;padding:8px 10px;margin-top:6px;font-size:11px;color:var(--t2);line-height:1.7}
+.today-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+@media(max-width:480px){.today-grid{grid-template-columns:1fr}}
+.today-card{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;padding:12px}
+.today-card-title{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.today-select{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:7px 8px;color:var(--t1);font-size:12px;width:100%;outline:none;margin-bottom:6px}
+.today-input{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:7px 8px;color:var(--t1);font-size:12px;width:100%;outline:none;margin-bottom:6px}
+.today-result{background:var(--bg2);border-radius:8px;padding:12px;margin-top:8px;text-align:center;border:1px solid var(--bdr);transition:all .3s}
+.today-result.bull{background:var(--rd);border-color:var(--rb)}
+.today-result.bear{background:var(--gd);border-color:var(--gb)}
+.today-result .tr-main{font-size:18px;font-weight:900;display:block}
+.today-result.bull .tr-main{color:var(--r)}
+.today-result.bear .tr-main{color:var(--g)}
+.today-result .tr-sub{font-size:11px;color:var(--t3);margin-top:3px;display:block}
+.plan-box{background:var(--bg2);border-radius:8px;padding:12px;margin-top:10px;font-size:12px;color:var(--t2);line-height:1.8;white-space:pre-wrap;min-height:80px}
+.gen-btn{width:100%;margin-top:8px;padding:9px;border-radius:8px;background:var(--b);border:none;color:#000;font-size:12px;font-weight:800;cursor:pointer}
+.price-tracker{display:flex;flex-direction:column;gap:6px}
+.pt-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.pt-label{color:var(--t3);min-width:80px;flex-shrink:0;font-size:11px}
+.pt-input{flex:1;background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:6px 8px;color:var(--t1);font-size:12px;font-weight:700;outline:none}
+.pt-input:focus{border-color:var(--b)}
+.pt-badge{font-size:10px;padding:2px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.quick-check{background:var(--bg1);border:1px solid var(--bdr);border-radius:10px;padding:14px;margin-bottom:10px}
+.qc-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:12px}
+.qc-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--bdr);font-size:12px}
+.qc-item:last-child{border-bottom:none}
+.qc-q{flex:1;color:var(--t2)}
+.qc-btns{display:flex;gap:4px}
+.qcbtn{padding:4px 10px;border-radius:5px;border:1px solid var(--bdr);background:var(--bg2);color:var(--t3);font-size:11px;font-weight:700;cursor:pointer}
+.qcbtn.yes{background:var(--rd);color:var(--r);border-color:var(--rb)}
+.qcbtn.no{background:var(--gd);color:var(--g);border-color:var(--gb)}
+.qc-result{margin-top:10px;padding:10px;border-radius:8px;text-align:center;font-size:14px;font-weight:800;border:1px solid var(--bdr);background:var(--bg2)}
+.qc-result.go{background:var(--rd);color:var(--r);border-color:var(--rb)}
+.qc-result.wait{background:var(--goldd);color:var(--gold);border-color:#3d2d00}
+.qc-result.stop{background:var(--gd);color:var(--g);border-color:var(--gb)}
 .hidden-s{display:none!important}
 </style>
 </head>
@@ -287,6 +346,7 @@ textarea.minput{resize:vertical;min-height:70px;font-family:inherit}
   <div class="tab" data-tab="journal">📝 交易笔记</div>
   <div class="tab" data-tab="dashboard">📉 仪表盘</div>
   <div class="tab" data-tab="calendar">📅 日历</div>
+  <div class="tab" data-tab="today">📐 今日分析</div>
   <div class="tab" data-tab="loop">🔄 交易闭环</div>
 </div>
 </div></div>
@@ -359,6 +419,66 @@ textarea.minput{resize:vertical;min-height:70px;font-family:inherit}
 </div>
 <!-- TAB TECH -->
 <div class="tsec" id="tab-tech">
+<div class="stitle">⭐ 重要交易口诀（每天开盘前必读）</div>
+
+<div class="rule-card">
+<div class="rule-title">📊 MACD核心口诀（最重要！）</div>
+<div class="rule-item"><div class="rule-icon">1️⃣</div><div class="rule-text"><span class="hl-r">0轴上方金叉 = 趋势做多，最强信号</span>，DIFF和DEA都在0轴上方时出现金叉，代表主趋势偏多</div></div>
+<div class="rule-item"><div class="rule-icon">⚠️</div><div class="rule-text"><span class="hl-gold">0轴下方金叉 = 空头反弹，不是趋势反转！</span>只做短线，不追涨，随时准备反手做空。典型案例：2887→2986这波反弹就是0轴下金叉</div></div>
+<div class="rule-item"><div class="rule-icon">2️⃣</div><div class="rule-text"><span class="hl-g">0轴下方死叉 = 趋势做空，最强信号</span>，DIFF和DEA都在0轴下方时出现死叉，做空信心最强</div></div>
+<div class="rule-item"><div class="rule-icon">⚠️</div><div class="rule-text"><span class="hl-gold">0轴上方死叉 = 多头回调，趋势不变</span>，不要急着做空，只是短暂回调，主趋势仍偏多</div></div>
+<div class="rule-item"><div class="rule-icon">3️⃣</div><div class="rule-text"><span class="hl-g">顶背离 = 反弹结束信号：</span>价格创新高，但DIFF没有创新高 → 上涨动能衰竭 → 做空机会来临</div></div>
+<div class="rule-item"><div class="rule-icon">4️⃣</div><div class="rule-text"><span class="hl-r">底背离 = 下跌结束信号：</span>价格创新低，但DIFF没有创新低 → 下跌动能衰竭 → 做多机会来临</div></div>
+<div class="rule-item"><div class="rule-icon">5️⃣</div><div class="rule-text">STICK柱子变短 = 动能减弱，注意方向改变；两线接近 ≠ 立刻反转，<span class="hl-gold">必须等金叉或死叉出现才入场</span></div></div>
+<div class="rule-item"><div class="rule-icon">6️⃣</div><div class="rule-text">DIFF与DEA差距扩大 = 趋势动能增强，顺势持仓；差距收窄 = 动能减弱，考虑减仓或等待出场</div></div>
+</div>
+
+<div class="rule-card">
+<div class="rule-title">📈 均线系统核心口诀</div>
+<div class="rule-item"><div class="rule-icon">1️⃣</div><div class="rule-text"><span class="hl-g">空头趋势中，均线是天花板（做空的最佳卖出位）：</span>价格反弹到MA5/MA10/MA20 → 出现K线信号 → 做空</div></div>
+<div class="rule-item"><div class="rule-icon">2️⃣</div><div class="rule-text"><span class="hl-r">多头趋势中，均线是地板（做多的最佳买入位）：</span>价格回调到MA5/MA10/MA20 → 出现K线信号 → 做多</div></div>
+<div class="rule-item"><div class="rule-icon">3️⃣</div><div class="rule-text"><span class="hl-gold">均线压缩警报：</span>MA5开始向MA10靠近，两线差距缩小 = 动能减弱 = 趋势可能改变，提高警惕</div></div>
+<div class="rule-item"><div class="rule-icon">4️⃣</div><div class="rule-text">价格突破MA40/MA60，但MA5还在MA40下方 = <span class="hl-gold">强反弹不是趋势反转，谨慎追涨</span></div></div>
+<div class="rule-item"><div class="rule-icon">5️⃣</div><div class="rule-text">均线完美空头排列（MA5&lt;MA10&lt;MA20&lt;MA40&lt;MA60）+ 均线全部向下 = <span class="hl-g">最强做空环境</span></div></div>
+<div class="rule-item"><div class="rule-icon">6️⃣</div><div class="rule-text">MA5上穿MA10金叉需配合MACD金叉确认，单独均线金叉在震荡市假信号很多</div></div>
+</div>
+
+<div class="rule-card">
+<div class="rule-title">🕯️ K线与价格行为口诀</div>
+<div class="rule-item"><div class="rule-icon">1️⃣</div><div class="rule-text"><span class="hl-g">高位长上影线 = 有人在卖，短期遇阻：</span>上影线越长，压力越强，是做空的重要前期信号</div></div>
+<div class="rule-item"><div class="rule-icon">2️⃣</div><div class="rule-text"><span class="hl-r">低位长下影线 = 有人在买，短期获支撑：</span>下影线越长，支撑越强，是做多的重要前期信号</div></div>
+<div class="rule-item"><div class="rule-icon">3️⃣</div><div class="rule-text">K线形态必须在<span class="hl-b">关键位置</span>出现才有效（支撑位/压力位/均线/趋势线），随机位置出现完全忽略</div></div>
+<div class="rule-item"><div class="rule-icon">4️⃣</div><div class="rule-text">看到K线形态后<span class="hl-gold">不能立刻入场，必须等下一根K线收线确认</span>（阳线确认做多，阴线确认做空）</div></div>
+<div class="rule-item"><div class="rule-icon">5️⃣</div><div class="rule-text">连续多根阳线后出现小实体 = 多方力竭；连续多根阴线后出现小实体 = 空方力竭，双方都需等K线确认</div></div>
+</div>
+
+<div class="rule-card">
+<div class="rule-title">📦 量价关系口诀</div>
+<div class="rule-item"><div class="rule-icon">✅</div><div class="rule-text"><span class="hl-r">价涨量增 = 健康上涨</span>，多方真实进场，趋势可能延续，可以跟多</div></div>
+<div class="rule-item"><div class="rule-icon">⚠️</div><div class="rule-text"><span class="hl-gold">价涨量缩 = 反弹末期</span>，动能不足，多方力量减弱，警惕反转做空</div></div>
+<div class="rule-item"><div class="rule-icon">✅</div><div class="rule-text"><span class="hl-g">价跌量增 = 加速下跌</span>，空方真实进场，趋势可能延续，可以跟空</div></div>
+<div class="rule-item"><div class="rule-icon">⚠️</div><div class="rule-text"><span class="hl-gold">价跌量缩 = 下跌无力</span>，空方力量减弱，警惕止跌反弹</div></div>
+<div class="rule-item"><div class="rule-icon">🔍</div><div class="rule-text"><span class="hl-gold">减仓收阳（日增仓为负）= 空头回补推动，不是真实多头买盘</span>，反弹不可持续，后续大概率继续下跌</div></div>
+<div class="rule-item"><div class="rule-icon">🔍</div><div class="rule-text">增仓收阳（日增仓为正）= 真实多头进场，趋势可能转变，需配合均线和MACD确认</div></div>
+</div>
+
+<div class="rule-card">
+<div class="rule-title">🧱 支撑压力口诀</div>
+<div class="rule-item"><div class="rule-icon">1️⃣</div><div class="rule-text">下跌趋势中：<span class="hl-g">均线 = 压力（卖出位）</span>；上涨趋势中：<span class="hl-r">均线 = 支撑（买入位）</span></div></div>
+<div class="rule-item"><div class="rule-icon">2️⃣</div><div class="rule-text">支撑被有效跌破后反弹到此 = <span class="hl-g">变成压力，做空机会</span>；压力被有效突破后回踩 = <span class="hl-r">变成支撑，做多机会</span></div></div>
+<div class="rule-item"><div class="rule-icon">3️⃣</div><div class="rule-text">一个价位被触碰次数越多，它越重要；<span class="hl-b">整数关口（2900/3000）往往是天然强支撑/压力</span></div></div>
+<div class="rule-item"><div class="rule-icon">4️⃣</div><div class="rule-text">有效突破必须收盘确认 + 成交量放大，仅日内高低点触碰不算真正突破</div></div>
+</div>
+
+<div class="rule-card">
+<div class="rule-title">⏰ 多周期使用口诀</div>
+<div class="rule-item"><div class="rule-icon">📅</div><div class="rule-text"><span class="hl-b">日线 = 定方向（每天早上看一次）</span>：判断今天应该做多还是做空，找关键支撑压力位</div></div>
+<div class="rule-item"><div class="rule-icon">⏱️</div><div class="rule-text"><span class="hl-b">1小时线 = 找入场（价格到位时切换看）</span>：等待K线形态出现，等确认K线，精准入场</div></div>
+<div class="rule-item"><div class="rule-icon">📉</div><div class="rule-text">分时图 = 监控持仓（入场后用）：看白线和均价线关系，判断当日多空力量</div></div>
+<div class="rule-item"><div class="rule-icon">⚠️</div><div class="rule-text">日线和1小时线方向必须一致才入场；方向矛盾时不操作，等待一致再说</div></div>
+<div class="rule-item"><div class="rule-icon">🎯</div><div class="rule-text">止盈距离决定持仓时间：<span class="hl-gold">30点内=日内；50-100点=2-4天；100点以上=1-2周</span></div></div>
+</div>
+
 <div class="stitle">一、均线系统</div>
 <div class="card"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">📈</div><div><div class="ctitle">均线多空排列 + 动态支撑压力</div><div class="csub"><span class="stars">★★★★★</span></div></div></div><span class="chev">▼</span></div>
 <div class="cbody"><div class="scols"><div><div class="scol-t bull">🔴 多头排列（做多）</div><div class="si bull">MA5>MA10>MA20>MA40>MA60</div><div class="si bull">均线全部向上倾斜</div><div class="si bull">回调到MA5/MA10=做多机会</div></div><div><div class="scol-t bear">🟢 空头排列（做空）</div><div class="si bear">MA5&lt;MA10&lt;MA20&lt;MA40&lt;MA60</div><div class="si bear">均线全部向下倾斜</div><div class="si bear">反弹到MA5/MA10=做空机会</div></div></div><div class="ir"><div class="il">注意</div><div class="iv">排列越完整信号越强 · 均线走平=趋势转换期 · 至少满足3条均线才算有效排列</div></div></div></div>
@@ -554,18 +674,257 @@ textarea.minput{resize:vertical;min-height:70px;font-family:inherit}
 </div>
 <!-- TAB LOOP -->
 <div class="tsec" id="tab-loop">
-<div class="stitle">完整交易决策8步闭环</div>
-<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🔄</div><div><div class="ctitle">从分析到执行的完整流程</div></div></div><span class="chev">▼</span></div>
-<div class="cbody"><div class="flow">
-<div class="fitem"><div class="fnum">1</div><div class="fcontent"><strong>早上开盘前：基本面打分（10分钟）</strong>查CBOT美豆+天气+到港 → 今日<span style="color:var(--r);font-weight:700">偏多</span>/<span style="color:var(--g);font-weight:700">偏空</span>/中性</div></div>
-<div class="fitem"><div class="fnum">2</div><div class="fcontent"><strong>开盘前：技术面打分（5分钟）</strong>看日线K线 → 均线/MACD/支撑压力/趋势线 → <span style="color:var(--r);font-weight:700">偏多</span>/<span style="color:var(--g);font-weight:700">偏空</span>/中性</div></div>
-<div class="fitem"><div class="fnum">3</div><div class="fcontent"><strong>方向确认：两者必须一致才操作</strong><span style="color:var(--r);font-weight:700">都偏多→做多</span> / <span style="color:var(--g);font-weight:700">都偏空→做空</span> / <span style="color:var(--gold);font-weight:700">矛盾→不操作</span></div></div>
-<div class="fitem"><div class="fnum">4</div><div class="fcontent"><strong>盘中：等待精确入场信号</strong>等价格到支撑/压力位 → 出现K线形态 → 等下一根K线确认</div></div>
-<div class="fitem"><div class="fnum">5</div><div class="fcontent"><strong>开仓前：入场清单≥8项才开仓</strong>计算盈亏比≥1.5:1 → 确定手数 → 止损止盈设好</div></div>
-<div class="fitem"><div class="fnum">6</div><div class="fcontent"><strong>持仓期间：只有两种处理</strong><span style="color:var(--r);font-weight:700">顺利运行→不动让系统跑</span> / <span style="color:var(--g);font-weight:700">反向运行→严格止损</span></div></div>
-<div class="fitem"><div class="fnum">7</div><div class="fcontent"><strong>过夜前：5个额外问题</strong>今晚有无重大数据？美豆方向？基本面支持？持仓量变化？止损够宽？</div></div>
-<div class="fitem"><div class="fnum">8</div><div class="fcontent"><strong>收盘后：写交易日志</strong>开仓理由 / 盈亏 / 做对了什么 / 做错了什么 / 下次改进</div></div>
+
+<div class="stitle">📐 完整操作步骤（日线 + 1小时图）</div>
+
+<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🌅</div><div><div class="ctitle">每天早上开盘前（约15分钟）</div><div class="csub">9:00之前完成，不完成不开仓</div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="step-flow">
+<div class="step-item">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <div class="step-when">第一步 · 3分钟</div>
+    <div class="step-title">查CBOT美豆昨晚收盘</div>
+    <div class="step-detail">文华随身行搜"美豆主连"查日线<br>
+      <span class="sr">涨超5点 → 今日偏多倾向</span><br>
+      <span class="sg">跌超5点 → 今日偏空倾向</span><br>
+      <span class="sgold">涨跌在5点以内 → 影响不大，看技术面</span>
+    </div>
+  </div>
+</div>
+<div class="step-item">
+  <div class="step-num">2</div>
+  <div class="step-body">
+    <div class="step-when">第二步 · 5分钟</div>
+    <div class="step-title">看豆粕日线K线图</div>
+    <div class="step-detail">
+      <span class="sb">均线排列判断：</span><br>
+      MA5&lt;MA10&lt;MA20 且向下 → <span class="sg">空头趋势，优先做空</span><br>
+      MA5&gt;MA10&gt;MA20 且向上 → <span class="sr">多头趋势，优先做多</span><br>
+      均线纠缠/走平 → <span class="sgold">震荡行情，不操作</span><br><br>
+      <span class="sb">MACD判断：</span><br>
+      DIFF和DEA都在0轴下方+死叉 → <span class="sg">最强做空信号</span><br>
+      0轴下方出现金叉 → <span class="sgold">只是反弹，不是反转！</span><br>
+      DIFF和DEA都在0轴上方+金叉 → <span class="sr">最强做多信号</span><br><br>
+      <span class="sb">趋势线判断：</span><br>
+      价格在下降趋势线下方 → 偏空<br>
+      价格突破趋势线收盘站稳 → 考虑偏多
+    </div>
+    <div class="step-key">📌 得出今日方向：偏多 / 偏空 / 观望（不明确就选观望）</div>
+  </div>
+</div>
+<div class="step-item">
+  <div class="step-num">3</div>
+  <div class="step-body">
+    <div class="step-when">第三步 · 3分钟</div>
+    <div class="step-title">确定今日关键价格</div>
+    <div class="step-detail">
+      从日线图找出今日关键价位，记录在纸上或交易笔记：<br>
+      <span class="sg">上方第一压力：___（均线位 or 历史高点）</span><br>
+      <span class="sr">下方第一支撑：___（均线位 or 历史低点）</span><br>
+      <span class="sb">趋势线当日位置：___</span><br><br>
+      今日计划：等价格到___附近，看1小时线找做___的信号
+    </div>
+  </div>
+</div>
+<div class="step-item">
+  <div class="step-num">4</div>
+  <div class="step-body">
+    <div class="step-when">第四步 · 2分钟</div>
+    <div class="step-title">完成打分器+基本面确认</div>
+    <div class="step-detail">
+      打开工具→打分器Tab，完成今日打分<br>
+      基本面和技术面方向一致？<br>
+      <span class="sr">都偏多 → 可以积极找做多机会</span><br>
+      <span class="sg">都偏空 → 可以积极找做空机会</span><br>
+      <span class="sgold">方向矛盾 → 今日不操作，等待一致</span><br><br>
+      今天有没有重大数据发布？（每周四深夜USDA，每月10日WASDE）<br>
+      <span class="sg">有重大数据 → 收盘前平仓，不持隔夜</span>
+    </div>
+  </div>
+</div>
 </div></div></div>
+
+<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">🎯</div><div><div class="ctitle">盘中等待入场信号（不需要一直盯）</div><div class="csub">当价格接近关键位时才切1小时图</div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="step-flow">
+<div class="step-item">
+  <div class="step-num">5</div>
+  <div class="step-body">
+    <div class="step-when">第五步 · 触发条件</div>
+    <div class="step-title">什么时候切换到1小时图？</div>
+    <div class="step-detail">
+      不需要一直盯着1小时图！<br>
+      只有当价格靠近关键位时才看：<br><br>
+      <span class="sg">做空场景：价格反弹到均线压力/趋势线附近（±10点）</span><br>
+      <span class="sr">做多场景：价格回调到均线支撑/历史低点附近（±10点）</span><br><br>
+      设置文华随身行价格提醒：<br>
+      → 到达目标区域时手机震动提醒<br>
+      → 收到提醒再打开看1小时图
+    </div>
+  </div>
+</div>
+<div class="step-item">
+  <div class="step-num">6</div>
+  <div class="step-body">
+    <div class="step-when">第六步 · 5分钟</div>
+    <div class="step-title">看1小时线判断信号强度</div>
+    <div class="step-detail">
+      <span class="sb">看均线：</span>1小时均线方向和日线方向一致吗？<br>
+      一致 → 信号更可靠<br>
+      相反 → 谨慎，可能是短期波动<br><br>
+      <span class="sb">看MACD背离（最重要！）：</span><br>
+      做空时：价格创新高但1小时DIFF没创新高 → <span class="sg">顶背离！做空信号强</span><br>
+      做多时：价格创新低但1小时DIFF没创新低 → <span class="sr">底背离！做多信号强</span><br><br>
+      <span class="sb">看K线形态：</span><br>
+      出现射击之星/看跌吞噬/十字星 → 做空前期信号<br>
+      出现锤子线/看涨吞噬/早晨之星 → 做多前期信号<br><br>
+      <span class="sb">看上影线/下影线：</span><br>
+      长上影线 = 高位有卖压，辅助做空信号<br>
+      长下影线 = 低位有买盘，辅助做多信号
+    </div>
+    <div class="step-key">📌 信号强弱判断：背离+形态+影线 = 强信号；单独出现一个 = 弱信号，等等看</div>
+  </div>
+</div>
+<div class="step-item">
+  <div class="step-num">7</div>
+  <div class="step-body">
+    <div class="step-when">第七步 · 关键步骤</div>
+    <div class="step-title">等1小时K线确认收线</div>
+    <div class="step-detail">
+      这是最多人犯错的步骤：看到信号就立刻入场！<br><br>
+      <span class="sg">做空：必须等当根1小时K线收盘为阴线后才入场</span><br>
+      <span class="sr">做多：必须等当根1小时K线收盘为阳线后才入场</span><br><br>
+      收线之前K线还会变化，你看到的形态可能消失<br>
+      <span class="sgold">宁可错过，不可冒进！</span><br><br>
+      1小时K线何时收线？<br>
+      → 09:00、10:00、11:00、13:30、14:30...整点收线<br>
+      → 夜盘：21:00、22:00、23:00收线
+    </div>
+  </div>
+</div>
+<div class="step-item">
+  <div class="step-num">8</div>
+  <div class="step-body">
+    <div class="step-when">第八步 · 入场前2分钟</div>
+    <div class="step-title">入场清单最终确认</div>
+    <div class="step-detail">
+      快速核查以下7项（全部满足才开仓）：<br>
+      □ 日线方向确认（偏多/偏空）<br>
+      □ 1小时方向一致（不矛盾）<br>
+      □ 出现有效K线形态并已收线确认<br>
+      □ 盈亏比 ≥ 1.5:1（止盈距离 ÷ 止损距离）<br>
+      □ 止损位置有技术依据（不是随意设的）<br>
+      □ 手数 ≤ 3手，风险 ≤ 账户2%<br>
+      □ 今天没有重大数据（或不持隔夜）<br><br>
+      <span class="sr">7项全满足 → 开仓</span><br>
+      <span class="sg">有任何一项不满足 → 继续等待</span>
+    </div>
+  </div>
+</div>
+</div></div></div>
+
+<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">⚡</div><div><div class="ctitle">下单执行（2分钟完成）</div><div class="csub">开仓后立刻设止损止盈，不能拖！</div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="step-flow">
+<div class="step-item">
+  <div class="step-num">9</div>
+  <div class="step-body">
+    <div class="step-when">第九步 · 立刻执行</div>
+    <div class="step-title">下单 + 立刻设止损止盈</div>
+    <div class="step-detail">
+      下单选择限价单，价格设在信号K线收盘价附近<br><br>
+      <span class="sg">做空时止损设置逻辑：</span><br>
+      止损 = 入场压力位上方10-20点（如果到这里说明判断错了）<br>
+      示例：压力位2990，入场2985，止损3005<br><br>
+      <span class="sr">做多时止损设置逻辑：</span><br>
+      止损 = 入场支撑位下方10-20点<br>
+      示例：支撑位2940，入场2945，止损2925<br><br>
+      <span class="sb">止盈设置：</span>设在下一个明显支撑/压力位附近<br>
+      第一目标止盈：较近的位置（主仓位2/3在此止盈）<br>
+      第二目标止盈：较远的位置（剩余1/3继续持有）
+    </div>
+    <div class="step-key">🚨 止损设好之前不能离开手机！这是最重要的一步</div>
+  </div>
+</div>
+</div></div></div>
+
+<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">📊</div><div><div class="ctitle">持仓期间管理（每天只看2次）</div><div class="csub">不要频繁看，每天早晚各一次即可</div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="step-flow">
+<div class="step-item">
+  <div class="step-num">10</div>
+  <div class="step-body">
+    <div class="step-when">每天早上 · 5分钟</div>
+    <div class="step-title">早盘检查清单</div>
+    <div class="step-detail">
+      □ 止损止盈还挂着吗？（每次都要确认）<br>
+      □ 日线K线出现新的背离信号吗？<br>
+      <span class="sg">顶背离出现 → 空头持仓考虑分批止盈</span><br>
+      <span class="sr">底背离出现 → 多头持仓考虑分批止盈</span><br>
+      □ 今天有没有重大数据发布？<br>
+      <span class="sgold">有 → 考虑今日收盘前平仓</span><br>
+      □ CBOT美豆昨晚方向和我持仓方向一致吗？<br>
+      <span class="sg">一致 → 继续持仓</span><br>
+      <span class="sgold">相反 → 提高警惕，缩小止损空间</span>
+    </div>
+  </div>
+</div>
+<div class="step-item">
+  <div class="step-num">11</div>
+  <div class="step-body">
+    <div class="step-when">过夜前 · 3分钟</div>
+    <div class="step-title">过夜前必查5问</div>
+    <div class="step-detail">
+      ① 今晚有没有USDA报告？（每周四深夜有！）<br>
+      <span class="sg">有 → 收盘前平仓，不持隔夜</span><br><br>
+      ② 美豆收盘方向支持我的持仓方向吗？<br><br>
+      ③ 持仓浮盈还是浮亏？<br>
+      <span class="sgold">浮亏超过止损一半 → 考虑提前减仓</span><br><br>
+      ④ 止损和止盈单都还在系统里吗？<br><br>
+      ⑤ 明天有没有重要数据？（月初月中看日历）
+    </div>
+  </div>
+</div>
+<div class="step-item">
+  <div class="step-num">12</div>
+  <div class="step-body">
+    <div class="step-when">出场信号</div>
+    <div class="step-title">什么情况下主动平仓（不等止损）</div>
+    <div class="step-detail">
+      以下情况出现，主动平仓不等止损触发：<br><br>
+      <span class="sg">空头持仓主动平仓信号：</span><br>
+      → 1小时线出现底背离<br>
+      → 价格放量突破做空入场位上方<br>
+      → 日线出现长下影线+放量<br>
+      → 基本面出现利多超预期消息<br><br>
+      <span class="sr">多头持仓主动平仓信号：</span><br>
+      → 1小时线出现顶背离<br>
+      → 价格跌破做多入场位下方<br>
+      → 日线出现长上影线+放量<br>
+      → 基本面出现利空超预期消息
+    </div>
+  </div>
+</div>
+</div></div></div>
+
+<div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">📝</div><div><div class="ctitle">出场后复盘（5分钟）</div><div class="csub">每笔交易后必做，这是进步最快的方法</div></div></div><span class="chev">▼</span></div>
+<div class="cbody"><div class="step-flow">
+<div class="step-item">
+  <div class="step-num">13</div>
+  <div class="step-body">
+    <div class="step-when">出场后立刻</div>
+    <div class="step-title">写交易笔记（4个核心问题）</div>
+    <div class="step-detail">
+      在工具→交易笔记中记录：<br><br>
+      ① <span class="sb">入场理由是什么？</span>信号是否真实有效？<br>
+      ② <span class="sr">做对了什么？</span>（无论盈亏，找做对的点）<br>
+      ③ <span class="sg">做错了什么？</span>（有没有违反系统？情绪影响了吗？）<br>
+      ④ <span class="sgold">下次如何改进？</span>（具体的一件事）<br><br>
+      止损后特别要问自己：<br>
+      "是我的信号判断错了，还是止损位设太紧了？"<br>
+      这个答案决定下次是否调整策略
+    </div>
+  </div>
+</div>
+</div></div></div>
+
 <div class="stitle">四种方向组合判断</div>
 <div class="card open"><div class="chead" onclick="tc(this)"><div class="chead-l"><div class="cion">⚔️</div><div><div class="ctitle">技术面 × 基本面双维度组合</div></div></div><span class="chev">▼</span></div>
 <div class="cbody">
@@ -574,6 +933,7 @@ textarea.minput{resize:vertical;min-height:70px;font-family:inherit}
 <div class="combo-item"><span class="ctag bear">技术面偏空↘</span><span class="ctag bull">基本面偏多↗</span><span style="color:var(--t3)">→</span><span class="cresult wait">信号矛盾，轻仓或不操作 ⚠️</span></div>
 <div class="combo-item"><span class="ctag bull">技术面偏多↗</span><span class="ctag bear">基本面偏空↘</span><span style="color:var(--t3)">→</span><span class="cresult wait">可能只是技术反弹，快进快出 ⚠️</span></div>
 </div></div>
+
 <div class="warnbox"><div class="wt">🚫 6条铁律 — 永远不能做</div><ul>
 <li>止损触发后手动取消等回来 → <strong>爆仓根本原因</strong></li>
 <li>没有信号就扩大止损距离 → 小亏变大亏</li>
@@ -582,8 +942,102 @@ textarea.minput{resize:vertical;min-height:70px;font-family:inherit}
 <li>技术面和基本面方向矛盾时强行交易 → 胜率不足50%</li>
 <li>每天频繁交易超过3次 → 手续费磨光账户</li>
 </ul></div>
+
 </div>
+
+<!-- TAB TODAY -->
+<div class="tsec" id="tab-today">
+
+<div class="stitle">📐 今日行情速览</div>
+<div class="today-grid">
+  <div class="today-card">
+    <div class="today-card-title">日线方向</div>
+    <select class="today-select" id="td_dayDir" onchange="updateTodayPlan()">
+      <option value="">-- 选择 --</option>
+      <option value="bear">🟢 偏空（均线空头排列）</option>
+      <option value="bull">🔴 偏多（均线多头排列）</option>
+      <option value="neutral">⚪ 震荡（均线纠缠）</option>
+    </select>
+    <div class="today-card-title" style="margin-top:6px">日线MACD位置</div>
+    <select class="today-select" id="td_macd" onchange="updateTodayPlan()">
+      <option value="">-- 选择 --</option>
+      <option value="below_dead">🟢 0轴下死叉（最强做空）</option>
+      <option value="below_gold">⚠️ 0轴下金叉（仅反弹！）</option>
+      <option value="above_gold">🔴 0轴上金叉（最强做多）</option>
+      <option value="above_dead">⚠️ 0轴上死叉（仅回调）</option>
+    </select>
+  </div>
+  <div class="today-card">
+    <div class="today-card-title">1小时方向</div>
+    <select class="today-select" id="td_h1Dir" onchange="updateTodayPlan()">
+      <option value="">-- 选择 --</option>
+      <option value="bear">🟢 偏空（空头排列）</option>
+      <option value="bull">🔴 偏多（多头排列）</option>
+      <option value="neutral">⚪ 混乱</option>
+    </select>
+    <div class="today-card-title" style="margin-top:6px">有无背离信号</div>
+    <select class="today-select" id="td_div" onchange="updateTodayPlan()">
+      <option value="none">无背离</option>
+      <option value="top">顶背离（价格新高DIFF未新高）</option>
+      <option value="bottom">底背离（价格新低DIFF未新低）</option>
+    </select>
+  </div>
 </div>
+
+<div class="today-card" style="margin-bottom:10px">
+  <div class="today-card-title">今日综合判断</div>
+  <div class="today-result neutral" id="todayResult">
+    <span class="tr-main" id="tr_main">填写上方数据自动判断</span>
+    <span class="tr-sub" id="tr_sub">日线方向 + 1小时方向 + MACD位置</span>
+  </div>
+</div>
+
+<div class="stitle">🎯 关键价位追踪器</div>
+<div class="today-card" style="margin-bottom:10px">
+  <div class="today-card-title">今日关键价格（每天开盘前更新）</div>
+  <div class="price-tracker">
+    <div class="pt-row"><span class="pt-label">🟢 第一压力</span><input class="pt-input" id="pt_r1" type="number" placeholder="如2990" oninput="savePrices()"><span class="pt-badge badge br">压力</span></div>
+    <div class="pt-row"><span class="pt-label">🟢 第二压力</span><input class="pt-input" id="pt_r2" type="number" placeholder="如3010" oninput="savePrices()"><span class="pt-badge badge br">压力</span></div>
+    <div class="pt-row"><span class="pt-label">🔴 第一支撑</span><input class="pt-input" id="pt_s1" type="number" placeholder="如2960" oninput="savePrices()"><span class="pt-badge badge bg">支撑</span></div>
+    <div class="pt-row"><span class="pt-label">🔴 第二支撑</span><input class="pt-input" id="pt_s2" type="number" placeholder="如2940" oninput="savePrices()"><span class="pt-badge badge bg">支撑</span></div>
+    <div class="pt-row"><span class="pt-label">📐 趋势线位</span><input class="pt-input" id="pt_tl" type="number" placeholder="当日趋势线位置" oninput="savePrices()"><span class="pt-badge badge bgold">趋势线</span></div>
+    <div class="pt-row"><span class="pt-label">📍 当前价格</span><input class="pt-input" id="pt_cur" type="number" placeholder="当前价格" oninput="calcDistances()"><span class="pt-badge badge bb">实时</span></div>
+  </div>
+  <div id="pt_distances" style="margin-top:10px;font-size:11px;color:var(--t3);line-height:2"></div>
+</div>
+
+<div class="stitle">📋 今日交易计划</div>
+<div class="today-card" style="margin-bottom:10px">
+  <div class="today-card-title">入场计划（填写后自动生成）</div>
+  <div class="price-tracker">
+    <div class="pt-row"><span class="pt-label">计划方向</span>
+      <div style="display:flex;gap:6px;flex:1">
+        <div class="mtbtn" id="plan_long" onclick="setPlanDir('long')" style="flex:1;padding:6px;border-radius:6px;border:1px solid var(--bdr);background:var(--bg2);color:var(--t3);font-size:11px;font-weight:700;cursor:pointer;text-align:center">🔴 做多</div>
+        <div class="mtbtn" id="plan_short" onclick="setPlanDir('short')" style="flex:1;padding:6px;border-radius:6px;border:1px solid var(--bdr);background:var(--bg2);color:var(--t3);font-size:11px;font-weight:700;cursor:pointer;text-align:center">🟢 做空</div>
+      </div>
+    </div>
+    <div class="pt-row"><span class="pt-label">等待入场价</span><input class="pt-input" id="plan_entry" type="number" placeholder="计划入场价" oninput="genPlan()"></div>
+    <div class="pt-row"><span class="pt-label">止损价格</span><input class="pt-input" id="plan_sl" type="number" placeholder="止损价格" oninput="genPlan()"></div>
+    <div class="pt-row"><span class="pt-label">止盈价格</span><input class="pt-input" id="plan_tp" type="number" placeholder="止盈价格" oninput="genPlan()"></div>
+  </div>
+  <div id="planResult" class="plan-box">填写上方数据，自动生成今日交易计划...</div>
+</div>
+
+<div class="stitle">⚡ 5分钟入场快速检查</div>
+<div class="quick-check">
+  <div class="qc-title">⚡ 开仓前30秒检查（7个问题）</div>
+  <div class="qc-item"><div class="qc-q">① 日线方向确认（偏多/偏空）？</div><div class="qc-btns"><button class="qcbtn" data-qg="q1" data-qv="1" onclick="qcClick(this)">是</button><button class="qcbtn" data-qg="q1" data-qv="0" onclick="qcClick(this)">否</button></div></div>
+  <div class="qc-item"><div class="qc-q">② 1小时方向和日线方向一致？</div><div class="qc-btns"><button class="qcbtn" data-qg="q2" data-qv="1" onclick="qcClick(this)">是</button><button class="qcbtn" data-qg="q2" data-qv="0" onclick="qcClick(this)">否</button></div></div>
+  <div class="qc-item"><div class="qc-q">③ 出现有效K线形态且已收线确认？</div><div class="qc-btns"><button class="qcbtn" data-qg="q3" data-qv="1" onclick="qcClick(this)">是</button><button class="qcbtn" data-qg="q3" data-qv="0" onclick="qcClick(this)">否</button></div></div>
+  <div class="qc-item"><div class="qc-q">④ 盈亏比 ≥ 1.5:1？</div><div class="qc-btns"><button class="qcbtn" data-qg="q4" data-qv="1" onclick="qcClick(this)">是</button><button class="qcbtn" data-qg="q4" data-qv="0" onclick="qcClick(this)">否</button></div></div>
+  <div class="qc-item"><div class="qc-q">⑤ 止损位有技术依据（不是随意设的）？</div><div class="qc-btns"><button class="qcbtn" data-qg="q5" data-qv="1" onclick="qcClick(this)">是</button><button class="qcbtn" data-qg="q5" data-qv="0" onclick="qcClick(this)">否</button></div></div>
+  <div class="qc-item"><div class="qc-q">⑥ 手数 ≤ 3手且风险 ≤ 账户2%？</div><div class="qc-btns"><button class="qcbtn" data-qg="q6" data-qv="1" onclick="qcClick(this)">是</button><button class="qcbtn" data-qg="q6" data-qv="0" onclick="qcClick(this)">否</button></div></div>
+  <div class="qc-item"><div class="qc-q">⑦ 今天没有重大数据发布（或不持隔夜）？</div><div class="qc-btns"><button class="qcbtn" data-qg="q7" data-qv="1" onclick="qcClick(this)">是</button><button class="qcbtn" data-qg="q7" data-qv="0" onclick="qcClick(this)">否</button></div></div>
+  <div class="qc-result" id="qcResult">回答完7个问题自动给出建议</div>
+</div>
+
+</div>
+
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="overlayClick(event)">
 <div class="modal" id="tradeModal">
@@ -630,6 +1084,7 @@ document.querySelectorAll('.tab').forEach(t=>{
     document.getElementById('tab-'+t.dataset.tab).classList.add('active');
     if(t.dataset.tab==='dashboard')renderDB();
     if(t.dataset.tab==='journal')renderList();
+    if(t.dataset.tab==='today'){loadPrices();updateTodayPlan();}
     window.scrollTo({top:0,behavior:'smooth'});
   });
 });
@@ -1164,8 +1619,171 @@ function saveInitCap(){
   const cfg=loadCfg();cfg.initialCapital=v;saveCfg(cfg);
   renderDB();
 }
+
+// ===== TODAY TAB =====
+let _planDir='short';
+const qcState={};
+
+function updateTodayPlan(){
+  const dayDir=document.getElementById('td_dayDir').value;
+  const macd=document.getElementById('td_macd').value;
+  const h1Dir=document.getElementById('td_h1Dir').value;
+  const div=document.getElementById('td_div').value;
+  const el=document.getElementById('todayResult');
+  const mn=document.getElementById('tr_main');
+  const ms=document.getElementById('tr_sub');
+  if(!dayDir||!macd||!h1Dir){mn.textContent='填写上方数据自动判断';el.className='today-result';return;}
+  let score=0;let notes=[];
+  if(dayDir==='bear')score+=2;
+  else if(dayDir==='bull')score-=2;
+  if(macd==='below_dead'){score+=2;notes.push('日线0轴下死叉=最强做空');}
+  else if(macd==='below_gold'){score+=1;notes.push('⚠️ 0轴下金叉=仅反弹不是反转');}
+  else if(macd==='above_gold'){score-=2;notes.push('日线0轴上金叉=最强做多');}
+  else if(macd==='above_dead'){score-=1;notes.push('0轴上死叉=多头回调');}
+  if(h1Dir==='bear')score+=1;
+  else if(h1Dir==='bull')score-=1;
+  if(div==='top'){score+=1;notes.push('顶背离=做空信号');}
+  else if(div==='bottom'){score-=1;notes.push('底背离=做多信号');}
+  el.className='today-result';
+  if(score>=3){
+    el.classList.add('bear');
+    mn.textContent='今日偏空 🟢 寻找做空信号';
+    ms.textContent=notes.join(' | ');
+  }else if(score<=-3){
+    el.classList.add('bull');
+    mn.textContent='今日偏多 🔴 寻找做多信号';
+    ms.textContent=notes.join(' | ');
+  }else if(score>=1){
+    mn.textContent='轻度偏空，等更明确信号';
+    ms.textContent=notes.join(' | ')||'信号不够强，建议等待';
+  }else if(score<=-1){
+    mn.textContent='轻度偏多，等更明确信号';
+    ms.textContent=notes.join(' | ')||'信号不够强，建议等待';
+  }else{
+    mn.textContent='⚪ 信号中性，今日观望';
+    ms.textContent='日线和1小时方向不明确，不操作';
+  }
+}
+
+function savePrices(){
+  const keys=['pt_r1','pt_r2','pt_s1','pt_s2','pt_tl','pt_cur'];
+  const d={};keys.forEach(k=>{d[k]=document.getElementById(k).value;});
+  const cfg=loadCfg();cfg.prices=d;saveCfg(cfg);
+  calcDistances();
+}
+
+function loadPrices(){
+  const cfg=loadCfg();
+  if(!cfg.prices)return;
+  const d=cfg.prices;
+  Object.keys(d).forEach(k=>{const el=document.getElementById(k);if(el)el.value=d[k];});
+  calcDistances();
+}
+
+function calcDistances(){
+  const cur=parseFloat(document.getElementById('pt_cur').value)||0;
+  const r1=parseFloat(document.getElementById('pt_r1').value)||0;
+  const r2=parseFloat(document.getElementById('pt_r2').value)||0;
+  const s1=parseFloat(document.getElementById('pt_s1').value)||0;
+  const s2=parseFloat(document.getElementById('pt_s2').value)||0;
+  const tl=parseFloat(document.getElementById('pt_tl').value)||0;
+  if(!cur){document.getElementById('pt_distances').innerHTML='';return;}
+  let html='';
+  if(r1)html+=`<span style="color:var(--g)">▲ 第一压力 ${r1} → 距离 ${(r1-cur).toFixed(0)} 点</span><br>`;
+  if(r2)html+=`<span style="color:var(--g)">▲ 第二压力 ${r2} → 距离 ${(r2-cur).toFixed(0)} 点</span><br>`;
+  if(tl)html+=`<span style="color:var(--gold)">── 趋势线 ${tl} → 距离 ${Math.abs(tl-cur).toFixed(0)} 点（${cur>tl?'价格在线上':'价格在线下'}）</span><br>`;
+  if(s1)html+=`<span style="color:var(--r)">▼ 第一支撑 ${s1} → 距离 ${(cur-s1).toFixed(0)} 点</span><br>`;
+  if(s2)html+=`<span style="color:var(--r)">▼ 第二支撑 ${s2} → 距离 ${(cur-s2).toFixed(0)} 点</span><br>`;
+  document.getElementById('pt_distances').innerHTML=html;
+}
+
+function setPlanDir(dir){
+  _planDir=dir;
+  document.getElementById('plan_long').className='mtbtn'+(dir==='long'?' ab':'');
+  document.getElementById('plan_short').className='mtbtn'+(dir==='short'?' ag':'');
+  genPlan();
+}
+
+function genPlan(){
+  const entry=parseFloat(document.getElementById('plan_entry').value)||0;
+  const sl=parseFloat(document.getElementById('plan_sl').value)||0;
+  const tp=parseFloat(document.getElementById('plan_tp').value)||0;
+  const el=document.getElementById('planResult');
+  if(!entry||!sl||!tp){el.textContent='填写入场价、止损价、止盈价后自动生成...';return;}
+  const slPts=Math.abs(entry-sl);
+  const tpPts=Math.abs(tp-entry);
+  const ratio=slPts>0?tpPts/slPts:0;
+  const dir=_planDir==='long'?'做多':'做空';
+  const riskPerLot=slPts*10;
+  const maxLots=Math.floor(1000/riskPerLot);
+  const ratioOk=ratio>=1.5;
+  let plan=`📋 今日交易计划
+`;
+  plan+=`─────────────────
+`;
+  plan+=`方向：${dir}
+`;
+  plan+=`等待入场价：${entry}
+`;
+  plan+=`止损价格：${sl}（距离${slPts.toFixed(0)}点，止损逻辑：超过此位说明判断错误）
+`;
+  plan+=`止盈价格：${tp}（距离${tpPts.toFixed(0)}点，目标位附近有支撑/压力）
+`;
+  plan+=`─────────────────
+`;
+  plan+=`盈亏比：${ratio.toFixed(2)}:1  ${ratioOk?'✅ 达标':'❌ 不达标，建议调整'}
+`;
+  plan+=`5万账户建议手数：最多${Math.min(maxLots,3)}手
+`;
+  plan+=`最大亏损金额：${(Math.min(maxLots,3)*riskPerLot).toFixed(0)}元（占账户${(Math.min(maxLots,3)*riskPerLot/50000*100).toFixed(1)}%）
+`;
+  plan+=`─────────────────
+`;
+  plan+=`入场条件：
+`;
+  plan+=`□ 价格到达${entry}附近
+`;
+  plan+=`□ 1小时出现${_planDir==='short'?'看跌K线形态':'看涨K线形态'}
+`;
+  plan+=`□ 等下一根1小时K线收${_planDir==='short'?'阴':'阳'}线确认
+`;
+  plan+=`□ 入场清单≥8项满足`;
+  el.textContent=plan;
+}
+
+function qcClick(btn){
+  const g=btn.dataset.qg,v=parseInt(btn.dataset.qv);
+  document.querySelectorAll('[data-qg="'+g+'"]').forEach(b=>b.className='qcbtn');
+  btn.classList.add(v===1?'yes':'no');
+  qcState[g]=v;
+  updateQC();
+}
+
+function updateQC(){
+  const answered=Object.keys(qcState).length;
+  if(answered<7){document.getElementById('qcResult').className='qc-result';document.getElementById('qcResult').textContent='回答完'+answered+'/7个问题...';return;}
+  const allYes=Object.values(qcState).every(v=>v===1);
+  const failItems=Object.entries(qcState).filter(([k,v])=>v===0).map(([k])=>({q1:'日线方向',q2:'两线方向一致性',q3:'K线形态确认',q4:'盈亏比',q5:'止损依据',q6:'仓位控制',q7:'数据风险'}[k])).join('、');
+  const el=document.getElementById('qcResult');
+  if(allYes){el.className='qc-result go';el.textContent='✅ 7项全部满足 — 可以开仓！立刻设置止损止盈';}
+  else{el.className='qc-result stop';el.textContent='❌ 未满足：'+failItems+' — 不开仓，继续等待';}
+}
+
 window.addEventListener('DOMContentLoaded',()=>{
   setCLDir('long');calcPos();calcReverse();renderList();
+  loadPrices();
+  // Init today tab selects
+  const td=document.getElementById('tab-today');
+  if(td){
+    const cfg=loadCfg();
+    if(cfg.todaySelects){
+      Object.keys(cfg.todaySelects).forEach(k=>{
+        const el=document.getElementById(k);
+        if(el)el.value=cfg.todaySelects[k];
+      });
+      updateTodayPlan();
+    }
+  }
 });
 </script>
 </body></html>
